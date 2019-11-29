@@ -1,13 +1,17 @@
 const should = require('should');
-const nock = require('nock');
 const zapier = require('zapier-platform-core');
+const getConnectClient = require('../lib/utils').getConnectClient;
+const HttpError = require('connect-javascript-sdk').HttpError;
+const sinon = require('sinon');
 
 const App = require('../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('Connect Zapier App', () => {
-  afterEach(done => { nock.cleanAll(); done(); });
+  let sandbox;
+  before(() => { sandbox = sinon.createSandbox(); });
+  afterEach(done => { sandbox.restore(); done(); });
   it('passes authentication and returns account info', done => {
     
     const bundle = {
@@ -16,23 +20,21 @@ describe('Connect Zapier App', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    nock(`${process.env.CONNECT_ENDPOINT}`)
-      .get('/accounts')
-      .reply(200, [
-        {
-          id: 'VA-000-000',
-          name: 'Vendor',
-          type: 'vendor',
-          brand: 'BR-704',
-          external_id: '5b3e4e1d-f9f6-e811-a95a-000d3a1f74d1',
-          events : {
-              created: {
-                  at: '2018-06-04T13:19:10+00:00'
-              }
-          },
-          sourcing: false
-       }
-      ]);
+    sandbox.stub(getConnectClient({request: null}, bundle).accounts, 'list').returns([
+      {
+        id: 'VA-000-000',
+        name: 'Vendor',
+        type: 'vendor',
+        brand: 'BR-704',
+        external_id: '5b3e4e1d-f9f6-e811-a95a-000d3a1f74d1',
+        events : {
+            created: {
+                at: '2018-06-04T13:19:10+00:00'
+            }
+        },
+        sourcing: false
+     }
+    ]);
     appTester(App.authentication.test, bundle)
       .then(jsonResponse => {
         jsonResponse.should.be.an.Object();
@@ -48,11 +50,7 @@ describe('Connect Zapier App', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    nock(`${process.env.CONNECT_ENDPOINT}`)
-      .get('/accounts')
-      .reply(401);
-    return appTester(App.authentication.test, bundle).should.be.rejectedWith(
-      /The API key you supplied is invalid./
-    );
+    sandbox.stub(getConnectClient({request: null}, bundle).accounts, 'list').throws(new HttpError(401, 'Unauthorized'));
+    return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 });

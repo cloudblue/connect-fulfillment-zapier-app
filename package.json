@@ -26,7 +26,8 @@
     "dotenv": "^8.2.0",
     "mocha": "^5.2.0",
     "nock": "^11.7.0",
-    "should": "^13.2.0"
+    "should": "^13.2.0",
+    "sinon": "^7.5.0"
   },
   "private": true
 }

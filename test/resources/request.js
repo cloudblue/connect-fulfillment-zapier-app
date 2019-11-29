@@ -1,6 +1,14 @@
+/**
+ * This file is part of the Ingram Micro Cloud Blue Connect SDK.
+ *
+ * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
+ */
+
 /* globals describe it */
 const should = require('should');
-const nock = require('nock');
+const getConnectClient = require('../../lib/utils').getConnectClient;
+const HttpError = require('connect-javascript-sdk').HttpError;
+const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 
 // Use this to make test calls into your app:
@@ -9,6 +17,9 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 describe('Connect Zapier App', () => {
+  let sandbox;
+  before(() => { sandbox = sinon.createSandbox(); });
+  afterEach(done => { sandbox.restore(); done(); });
   it('should return a list of requests filtered by status', done => {
     const bundle = {
       authData: {
@@ -19,10 +30,24 @@ describe('Connect Zapier App', () => {
         status: ['pending', 'inquiring']
       }
     };
-
+    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'list').returns([
+      {
+        id: 'VA-000-000',
+        name: 'Vendor',
+        type: 'vendor',
+        brand: 'BR-704',
+        external_id: '5b3e4e1d-f9f6-e811-a95a-000d3a1f74d1',
+        events : {
+            created: {
+                at: '2018-06-04T13:19:10+00:00'
+            }
+        },
+        sourcing: false
+     }
+    ]);
     appTester(App.resources.request.list.operation.perform, bundle)
       .then(results => {
-        should.exist(results);
+        results.should.be.an.Array();
         done();
       })
       .catch(done);
