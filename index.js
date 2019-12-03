@@ -1,6 +1,7 @@
 const authentication = require('./lib/authentication');
 const Request = require('./lib/resources/request');
 const Product = require('./lib/resources/product');
+const RejectRequest = require('./lib/creates/reject-request');
 const middleware = require('./lib/middleware');
 
 
@@ -30,7 +31,9 @@ const App = {
   searches: {},
 
   // If you want your creates to show up, you better include it here!
-  creates: {}
+  creates: {
+    [RejectRequest.key]: RejectRequest
+  }
 };
 
 // Finally, export the app.
