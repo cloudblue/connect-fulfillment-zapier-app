@@ -6,5 +6,6 @@
 
 module.exports = {
     reject_request: require('./reject_request.json'),
-    create_request: require('./create_request.json')
+    create_request: require('./create_request.json'),
+    approve_request: require('./approve_request.json')
 };

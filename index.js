@@ -5,11 +5,17 @@
  */
 
 const authentication = require('./lib/authentication');
+const middleware = require('./lib/middleware');
+
+// triggers
 const LatestPublishedProduct = require('./lib/triggers/latest_published_products');
 const NewRequests = require('./lib/triggers/new_requests');
+const ActivationTemplates = require('./lib/triggers/activation_templates')
+// creates 
 const RejectRequest = require('./lib/creates/reject_request');
 const CreateRequest = require('./lib/creates/create_request');
-const middleware = require('./lib/middleware');
+const ApproveRequest = require('./lib/creates/approve_request');
+
 
 
 const App = {
@@ -21,12 +27,14 @@ const App = {
     resources: {},
     triggers: {
         [LatestPublishedProduct.key]: LatestPublishedProduct,
-        [NewRequests.key]: NewRequests
+        [NewRequests.key]: NewRequests,
+        [ActivationTemplates.key]: ActivationTemplates
     },
     searches: {},
     creates: {
         [RejectRequest.key]: RejectRequest,
-        [CreateRequest.key]: CreateRequest
+        [CreateRequest.key]: CreateRequest,
+        [ApproveRequest.key]: ApproveRequest
     }
 };
 
