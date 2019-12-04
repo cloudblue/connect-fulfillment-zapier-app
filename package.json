@@ -19,7 +19,7 @@
     "lodash": "^4.17.15",
     "uuid": "^3.3.3",
     "zapier-platform-core": "8.4.2",
-    "connect-javascript-sdk": "git+https://github.com/ingrammicro/connect-javascript-sdk#develop"
+    "@cloudblueconnect/connect-javascript-sdk": "git+https://github.com/ingrammicro/connect-javascript-sdk#temp"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
