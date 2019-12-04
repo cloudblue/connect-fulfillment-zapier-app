@@ -9,6 +9,8 @@ const LatestPublishedProduct = require('./lib/triggers/latest_published_products
 const NewRequests = require('./lib/triggers/new_requests');
 const RejectRequest = require('./lib/creates/reject_request');
 const CreateRequest = require('./lib/creates/create_request');
+const InquireRequest = require('./lib/creates/inquire_request');
+
 const middleware = require('./lib/middleware');
 
 
@@ -26,7 +28,8 @@ const App = {
     searches: {},
     creates: {
         [RejectRequest.key]: RejectRequest,
-        [CreateRequest.key]: CreateRequest
+        [CreateRequest.key]: CreateRequest,
+        [InquireRequest.key]: InquireRequest
     }
 };
 
