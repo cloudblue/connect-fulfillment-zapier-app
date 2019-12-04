@@ -5,8 +5,7 @@
  */
 
 const should = require('should');
-const getConnectClient = require('../../lib/utils').getConnectClient;
-const HttpError = require('connect-javascript-sdk').HttpError;
+const getConnectClient = require('../../lib/utils').getConnectClient;∫
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');

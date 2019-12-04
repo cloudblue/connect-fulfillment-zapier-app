@@ -1,7 +1,7 @@
 const should = require('should');
 const zapier = require('zapier-platform-core');
 const getConnectClient = require('../lib/utils').getConnectClient;
-const HttpError = require('connect-javascript-sdk').HttpError;
+const HttpError = require('@cloudblueconnect/connect-javascript-sdk').HttpError;
 const sinon = require('sinon');
 
 const App = require('../index');

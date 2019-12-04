@@ -15,6 +15,7 @@ const ActivationTemplates = require('./lib/triggers/activation_templates')
 const RejectRequest = require('./lib/creates/reject_request');
 const CreateRequest = require('./lib/creates/create_request');
 const ApproveRequest = require('./lib/creates/approve_request');
+const InquireRequest = require('./lib/creates/inquire_request');
 
 
 
@@ -35,6 +36,7 @@ const App = {
         [RejectRequest.key]: RejectRequest,
         [CreateRequest.key]: CreateRequest,
         [ApproveRequest.key]: ApproveRequest
+        [InquireRequest.key]: InquireRequest
     }
 };
 

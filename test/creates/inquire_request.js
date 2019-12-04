@@ -6,17 +6,16 @@
 
 const should = require('should');
 const getConnectClient = require('../../lib/utils').getConnectClient;
-const HttpError = require('@cloudblueconnect/connect-javascript-sdk').HttpError;
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');
 
 // Use this to make test calls into your app:
-const App = require('../../index');∫
+const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Fulfillment Zapier App - Reject Request', () => {
+describe('Connect Fulfillment Zapier App - Inquire Request', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
@@ -28,17 +27,19 @@ describe('Connect Fulfillment Zapier App - Reject Request', () => {
       },
       inputData: {
         id: 'PR-5426-PR-5426-9883-2189-001',
-        reason: 'Not available'
+        reason: 'Not available',
+        templateId: 'TL-827-840-476',
+        params: {'param_a': 'Not valid'}
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'rejectRequest').returns(responses.creates.reject_request);
+    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'inquireRequest').returns(responses.creates.inquire_request);
     // Call to zapier function to test
-    appTester(App.creates.reject_request.operation.perform, bundle)
+    appTester(App.creates.inquire_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
-        results.status.should.be.eql('failed');
+        results.status.should.be.eql('inquiring');
         done();
       })
       .catch(done);
