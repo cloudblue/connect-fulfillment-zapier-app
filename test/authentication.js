@@ -8,7 +8,7 @@ const App = require('../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Zapier App', () => {
+describe('Connect Fulfillment Zapier App - Authentication', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });

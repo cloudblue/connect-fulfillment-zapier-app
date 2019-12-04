@@ -1,4 +1,4 @@
-module.exports = {
+{
     "id": "PR-5426-9883-2189-001",
     "type": "purchase",
     "note": "",

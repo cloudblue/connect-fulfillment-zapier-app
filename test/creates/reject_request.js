@@ -4,19 +4,19 @@
  * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
  */
 
-/* globals describe it */
 const should = require('should');
 const getConnectClient = require('../../lib/utils').getConnectClient;
 const HttpError = require('connect-javascript-sdk').HttpError;
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
+const responses = require('../responses');
 
 // Use this to make test calls into your app:
 const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Zapier App', () => {
+describe('Connect Fulfillment Zapier App - Reject Request', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
@@ -33,9 +33,9 @@ describe('Connect Zapier App', () => {
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'rejectRequest').returns(require('../samples/reject-request'));
+    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'rejectRequest').returns(responses.creates.reject_request);
     // Call to zapier function to test
-    appTester(App.creates.rejectRequest.operation.perform, bundle)
+    appTester(App.creates.reject_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         results.status.should.be.eql('failed');
