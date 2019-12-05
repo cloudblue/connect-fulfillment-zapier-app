@@ -20,7 +20,7 @@
 
 "@cloudblueconnect/connect-javascript-sdk@git+https://github.com/ingrammicro/connect-javascript-sdk#temp":
   version "19.0.0"
-  resolved "git+https://github.com/ingrammicro/connect-javascript-sdk#372a9daf813a479370c247e468380be2ec9ebeda"
+  resolved "git+https://github.com/ingrammicro/connect-javascript-sdk#516a39dbb1c1b6ece3cf9a889ad697365059120a"
   dependencies:
     axios "^0.19.0"
     lodash "^4.17.15"

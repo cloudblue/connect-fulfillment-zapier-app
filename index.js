@@ -17,6 +17,7 @@ const RejectRequest = require('./lib/creates/reject_request');
 const CreateRequest = require('./lib/creates/create_request');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequest = require('./lib/creates/inquire_request');
+const NoteRequest = require('./lib/creates/note_request');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
 
 
@@ -39,6 +40,7 @@ const App = {
         [CreateRequest.key]: CreateRequest,
         [ApproveRequest.key]: ApproveRequest,
         [InquireRequest.key]: InquireRequest,
+        [NoteRequest.key]: NoteRequest,
         [FillFulfillmentParameters.key]: FillFulfillmentParameters
     }
 };
