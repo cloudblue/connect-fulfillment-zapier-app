@@ -21,11 +21,11 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
+    "@cloudblueconnect/connect-javascript-sdk": "git+https://github.com/ingrammicro/connect-javascript-sdk#temp",
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
     "uuid": "^3.3.3",
-    "zapier-platform-core": "8.4.2",
-    "@cloudblueconnect/connect-javascript-sdk": "git+https://github.com/ingrammicro/connect-javascript-sdk#temp"
+    "zapier-platform-core": "8.4.2"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
