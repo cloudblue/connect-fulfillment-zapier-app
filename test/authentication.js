@@ -1,7 +1,7 @@
 const should = require('should');
 const zapier = require('zapier-platform-core');
-const getConnectClient = require('../lib/utils').getConnectClient;
-const HttpError = require('@cloudblueconnect/connect-javascript-sdk').HttpError;
+const { AccountService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { HttpError } = require('@cloudblueconnect/connect-javascript-sdk');
 const sinon = require('sinon');
 
 const App = require('../index');
@@ -19,8 +19,8 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         api_key: process.env.CONNECT_API_KEY,
         endpoint: process.env.CONNECT_ENDPOINT
       }
-    };
-    sandbox.stub(getConnectClient({request: null}, bundle).accounts, 'list').returns([
+    };    
+    sandbox.stub(AccountService.prototype, 'list').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -50,7 +50,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(getConnectClient({request: null}, bundle).accounts, 'list').throws(new HttpError(401, 'Unauthorized'));
+    sandbox.stub(AccountService.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
     return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 });

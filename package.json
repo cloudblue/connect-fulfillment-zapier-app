@@ -4,14 +4,14 @@
   "description": "A Zapier App to automate Cloud Blue Connect Fulfillment workflows.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ingrammicro/connect-fulfillment-zapier-app.git"
+    "url": "https://github.com/cloudblue/connect-fulfillment-zapier-app.git"
   },
   "author": "Ingram Micro",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ingrammicro/connect-fulfillment-zapier-app/issues"
+    "url": "https://github.com/cloudblue/connect-fulfillment-zapier-app/issues"
   },
-  "homepage": "https://github.com/ingrammicro/connect-fulfillment-zapier-app#readme",
+  "homepage": "https://github.com/cloudblue/connect-fulfillment-zapier-app#readme",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive --timeout 10000"
@@ -21,7 +21,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
-    "@cloudblueconnect/connect-javascript-sdk": "git+https://github.com/ingrammicro/connect-javascript-sdk#temp",
+    "@cloudblueconnect/connect-javascript-sdk": "^19.0.2",
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
     "uuid": "^3.3.3",
@@ -29,13 +29,8 @@
   },
   "devDependencies": {
     "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-config-standard": "^14.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
     "mocha": "^5.2.0",
     "nock": "^11.7.0",
     "prettier": "^1.19.1",

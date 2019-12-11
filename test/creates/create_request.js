@@ -5,7 +5,7 @@
  */
 
 const should = require('should');
-const getConnectClient = require('../../lib/utils').getConnectClient;
+const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');
@@ -26,17 +26,16 @@ describe('Connect Fulfillment Zapier App - Create Request', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       },
       inputData: {
-        product_id: 'PRD-000-000-000',
-        marketplace_id: 'MP-00000',
         connection_id: 'CT-0000-0000-0000',
         // t1
         t1_company_name: 'T1 Company',
+        t1_external_id: '2',
         t1_address1: 'T1 Address 1',
         t1_address2: 'T1 Address 2',
         t1_postal_code: '08010',
         t1_city: 'Barcelona',
         t1_state: 'Barcelona',
-        t1_coutry: 'ES',
+        t1_country: 'ES',
         t1_first_name: 'T1 First Name',
         t1_last_name: 'T1 Last Name',
         t1_email: 't1@example.com',
@@ -48,20 +47,26 @@ describe('Connect Fulfillment Zapier App - Create Request', () => {
         customer_postal_code: '08010',
         customer_city: 'Barcelona',
         customer_state: 'Barcelona',
-        customer_coutry: 'ES',
+        customer_country: 'ES',
         customer_first_name: 'Cust First Name',
         customer_last_name: 'Cust Last Name',
         customer_email: 't1@example.com',
         customer_phone: '+34931221414',        
         items: [
-            {id: 'SKU_1', quantity: 30},
-            {id: 'SKU_2', quantity: 10},
+            {item_id: 'SKU_1', quantity: 30},
+            {item_id: 'SKU_2', quantity: 10},
+        ],
+        params: [
+          {
+            param_id: 'param_a',
+            value: 'param_a_value'
+          }
         ]
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'create').returns(responses.creates.create_request);
+    sandbox.stub(RequestService.prototype, 'create').returns(responses.creates.create_request);
     // Call to zapier function to test
     appTester(App.creates.create_request.operation.perform, bundle)
       .then(results => {
