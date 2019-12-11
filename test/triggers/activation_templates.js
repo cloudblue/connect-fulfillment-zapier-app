@@ -9,7 +9,6 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 const responses = require('../responses');
-const getConnectClient = require('../../lib/utils').getConnectClient;
 
 describe('Connect Fulfillment Zapier App - Activation templates', () => {
   let sandbox;

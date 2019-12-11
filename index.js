@@ -21,6 +21,8 @@ const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequest = require('./lib/creates/inquire_request');
 const NoteRequest = require('./lib/creates/note_request');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
+// searches
+const SearchRequest = require('./lib/searches/search_requests');
 
 const platformVersion = zapier.version;
 const { version } = require('./package.json');
@@ -38,7 +40,9 @@ const App = {
     [ActivationTemplates.key]: ActivationTemplates,
     [FulfillmentParameters.key]: FulfillmentParameters,
   },
-  searches: {},
+  searches: {
+    [SearchRequest.key]: SearchRequest,
+  },
   creates: {
     [RejectRequest.key]: RejectRequest,
     [CreateRequest.key]: CreateRequest,
