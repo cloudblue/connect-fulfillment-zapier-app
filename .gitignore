@@ -7,3 +7,5 @@ node_modules
 .zapier*
 .devcontainer
 .vscode
+.nyc_output
+coverage

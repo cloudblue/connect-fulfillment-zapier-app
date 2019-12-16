@@ -14,6 +14,7 @@ const LatestPublishedProduct = require('./lib/triggers/latest_published_products
 const NewRequests = require('./lib/triggers/new_requests');
 const ActivationTemplates = require('./lib/triggers/activation_templates');
 const FulfillmentParameters = require('./lib/triggers/fulfillment_parameters');
+const Hubs = require('./lib/triggers/hubs');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
 const CreateRequest = require('./lib/creates/create_request');
@@ -39,6 +40,7 @@ const App = {
     [NewRequests.key]: NewRequests,
     [ActivationTemplates.key]: ActivationTemplates,
     [FulfillmentParameters.key]: FulfillmentParameters,
+    [Hubs.key]: Hubs,
   },
   searches: {
     [SearchRequest.key]: SearchRequest,

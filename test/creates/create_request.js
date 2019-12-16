@@ -39,7 +39,7 @@ describe('Connect Fulfillment Zapier App - Create Request', () => {
         t1_first_name: 'T1 First Name',
         t1_last_name: 'T1 Last Name',
         t1_email: 't1@example.com',
-        t1_phone: '+34931221414',
+        t1_phone: '+390817434329',
         // customer
         customer_company_name: 'Cust Company',
         customer_address1: 'Cust Address 1',

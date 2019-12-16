@@ -8,7 +8,7 @@
 const should = require('should');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
-const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { HubService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 
 // Use this to make test calls into your app:
 const App = require('../../index');
@@ -18,22 +18,20 @@ zapier.tools.env.inject();
 const responses = require('../responses');
 
 
-describe('Connect Fulfillment Zapier App - New Requests', () => {
+describe('Connect Fulfillment Zapier App - List hubs', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
-  it('should return a list of requests filtered by status', done => {
+  it('should return a list of hubs', done => {
     const bundle = {
       authData: {
         api_key: process.env.CONNECT_API_KEY,
         endpoint: process.env.CONNECT_ENDPOINT
       },
-      inputData: {
-        status: ['pending', 'inquiring']
-      }
+      inputData: {}
     };
-    sandbox.stub(RequestService.prototype, 'list').returns(responses.triggers.new_requests);
-    appTester(App.triggers.new_requests.operation.perform, bundle)
+    sandbox.stub(HubService.prototype, 'list').returns(responses.triggers.hubs);
+    appTester(App.triggers.hubs.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
         done();
