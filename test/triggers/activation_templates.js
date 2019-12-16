@@ -2,14 +2,13 @@
 const should = require('should');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
-
+const { ProductService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 // Use this to make test calls into your app:
 const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 const responses = require('../responses');
-const getConnectClient = require('../../lib/utils').getConnectClient;
 
 describe('Connect Fulfillment Zapier App - Activation templates', () => {
   let sandbox;
@@ -25,7 +24,7 @@ describe('Connect Fulfillment Zapier App - Activation templates', () => {
           id: 'PRD-000-000-000'
       }
     };
-    sandbox.stub(getConnectClient({request: null}, bundle).products, 'getProductAssetTemplates').returns(responses.triggers.activation_templates);
+    sandbox.stub(ProductService.prototype, 'getProductAssetTemplates').returns(responses.triggers.activation_templates);
     appTester(App.triggers.activation_templates.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

@@ -1,7 +1,14 @@
+/**
+ * This file is part of the Ingram Micro Cloud Blue Connect SDK.
+ *
+ * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
+ */
+
 /* globals describe it */
 const should = require('should');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
+const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 
 // Use this to make test calls into your app:
 const App = require('../../index');
@@ -9,7 +16,7 @@ const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
 const responses = require('../responses');
-const getConnectClient = require('../../lib/utils').getConnectClient;
+
 
 describe('Connect Fulfillment Zapier App - New Requests', () => {
   let sandbox;
@@ -25,7 +32,7 @@ describe('Connect Fulfillment Zapier App - New Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'list').returns(responses.triggers.new_requests);
+    sandbox.stub(RequestService.prototype, 'list').returns(responses.triggers.new_requests);
     appTester(App.triggers.new_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

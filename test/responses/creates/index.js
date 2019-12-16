@@ -9,6 +9,7 @@ module.exports = {
     create_request: require('./create_request.json'),
     approve_request: require('./approve_request.json'),
     inquire_request: require('./inquire_request.json'),
-    note_request: require('./note_request.json')
+    note_request: require('./note_request.json'),
+    fill_fulfillment_params: require('./fill_fulfillment_params.json')
 
 };

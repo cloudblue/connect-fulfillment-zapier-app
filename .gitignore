@@ -5,3 +5,7 @@ node_modules
 .environment
 .env
 .zapier*
+.devcontainer
+.vscode
+.nyc_output
+coverage
