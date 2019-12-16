@@ -4,9 +4,8 @@
  * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
  */
 
-/*
- const should = require('should');
-const getConnectClient = require('../../lib/utils').getConnectClient;
+const should = require('should');
+const { ConversationService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');
@@ -33,7 +32,7 @@ describe('Connect Fulfillment Zapier App - Create Message Conversation Request',
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(getConnectClient({request: null}, bundle).requests, 'createMessage').returns(responses.creates.create_message);
+    sandbox.stub(ConversationService.prototype, 'createMessage').returns(responses.creates.create_message);
     // Call to zapier function to test
     appTester(App.creates.create_message.operation.perform, bundle)
       .then(results => {
@@ -44,4 +43,3 @@ describe('Connect Fulfillment Zapier App - Create Message Conversation Request',
       .catch(done);
   });
 });
-*/
