@@ -12,6 +12,7 @@ const middleware = require('./lib/middleware');
 // triggers
 const LatestPublishedProduct = require('./lib/triggers/latest_published_products');
 const NewRequests = require('./lib/triggers/new_requests');
+// const GetMessages = require('./lib/triggers/new_message_request');
 const ActivationTemplates = require('./lib/triggers/activation_templates');
 const FulfillmentParameters = require('./lib/triggers/fulfillment_parameters');
 const Hubs = require('./lib/triggers/hubs');
@@ -21,6 +22,7 @@ const CreateRequest = require('./lib/creates/create_request');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequest = require('./lib/creates/inquire_request');
 const NoteRequest = require('./lib/creates/note_request');
+const CreateMessage = require('./lib/creates/create_message');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
@@ -52,6 +54,7 @@ const App = {
     [InquireRequest.key]: InquireRequest,
     [NoteRequest.key]: NoteRequest,
     [FillFulfillmentParameters.key]: FillFulfillmentParameters,
+    [CreateMessage.key]: CreateMessage,
   },
 };
 
