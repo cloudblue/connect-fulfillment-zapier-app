@@ -7,6 +7,9 @@ describe('Connect Fulfillment Zapier App - Http Response', () => {
       const resp = {
           status: 200,
           content: 'Hello world',
+          headers: {
+            'x-test-header': 'hello world'
+          },
           json: {
               text: 'Hello world'
           }
@@ -14,6 +17,8 @@ describe('Connect Fulfillment Zapier App - Http Response', () => {
       const response = new Response(resp);
       response.ok.should.be.true();
       response.status.should.be.eql(200);
+      response.headers.should.be.an.Object();
+      response.headers.should.have.property('x-test-header').eql('hello world');
       response.text().should.be.Promise();
       response.json().should.be.Promise();
       const content = await response.text();
