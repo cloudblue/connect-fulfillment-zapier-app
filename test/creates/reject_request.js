@@ -5,7 +5,7 @@
  */
 
 const should = require('should');
-const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');
@@ -26,13 +26,14 @@ describe('Connect Fulfillment Zapier App - Reject Request', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       },
       inputData: {
-        id: 'PR-5426-PR-5426-9883-2189-001',
+        request_id: 'PR-5426-PR-5426-9883-2189-001',
         reason: 'Not available'
       }
     };
-
     // Mock the sdk function to return this response 
-    sandbox.stub(RequestService.prototype, 'rejectRequest').returns(responses.creates.reject_request);
+    sandbox.stub(Fulfillment.prototype, 'failRequest')
+      .withArgs('PR-5426-PR-5426-9883-2189-001', 'Not available')
+      .returns(responses.creates.reject_request);
     // Call to zapier function to test
     appTester(App.creates.reject_request.operation.perform, bundle)
       .then(results => {

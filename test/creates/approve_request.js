@@ -5,7 +5,7 @@
  */
 
 const should = require('should');
-const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 const HttpError = require('@cloudblueconnect/connect-javascript-sdk').HttpError;
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - Approve Request', () => {
       }
     };
 
-    sandbox.stub(RequestService.prototype, 'approveWithTemplate').returns(responses.creates.approve_request);
+    sandbox.stub(Fulfillment.prototype, 'approveRequestWithTemplate').returns(responses.creates.approve_request);
     appTester(App.creates.approve_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();

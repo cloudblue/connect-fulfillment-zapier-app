@@ -5,7 +5,7 @@
  */
 
 const should = require('should');
-const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
 const responses = require('../responses');
@@ -38,7 +38,7 @@ describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters', () => {
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(RequestService.prototype, 'updateRequestParameters').returns(responses.creates.fill_fulfillment_params);
+    sandbox.stub(Fulfillment.prototype, 'updateRequestParameters').returns(responses.creates.fill_fulfillment_params);
     // Call to zapier function to test
     appTester(App.creates.fill_fulfillment_params.operation.perform, bundle)
       .then(results => {

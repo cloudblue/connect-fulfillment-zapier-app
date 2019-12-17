@@ -8,7 +8,7 @@
 const should = require('should');
 const sinon = require('sinon');
 const zapier = require('zapier-platform-core');
-const { RequestService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 
 // Use this to make test calls into your app:
 const App = require('../../index');
@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - New Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(RequestService.prototype, 'list').returns(responses.triggers.new_requests);
+    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
     appTester(App.triggers.new_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
