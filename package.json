@@ -26,7 +26,7 @@
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
     "uuid": "^3.3.3",
-    "zapier-platform-core": "8.4.2"
+    "zapier-platform-core": "9.0.0"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
