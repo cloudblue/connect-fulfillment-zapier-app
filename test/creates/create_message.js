@@ -26,13 +26,16 @@ describe('Connect Fulfillment Zapier App - Create Message Conversation Request',
         endpoint: process.env.CONNECT_ENDPOINT
       },
       inputData: {
-        id: 'PR-5426-PR-5426-9883-2189-001',
+        id: 'PR-5426-9883-2189-001',
         text: 'This note'
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(ConversationService.prototype, 'createMessage').returns(responses.creates.create_message);
+    sandbox.stub(ConversationService.prototype, 'getConversationsByObjectId').returns(responses.creates.get_conversations);
+    sandbox.stub(ConversationService.prototype, 'createMessage')
+      .withArgs('CO-631-920-118','This note')
+      .returns(responses.creates.create_message);
     // Call to zapier function to test
     appTester(App.creates.create_message.operation.perform, bundle)
       .then(results => {

@@ -12,5 +12,6 @@ module.exports = {
     note_request: require('./note_request.json'),
     fill_fulfillment_params: require('./fill_fulfillment_params.json'),
     create_message: require('./create_message.json'),
-    get_messages: require('./get_messages.json')
+    get_messages: require('./get_messages.json'),
+    get_conversations: require('./get_conversations.json')
 };
