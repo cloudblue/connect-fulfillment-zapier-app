@@ -40,4 +40,23 @@ describe('Connect Fulfillment Zapier App - New Requests', () => {
       })
       .catch(done);
   });
+  it('should return a list of requests filtered by status (single page)', done => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT
+      },
+      inputData: {
+        status: ['pending', 'inquiring'],
+        process_in_batch: true,
+      }
+    };
+    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
+    appTester(App.triggers.new_requests.operation.perform, bundle)
+      .then(results => {
+        results.should.be.an.Array();
+        done();
+      })
+      .catch(done);
+  });
 });
