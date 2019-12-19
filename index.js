@@ -19,7 +19,7 @@ const FulfillmentParameters = require('./lib/triggers/fulfillment_parameters');
 const Hubs = require('./lib/triggers/hubs');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
-const CreateRequest = require('./lib/creates/create_request');
+const CreatePurchaseRequest = require('./lib/creates/create_purchase_request');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequest = require('./lib/creates/inquire_request');
 const NoteRequest = require('./lib/creates/note_request');
@@ -51,7 +51,7 @@ const App = {
   },
   creates: {
     [RejectRequest.key]: RejectRequest,
-    [CreateRequest.key]: CreateRequest,
+    [CreatePurchaseRequest.key]: CreatePurchaseRequest,
     [ApproveRequest.key]: ApproveRequest,
     [InquireRequest.key]: InquireRequest,
     [NoteRequest.key]: NoteRequest,
