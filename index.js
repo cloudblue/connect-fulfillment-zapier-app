@@ -13,7 +13,7 @@ const middleware = require('./lib/middleware');
 const LatestPublishedProduct = require('./lib/triggers/latest_published_products');
 const NewRequests = require('./lib/triggers/new_requests');
 const NewUpdatedRequests = require('./lib/triggers/new_updated_requests');
-// const GetMessages = require('./lib/triggers/new_message_request');
+const GetMessagesRequest = require('./lib/triggers/new_message_request');
 const ActivationTemplates = require('./lib/triggers/activation_templates');
 const FulfillmentParameters = require('./lib/triggers/fulfillment_parameters');
 const Hubs = require('./lib/triggers/hubs');
@@ -41,6 +41,7 @@ const App = {
   triggers: {
     [NewRequests.key]: NewRequests,
     [NewUpdatedRequests.key]: NewUpdatedRequests,
+    [GetMessagesRequest.key]: GetMessagesRequest,
     [LatestPublishedProduct.key]: LatestPublishedProduct,
     [ActivationTemplates.key]: ActivationTemplates,
     [FulfillmentParameters.key]: FulfillmentParameters,
