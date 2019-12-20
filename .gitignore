@@ -1,0 +1,11 @@
+build
+docs
+node_modules
+*.log
+.environment
+.env
+.zapier*
+.devcontainer
+.vscode
+.nyc_output
+coverage
