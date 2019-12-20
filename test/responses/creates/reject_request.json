@@ -16,7 +16,7 @@
             "type": "preview",
             "vendor": {
                 "id": "VA-306-697",
-                "name": "IngramMicroTestVendor"
+                "name": "CloudBlueTestVendor"
             },
             "id": "CT-0000-0000-0000",
             "hub": {
@@ -25,7 +25,7 @@
             },
             "provider": {
                 "id": "PA-325-330",
-                "name": "IngrammicroTestProvider"
+                "name": "CloudBlueTestProvider"
             }
         },
         "events": {

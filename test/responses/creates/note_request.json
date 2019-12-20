@@ -10,12 +10,12 @@
             "id": "CT-0000-0000-0000",
             "provider": {
                 "id": "PA-325-330",
-                "name": "IngrammicroTestProvider"
+                "name": "CloudBlueTestProvider"
             },
             "type": "preview",
             "vendor": {
                 "id": "VA-306-697",
-                "name": "IngramMicroTestVendor"
+                "name": "CloudBlueTestVendor"
             }
         },
         "contract": {
