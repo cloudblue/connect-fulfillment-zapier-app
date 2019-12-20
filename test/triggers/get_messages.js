@@ -3,7 +3,7 @@
  *
  * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
  */
-/*
+
 const should = require('should');
 const { ConversationService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 const sinon = require('sinon');
@@ -22,23 +22,27 @@ describe('Connect Fulfillment Zapier App - Get Messages Request', () => {
   it('should return a messages from the conversation', done => {
     const bundle = {
       authData: {
-        api_key: process.env.CONNECT_API_KEY,
-        endpoint: process.env.CONNECT_ENDPOINT
+        //api_key: process.env.CONNECT_API_KEY,
+        //endpoint: process.env.CONNECT_ENDPOINT
+        api_key: 'ApiKey SU-195-824-670:239e211039b9cf5fcb407a75649af97acec8ab01',
+        endpoint: 'https://api.cnct.tech/public/v1'
       },
       inputData: {
-        id: 'PR-5426-PR-5426-9883-2189-001'
+        id: 'PR-3767-7014-3540-001'
+        // id: 'CO-932-575-730'
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(ConversationService.prototype, 'getMessages').returns(responses.creates.get_messages);
+    sandbox.stub(ConversationService.prototype, 'getConversation').returns(responses.triggers.get_messages);
     // Call to zapier function to test
-    appTester(App.creates.get_messages.operation.perform, bundle)
+    appTester(App.triggers.get_messages.operation.perform, bundle)
       .then(results => {
-        results.should.be.an.Object();
+        // results.should.be.an.Object();
         done();
       })
       .catch(done);
+
   });
 });
-*/
+
