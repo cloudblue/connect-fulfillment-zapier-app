@@ -15,34 +15,33 @@ const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Fulfillment Zapier App - Get Messages Request', () => {
+describe('Connect Fulfillment Zapier App - Create Message Conversation Request', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
-  it('should return a messages from the conversation', done => {
+  it('should return a payload of the request modified', (done) => {
     const bundle = {
       authData: {
-        //api_key: process.env.CONNECT_API_KEY,
-        //endpoint: process.env.CONNECT_ENDPOINT
-        api_key: 'ApiKey SU-195-824-670:239e211039b9cf5fcb407a75649af97acec8ab01',
-        endpoint: 'https://api.cnct.tech/public/v1'
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT
       },
       inputData: {
-        id: 'PR-3767-7014-3540-001'
-        // id: 'CO-932-575-730'
+        id: 'PR-5426-9883-2189-001',
+        text: 'This note'
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(ConversationService.prototype, 'getConversation').returns(responses.triggers.get_messages);
+    sandbox.stub(ConversationService.prototype, 'getConversationsByObjectId').returns(responses.triggers.conversations);
+    sandbox.stub(ConversationService.prototype, 'getConversation')
+      .withArgs('CO-631-920-118')
+      .returns(responses.triggers.get_messages);
     // Call to zapier function to test
     appTester(App.triggers.get_messages.operation.perform, bundle)
       .then(results => {
-        // results.should.be.an.Object();
+        results.should.be.an.Object();
         done();
       })
       .catch(done);
-
   });
 });
-

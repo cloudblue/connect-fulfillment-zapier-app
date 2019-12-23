@@ -10,5 +10,6 @@ module.exports = {
     activation_templates: require('./activation_templates.json'),
     fulfillment_parameters: require('./fulfillment_parameters.json'),
     get_messages: require('./get_messages.json'),
+    conversations: require('./conversations.json'),
     hubs: require('./hubs.json')
 }
