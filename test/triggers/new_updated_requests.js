@@ -36,7 +36,7 @@ describe('Connect Fulfillment Zapier App - New and Updated Requests', () => {
     appTester(App.triggers.new_updated_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
-        results[0].should.have.property('original_id');
+        results[0].should.have.property('request_id');
         results[0].should.have.property('id');
         results[0].id.should.not.be.eql(results[0].original_id);
         results.should.have.size(19);
