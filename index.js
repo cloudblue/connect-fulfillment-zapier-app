@@ -21,11 +21,12 @@ const Hubs = require('./lib/triggers/hubs');
 const RejectRequest = require('./lib/creates/reject_request');
 const CreatePurchaseRequest = require('./lib/creates/create_purchase_request');
 const ApproveRequest = require('./lib/creates/approve_request');
+const InquireRequestLIS = require('./lib/creates/inquire_request_lis');
 const InquireRequest = require('./lib/creates/inquire_request');
 const NoteRequest = require('./lib/creates/note_request');
 const CreateMessage = require('./lib/creates/create_message');
+const FillFulfillmentParametersLIS = require('./lib/creates/fill_fulfillment_parameters_lis');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
-const FillFulfillmentParameter = require('./lib/creates/fill_fulfillment_parameter');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
 
@@ -56,9 +57,10 @@ const App = {
     [CreatePurchaseRequest.key]: CreatePurchaseRequest,
     [ApproveRequest.key]: ApproveRequest,
     [InquireRequest.key]: InquireRequest,
+    [InquireRequestLIS.key]: InquireRequestLIS,
     [NoteRequest.key]: NoteRequest,
+    [FillFulfillmentParametersLIS.key]: FillFulfillmentParametersLIS,
     [FillFulfillmentParameters.key]: FillFulfillmentParameters,
-    [FillFulfillmentParameter.key]: FillFulfillmentParameter,
     [CreateMessage.key]: CreateMessage,
   },
 };
