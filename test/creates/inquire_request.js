@@ -28,7 +28,7 @@ describe('Connect Fulfillment Zapier App - Inquire Request', () => {
       inputData: {
         id: 'PR-5426-PR-5426-9883-2189-001',
         reason: 'Not available',
-        templateId: 'TL-827-840-476',
+        template_id: 'TL-827-840-476',
         params: {'param_a': 'Not valid'}
       }
     };
