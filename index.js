@@ -25,6 +25,7 @@ const InquireRequest = require('./lib/creates/inquire_request');
 const NoteRequest = require('./lib/creates/note_request');
 const CreateMessage = require('./lib/creates/create_message');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
+const FillFulfillmentParameter = require('./lib/creates/fill_fulfillment_parameter');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
 
@@ -57,6 +58,7 @@ const App = {
     [InquireRequest.key]: InquireRequest,
     [NoteRequest.key]: NoteRequest,
     [FillFulfillmentParameters.key]: FillFulfillmentParameters,
+    [FillFulfillmentParameter.key]: FillFulfillmentParameter,
     [CreateMessage.key]: CreateMessage,
   },
 };
