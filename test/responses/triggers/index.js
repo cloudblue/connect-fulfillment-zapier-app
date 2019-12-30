@@ -11,5 +11,6 @@ module.exports = {
     fulfillment_parameters: require('./fulfillment_parameters.json'),
     get_messages: require('./get_messages.json'),
     conversations: require('./conversations.json'),
-    hubs: require('./hubs.json')
+    hubs: require('./hubs.json'),
+    new_tier_config_requests: require('./new_tier_config_requests.json'),
 }
