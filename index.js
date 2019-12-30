@@ -31,6 +31,7 @@ const FillFulfillmentParametersLIS = require('./lib/creates/fill_fulfillment_par
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
+const SearchTierConfigRequest = require('./lib/searches/search_tier_config_requests');
 
 const platformVersion = zapier.version;
 const { version } = require('./package.json');
@@ -55,6 +56,7 @@ const App = {
   },
   searches: {
     [SearchRequest.key]: SearchRequest,
+    [SearchTierConfigRequest.key]: SearchTierConfigRequest,
   },
   creates: {
     [RejectRequest.key]: RejectRequest,
