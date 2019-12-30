@@ -74,6 +74,66 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
       })
       .catch(done);
   });
+  it('passes authentication (!=prod) and returns account info (trailing slash)', done => {
+
+    const bundle = {
+      authData: {
+        api_key: 'ApiKey SU-000-000-000:2f03baecc0531b3137404e4d51c0864b3ae0aaee@https://api.cnct.tech/public/v1/'
+      }
+    };
+    sandbox.stub(AccountService.prototype, 'list').returns([
+      {
+        id: 'VA-000-000',
+        name: 'Vendor',
+        type: 'vendor',
+        brand: 'BR-704',
+        external_id: '5b3e4e1d-f9f6-e811-a95a-000d3a1f74d1',
+        events: {
+          created: {
+            at: '2018-06-04T13:19:10+00:00'
+          }
+        },
+        sourcing: false
+      }
+    ]);
+    appTester(App.authentication.test, bundle)
+      .then(jsonResponse => {
+        jsonResponse.should.be.an.Object();
+        jsonResponse.should.have.property('account_info').eql('Vendor (VA-000-000) [https://api.cnct.tech/public/v1]');
+        done();
+      })
+      .catch(done);
+  });
+  it('passes authentication (!=prod) and returns account info (without leading "ApiKey")', done => {
+
+    const bundle = {
+      authData: {
+        api_key: 'SU-000-000-000:2f03baecc0531b3137404e4d51c0864b3ae0aaee@https://api.cnct.tech/public/v1'
+      }
+    };
+    sandbox.stub(AccountService.prototype, 'list').returns([
+      {
+        id: 'VA-000-000',
+        name: 'Vendor',
+        type: 'vendor',
+        brand: 'BR-704',
+        external_id: '5b3e4e1d-f9f6-e811-a95a-000d3a1f74d1',
+        events: {
+          created: {
+            at: '2018-06-04T13:19:10+00:00'
+          }
+        },
+        sourcing: false
+      }
+    ]);
+    appTester(App.authentication.test, bundle)
+      .then(jsonResponse => {
+        jsonResponse.should.be.an.Object();
+        jsonResponse.should.have.property('account_info').eql('Vendor (VA-000-000) [https://api.cnct.tech/public/v1]');
+        done();
+      })
+      .catch(done);
+  });
   it('fails on bad api key', () => {
     const bundle = {
       authData: {

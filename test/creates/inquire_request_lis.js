@@ -15,7 +15,7 @@ const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Fulfillment Zapier App - Inquire Request', () => {
+describe('Connect Fulfillment Zapier App - Inquire Request (with line items support)', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
@@ -29,16 +29,21 @@ describe('Connect Fulfillment Zapier App - Inquire Request', () => {
         request_id: 'PR-5426-PR-5426-9883-2189-001',
         note: 'Not available',
         template_id: 'TL-827-840-476',
-        params: {'param_a': 'error_a'}
+        params: [
+          {
+            id: 'param_a',
+            value_error: 'error_a'
+          }
+        ]
       }
     };
 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'inquireRequestWithTemplate')
-      .withArgs(bundle.inputData.request_id, bundle.inputData.template_id, [{id: 'param_a', value_error: 'error_a'}], bundle.inputData.note)
+      .withArgs(bundle.inputData.request_id, bundle.inputData.template_id, bundle.inputData.params, bundle.inputData.note)
       .returns(responses.creates.inquire_request);
     // Call to zapier function to test
-    appTester(App.creates.inquire_request.operation.perform, bundle)
+    appTester(App.creates.inquire_request_lis.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         results.status.should.be.eql('inquiring');
@@ -55,16 +60,16 @@ describe('Connect Fulfillment Zapier App - Inquire Request', () => {
       inputData: {
         request_id: 'PR-5426-PR-5426-9883-2189-001',
         note: 'Not available',
-        params: {'param_a': 'error_a'}
+        params: [{id: 'param_a', value_error: 'error_a'}]
       }
     };
 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'inquireRequest')
-      .withArgs(bundle.inputData.request_id, {}, [{id: 'param_a', value_error: 'error_a'}], bundle.inputData.note)
+      .withArgs(bundle.inputData.request_id, {}, bundle.inputData.params, bundle.inputData.note)
       .returns(responses.creates.inquire_request);
     // Call to zapier function to test
-    appTester(App.creates.inquire_request.operation.perform, bundle)
+    appTester(App.creates.inquire_request_lis.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         results.status.should.be.eql('inquiring');

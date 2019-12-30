@@ -15,7 +15,7 @@ const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 zapier.tools.env.inject();
 
-describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters', () => {
+describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters (with Line Items support)', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
@@ -27,19 +27,22 @@ describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters', () => {
       },
       inputData: {
         request_id: 'PR-0000-0000-0000-000',
-        params: {
-          param_a: 'value_a'
-        },
+        params: [
+          {
+            id: 'param_a',
+            value: 'parameter content'
+          }
+        ],
         note: 'note'
       }
     };
 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'updateRequestParameters')
-      .withArgs(bundle.inputData.request_id, [{id: 'param_a', value: 'value_a'}], bundle.inputData.note)
+      .withArgs(bundle.inputData.request_id, bundle.inputData.params, bundle.inputData.note)
       .returns(responses.creates.fill_fulfillment_params);
     // Call to zapier function to test
-    appTester(App.creates.fill_fulfillment_params.operation.perform, bundle)
+    appTester(App.creates.fill_fulfillment_params_lis.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         results.should.have.property('note').eql('note');
