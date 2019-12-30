@@ -18,6 +18,7 @@ const ActivationTemplates = require('./lib/triggers/activation_templates');
 const FulfillmentParameters = require('./lib/triggers/fulfillment_parameters');
 const Hubs = require('./lib/triggers/hubs');
 const NewTierConfigRequests = require('./lib/triggers/new_tier_config_requests');
+const NewUpdatedTierConfigRequests = require('./lib/triggers/new_updated_tier_config_requests');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
 const CreatePurchaseRequest = require('./lib/creates/create_purchase_request');
@@ -50,6 +51,7 @@ const App = {
     [FulfillmentParameters.key]: FulfillmentParameters,
     [Hubs.key]: Hubs,
     [NewTierConfigRequests.key]: NewTierConfigRequests,
+    [NewUpdatedTierConfigRequests.key]: NewUpdatedTierConfigRequests,
   },
   searches: {
     [SearchRequest.key]: SearchRequest,
