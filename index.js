@@ -31,6 +31,8 @@ const FillFulfillmentParametersLIS = require('./lib/creates/fill_fulfillment_par
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
 const FillTierParametersLIS = require('./lib/creates/fill_tier_parameters_lis');
 const FillTierParameters = require('./lib/creates/fill_tier_parameters');
+const ApproveTierConfigRequest = require('./lib/creates/approve_tier_config_request');
+const FailTierConfigRequest = require('./lib/creates/fail_tier_config_request');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
 const SearchTierConfigRequest = require('./lib/searches/search_tier_config_requests');
@@ -72,6 +74,8 @@ const App = {
     [FillTierParametersLIS.key]: FillTierParametersLIS,
     [FillTierParameters.key]: FillTierParameters,
     [CreateMessage.key]: CreateMessage,
+    [ApproveTierConfigRequest.key]: ApproveTierConfigRequest,
+    [FailTierConfigRequest.key]: FailTierConfigRequest,
   },
 };
 
