@@ -29,6 +29,8 @@ const NoteRequest = require('./lib/creates/note_request');
 const CreateMessage = require('./lib/creates/create_message');
 const FillFulfillmentParametersLIS = require('./lib/creates/fill_fulfillment_parameters_lis');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
+const FillTierParametersLIS = require('./lib/creates/fill_tier_parameters_lis');
+const FillTierParameters = require('./lib/creates/fill_tier_parameters');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
 const SearchTierConfigRequest = require('./lib/searches/search_tier_config_requests');
@@ -67,6 +69,8 @@ const App = {
     [NoteRequest.key]: NoteRequest,
     [FillFulfillmentParametersLIS.key]: FillFulfillmentParametersLIS,
     [FillFulfillmentParameters.key]: FillFulfillmentParameters,
+    [FillTierParametersLIS.key]: FillTierParametersLIS,
+    [FillTierParameters.key]: FillTierParameters,
     [CreateMessage.key]: CreateMessage,
   },
 };
