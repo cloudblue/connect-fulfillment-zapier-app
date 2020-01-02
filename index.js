@@ -33,6 +33,8 @@ const FillTierParametersLIS = require('./lib/creates/fill_tier_parameters_lis');
 const FillTierParameters = require('./lib/creates/fill_tier_parameters');
 const ApproveTierConfigRequest = require('./lib/creates/approve_tier_config_request');
 const FailTierConfigRequest = require('./lib/creates/fail_tier_config_request');
+const InquireTierConfigRequestLIS = require('./lib/creates/inquire_tier_config_request_lis');
+const InquireTierConfigRequest = require('./lib/creates/inquire_tier_config_request');
 // searches
 const SearchRequest = require('./lib/searches/search_requests');
 const SearchTierConfigRequest = require('./lib/searches/search_tier_config_requests');
@@ -76,6 +78,8 @@ const App = {
     [CreateMessage.key]: CreateMessage,
     [ApproveTierConfigRequest.key]: ApproveTierConfigRequest,
     [FailTierConfigRequest.key]: FailTierConfigRequest,
+    [InquireTierConfigRequestLIS.key]: InquireTierConfigRequestLIS,
+    [InquireTierConfigRequest.key]: InquireTierConfigRequest,
   },
 };
 
