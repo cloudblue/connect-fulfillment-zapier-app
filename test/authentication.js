@@ -1,6 +1,6 @@
 const should = require('should');
 const zapier = require('zapier-platform-core');
-const { AccountService } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
+const { AccountResource } = require('@cloudblueconnect/connect-javascript-sdk/lib/connect/api');
 const { HttpError, ConnectClient } = require('@cloudblueconnect/connect-javascript-sdk');
 const sinon = require('sinon');
 
@@ -21,7 +21,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
     
     // const spy = sandbox.spy(ConnectClient.prototype, 'constructor');
     // spy.should.be.calledWith('');
-    sandbox.stub(AccountService.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'list').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -51,7 +51,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         api_key: 'ApiKey SU-000-000-000:2f03baecc0531b3137404e4d51c0864b3ae0aaee@https://api.cnct.tech/public/v1'
       }
     };
-    sandbox.stub(AccountService.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'list').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -81,7 +81,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         api_key: 'ApiKey SU-000-000-000:2f03baecc0531b3137404e4d51c0864b3ae0aaee@https://api.cnct.tech/public/v1/'
       }
     };
-    sandbox.stub(AccountService.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'list').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -111,7 +111,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         api_key: 'SU-000-000-000:2f03baecc0531b3137404e4d51c0864b3ae0aaee@https://api.cnct.tech/public/v1'
       }
     };
-    sandbox.stub(AccountService.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'list').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -141,7 +141,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(AccountService.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
+    sandbox.stub(AccountResource.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
     return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 });

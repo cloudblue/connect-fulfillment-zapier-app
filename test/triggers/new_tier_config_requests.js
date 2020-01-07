@@ -33,16 +33,16 @@ describe('Connect Fulfillment Zapier App - New Tier Config Requests', () => {
       }
     };
     sandbox.stub(Fulfillment.prototype, 'listTierConfigRequests')
-      .withArgs({ type: undefined,
-        status: [ 'pending', 'inquiring' ],
-        id: undefined,
-        configurationId: undefined,
-        configurationTierLevel: undefined,
-        configurationAccountId: undefined,
-        configurationProductId: undefined,
-        configurationAccountExternalUID: undefined,
-        assigneeId: undefined,
-        unassigned: undefined }, '-created', 100, 0)
+      // .withArgs({ type: undefined,
+      //   status: [ 'pending', 'inquiring' ],
+      //   id: undefined,
+      //   configurationId: undefined,
+      //   configurationTierLevel: undefined,
+      //   configurationAccountId: undefined,
+      //   configurationProductId: undefined,
+      //   configurationAccountExternalUID: undefined,
+      //   assigneeId: undefined,
+      //   unassigned: undefined }, '-created', 100, 0)
       .returns(responses.triggers.new_tier_config_requests);
     appTester(App.triggers.new_tier_config_requests.operation.perform, bundle)
       .then(results => {
@@ -63,16 +63,16 @@ describe('Connect Fulfillment Zapier App - New Tier Config Requests', () => {
       }
     };
     sandbox.stub(Fulfillment.prototype, 'listTierConfigRequests')
-      .withArgs({ type: undefined,
-        status: [ 'pending', 'inquiring' ],
-        id: undefined,
-        configurationId: undefined,
-        configurationTierLevel: undefined,
-        configurationAccountId: undefined,
-        configurationProductId: undefined,
-        configurationAccountExternalUID: undefined,
-        assigneeId: undefined,
-        unassigned: undefined }, '-created', 100, 0)
+      // .withArgs({ type: undefined,
+      //   status: [ 'pending', 'inquiring' ],
+      //   id: undefined,
+      //   configurationId: undefined,
+      //   configurationTierLevel: undefined,
+      //   configurationAccountId: undefined,
+      //   configurationProductId: undefined,
+      //   configurationAccountExternalUID: undefined,
+      //   assigneeId: undefined,
+      //   unassigned: undefined }, '-created', 100, 0)
       .returns(responses.triggers.new_tier_config_requests);
     appTester(App.triggers.new_tier_config_requests.operation.perform, bundle)
       .then(results => {
