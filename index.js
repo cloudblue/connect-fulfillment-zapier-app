@@ -83,7 +83,7 @@ const App = {
     [InquireTierConfigRequestLIS.key]: InquireTierConfigRequestLIS,
     [InquireTierConfigRequest.key]: InquireTierConfigRequest,
     [CreateUpdateTierConfigRequestLIS.key]: CreateUpdateTierConfigRequestLIS,
-    [CreateUpdateTierConfigRequest.key]: CreateUpdateTierConfigRequest
+    [CreateUpdateTierConfigRequest.key]: CreateUpdateTierConfigRequest,
   },
 };
 
