@@ -22,6 +22,7 @@ const NewUpdatedTierConfigRequests = require('./lib/triggers/new_updated_tier_co
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
 const CreatePurchaseRequest = require('./lib/creates/create_purchase_request');
+const CreateAssetRequest = require('./lib/creates/create_asset_request');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequestLIS = require('./lib/creates/inquire_request_lis');
 const InquireRequest = require('./lib/creates/inquire_request');
@@ -84,6 +85,7 @@ const App = {
     [InquireTierConfigRequest.key]: InquireTierConfigRequest,
     [CreateUpdateTierConfigRequestLIS.key]: CreateUpdateTierConfigRequestLIS,
     [CreateUpdateTierConfigRequest.key]: CreateUpdateTierConfigRequest,
+    [CreateAssetRequest.key]: CreateAssetRequest,
   },
 };
 
