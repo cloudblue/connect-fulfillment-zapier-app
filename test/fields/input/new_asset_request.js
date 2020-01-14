@@ -5,7 +5,7 @@ const ifields = require('../../../lib/fields/input/new_asset_request');
 describe('Connect Fulfillment Zapier App - New Asset Request fields', () => {
   it('should return purchase fields', async () => {
     const purchaseFields = [
-      { key: 'connection_id', label: 'Connection ID', required: true },
+      { key: 'hub_id', label: 'Hub ID', required: true },
       { key: 'asset_external_id', label: 'Asset External ID', required: true },
       { key: 'asset_external_uid', label: 'Asset External UID', required: false },
       {

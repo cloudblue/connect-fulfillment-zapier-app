@@ -28,7 +28,8 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
       inputData: {
         request_type: 'purchase',
         reseller_tiers: 't1',
-        connection_id: 'CT-0000-0000-0000',
+        hub_id: 'HB-0000-0000',
+        // connection_id: 'CT-0000-0000-0000',
         // t1
         t1_company_name: 'T1 Company',
         t1_external_id: '2',
@@ -55,8 +56,8 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
         customer_email: 't1@example.com',
         customer_phone: 'zzzzzzzzzzz',        
         items: [
-            {item_id: 'SKU_1', quantity: 30},
-            {item_id: 'SKU_2', quantity: 10},
+            {item_id: 'PRD-000-000-000-0001', quantity: 30},
+            {item_id: 'PRD-000-000-000-0002', quantity: 10},
         ],
         params: [
           {
@@ -68,6 +69,9 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
     };
 
     // Mock the sdk function to return this response 
+    sandbox.stub(Fulfillment.prototype, 'getConnectionIdByProductAndHub')
+      .withArgs('PRD-000-000-000', 'HB-0000-0000')
+      .returns('CT-0000-0000-0000');
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
     appTester(App.creates.create_asset_request.operation.perform, bundle)
