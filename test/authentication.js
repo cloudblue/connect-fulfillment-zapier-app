@@ -112,7 +112,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    // sandbox.stub(AccountResource.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
+    sandbox.stub(AccountResource.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
     return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 
