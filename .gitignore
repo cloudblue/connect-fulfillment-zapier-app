@@ -9,3 +9,6 @@ node_modules
 .vscode
 .nyc_output
 coverage
+keys.txt
+.gitignore
+validation.txt
