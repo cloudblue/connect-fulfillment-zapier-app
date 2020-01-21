@@ -27,7 +27,6 @@ describe('Connect Fulfillment Zapier App - Inquire Request (with line items supp
       },
       inputData: {
         request_id: 'PR-5426-PR-5426-9883-2189-001',
-        note: 'Not available',
         template_id: 'TL-827-840-476',
         params: [
           {
@@ -59,7 +58,6 @@ describe('Connect Fulfillment Zapier App - Inquire Request (with line items supp
       },
       inputData: {
         request_id: 'PR-5426-PR-5426-9883-2189-001',
-        note: 'Not available',
         params: [{id: 'param_a', value_error: 'error_a'}]
       }
     };

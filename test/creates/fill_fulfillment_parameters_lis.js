@@ -33,7 +33,6 @@ describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters (with Lin
             value: 'parameter content'
           }
         ],
-        note: 'note'
       }
     };
 
