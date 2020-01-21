@@ -20,14 +20,13 @@ const Hubs = require('./lib/triggers/hubs');
 const NewTierConfigRequests = require('./lib/triggers/new_tier_config_requests');
 const NewUpdatedTierConfigRequests = require('./lib/triggers/new_updated_tier_config_requests');
 const NewProductEvent = require('./lib/triggers/new_product_event');
+const AccountUsers = require('./lib/triggers/account_users');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
-const CreatePurchaseRequest = require('./lib/creates/create_purchase_request');
 const CreateAssetRequest = require('./lib/creates/create_asset_request');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequestLIS = require('./lib/creates/inquire_request_lis');
 const InquireRequest = require('./lib/creates/inquire_request');
-const NoteRequest = require('./lib/creates/note_request');
 const CreateMessage = require('./lib/creates/create_message');
 const FillFulfillmentParametersLIS = require('./lib/creates/fill_fulfillment_parameters_lis');
 const FillFulfillmentParameters = require('./lib/creates/fill_fulfillment_parameters');
@@ -54,40 +53,39 @@ const App = {
   afterResponse: [],
   resources: {},
   triggers: {
+    [NewProductEvent.key]: NewProductEvent,
     [NewRequests.key]: NewRequests,
     [NewUpdatedRequests.key]: NewUpdatedRequests,
+    [NewTierConfigRequests.key]: NewTierConfigRequests,
+    [NewUpdatedTierConfigRequests.key]: NewUpdatedTierConfigRequests,
     [GetMessagesRequest.key]: GetMessagesRequest,
     [LatestPublishedProduct.key]: LatestPublishedProduct,
     [ActivationTemplates.key]: ActivationTemplates,
     [FulfillmentParameters.key]: FulfillmentParameters,
     [Hubs.key]: Hubs,
-    [NewTierConfigRequests.key]: NewTierConfigRequests,
-    [NewUpdatedTierConfigRequests.key]: NewUpdatedTierConfigRequests,
-    [NewProductEvent.key]: NewProductEvent,
+    [AccountUsers.key]: AccountUsers,
   },
   searches: {
     [SearchRequest.key]: SearchRequest,
     [SearchTierConfigRequest.key]: SearchTierConfigRequest,
   },
   creates: {
-    [RejectRequest.key]: RejectRequest,
-    [CreatePurchaseRequest.key]: CreatePurchaseRequest,
+    [CreateAssetRequest.key]: CreateAssetRequest,
     [ApproveRequest.key]: ApproveRequest,
     [InquireRequest.key]: InquireRequest,
     [InquireRequestLIS.key]: InquireRequestLIS,
-    [NoteRequest.key]: NoteRequest,
-    [FillFulfillmentParametersLIS.key]: FillFulfillmentParametersLIS,
+    [RejectRequest.key]: RejectRequest,
     [FillFulfillmentParameters.key]: FillFulfillmentParameters,
-    [FillTierParametersLIS.key]: FillTierParametersLIS,
-    [FillTierParameters.key]: FillTierParameters,
-    [CreateMessage.key]: CreateMessage,
-    [ApproveTierConfigRequest.key]: ApproveTierConfigRequest,
-    [FailTierConfigRequest.key]: FailTierConfigRequest,
-    [InquireTierConfigRequestLIS.key]: InquireTierConfigRequestLIS,
-    [InquireTierConfigRequest.key]: InquireTierConfigRequest,
-    [CreateUpdateTierConfigRequestLIS.key]: CreateUpdateTierConfigRequestLIS,
+    [FillFulfillmentParametersLIS.key]: FillFulfillmentParametersLIS,
     [CreateUpdateTierConfigRequest.key]: CreateUpdateTierConfigRequest,
-    [CreateAssetRequest.key]: CreateAssetRequest,
+    [CreateUpdateTierConfigRequestLIS.key]: CreateUpdateTierConfigRequestLIS,
+    [ApproveTierConfigRequest.key]: ApproveTierConfigRequest,
+    [InquireTierConfigRequest.key]: InquireTierConfigRequest,
+    [InquireTierConfigRequestLIS.key]: InquireTierConfigRequestLIS,
+    [FillTierParameters.key]: FillTierParameters,
+    [FillTierParametersLIS.key]: FillTierParametersLIS,
+    [FailTierConfigRequest.key]: FailTierConfigRequest,
+    [CreateMessage.key]: CreateMessage,
   },
 };
 

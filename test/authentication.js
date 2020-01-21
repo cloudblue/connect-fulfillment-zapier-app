@@ -21,7 +21,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
     
     // const spy = sandbox.spy(ConnectClient.prototype, 'constructor');
     // spy.should.be.calledWith('');
-    sandbox.stub(AccountResource.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'search').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -51,7 +51,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         auth_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlNVLTAwMC0wMDAtMDAwIiwia2V5IjoiMmYwM2JhZWNjMDUzMWIzMTM3NDA0ZTRkNTFjMDg2NGIzYWUwODg4NSIsInR5cGUiOiJ6YXBpZXIifQ.J1PdKDBbc1IP1o3d1Nix9eQYHmyoKHK5DSFb6KwS7IQ@https://api.cnct.tech/public/v1'
       }
     };
-    sandbox.stub(AccountResource.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'search').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -81,7 +81,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         auth_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlNVLTAwMC0wMDAtMDAwIiwia2V5IjoiMmYwM2JhZWNjMDUzMWIzMTM3NDA0ZTRkNTFjMDg2NGIzYWUwODg4NSIsInR5cGUiOiJ6YXBpZXIifQ.J1PdKDBbc1IP1o3d1Nix9eQYHmyoKHK5DSFb6KwS7IQ@https://api.cnct.tech/public/v1/'
       }
     };
-    sandbox.stub(AccountResource.prototype, 'list').returns([
+    sandbox.stub(AccountResource.prototype, 'search').returns([
       {
         id: 'VA-000-000',
         name: 'Vendor',
@@ -112,7 +112,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(AccountResource.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
+    sandbox.stub(AccountResource.prototype, 'search').throws(new HttpError(401, 'Unauthorized'));
     return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 
@@ -123,7 +123,7 @@ describe('Connect Fulfillment Zapier App - Authentication', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(AccountResource.prototype, 'list').throws(new HttpError(401, 'Unauthorized'));
+    sandbox.stub(AccountResource.prototype, 'search').throws(new HttpError(401, 'Unauthorized'));
     return appTester(App.authentication.test, bundle).should.be.rejected();
   });
 });

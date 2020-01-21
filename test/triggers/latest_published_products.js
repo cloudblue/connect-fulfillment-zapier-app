@@ -21,7 +21,7 @@ describe('Connect Fulfillment Zapier App - Products', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(ProductResource.prototype, 'list').returns(responses.triggers.latest_published_products);
+    sandbox.stub(ProductResource.prototype, 'search').returns(responses.triggers.latest_published_products);
     appTester(App.triggers.latest_published_products.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

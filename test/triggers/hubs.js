@@ -30,7 +30,7 @@ describe('Connect Fulfillment Zapier App - List hubs', () => {
       },
       inputData: {}
     };
-    sandbox.stub(HubResource.prototype, 'list').returns(responses.triggers.hubs);
+    sandbox.stub(HubResource.prototype, 'search').returns(responses.triggers.hubs);
     appTester(App.triggers.hubs.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

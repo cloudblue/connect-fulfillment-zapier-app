@@ -34,7 +34,7 @@ describe('Connect Fulfillment Zapier App - Search Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchRequests').returns(responses.triggers.new_requests);
     appTester(App.searches.search_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
@@ -54,8 +54,6 @@ describe('Connect Fulfillment Zapier App - Search Requests', () => {
         process_in_batch: true,
       }
     };
-    const spy = sandbox.spy(RequestResource.prototype, 'addQuery');
-    // console.log(spy);
     const stub = sandbox.stub(BaseResource.prototype, 'fetch').returns({
       json: () => Promise.resolve(responses.triggers.new_requests) 
     });

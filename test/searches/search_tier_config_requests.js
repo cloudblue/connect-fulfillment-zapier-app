@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - Search Tier Config Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
     appTester(App.searches.search_tier_config_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
@@ -51,7 +51,7 @@ describe('Connect Fulfillment Zapier App - Search Tier Config Requests', () => {
         process_in_batch: true,
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
     appTester(App.searches.search_tier_config_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

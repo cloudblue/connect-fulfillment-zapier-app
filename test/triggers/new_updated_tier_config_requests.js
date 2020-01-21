@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - New and Updated Tier Config Requests'
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchTierConfigRequests').returns(responses.triggers.new_tier_config_requests);
     appTester(App.triggers.new_updated_tier_config_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
