@@ -30,23 +30,23 @@ describe('Connect Fulfillment Zapier App - Create Asset Requests from Order', ()
         hub_id: 'HB-0000-0000',
         items: [
           {
-            id: 'PRD-407-420-078-0001',
+            item_id: 'PRD-407-420-078-0001',
             quantity: 3
           },
           {
-            id: 'PRD-407-420-078-0002',
+            item_id: 'PRD-407-420-078-0002',
             quantity: 0
           },
           {
-            id: 'PRD-263-744-774-0001',
+            item_id: 'PRD-263-744-774-0001',
             quantity: 5
           },
           {
-            id: 'PRD-111-222-333-0001',
+            item_id: 'PRD-111-222-333-0001',
             quantity: 0
           },
           {
-            id: 'PRD-111-222-333-0002',
+            item_id: 'PRD-111-222-333-0002',
             quantity: 0
           },
         ],
@@ -169,7 +169,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Requests from Order', ()
         hub_id: 'HB-0000-0000',
         items: [
           {
-            id: 'PRD-407-420-078-0001',
+            item_id: 'PRD-407-420-078-0001',
             quantity: 3
           },
         ],
