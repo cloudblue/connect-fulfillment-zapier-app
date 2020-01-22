@@ -24,6 +24,7 @@ const AccountUsers = require('./lib/triggers/account_users');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
 const CreateAssetRequest = require('./lib/creates/create_asset_request');
+const CreateAssetRequestsFromOrder = require('./lib/creates/requests_from_order');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequestLIS = require('./lib/creates/inquire_request_lis');
 const InquireRequest = require('./lib/creates/inquire_request');
@@ -70,6 +71,7 @@ const App = {
     [SearchTierConfigRequest.key]: SearchTierConfigRequest,
   },
   creates: {
+    [CreateAssetRequestsFromOrder.key]: CreateAssetRequestsFromOrder,
     [CreateAssetRequest.key]: CreateAssetRequest,
     [ApproveRequest.key]: ApproveRequest,
     [InquireRequest.key]: InquireRequest,
