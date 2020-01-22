@@ -23,7 +23,9 @@ const NewProductEvent = require('./lib/triggers/new_product_event');
 const AccountUsers = require('./lib/triggers/account_users');
 // creates
 const RejectRequest = require('./lib/creates/reject_request');
-const CreateAssetRequest = require('./lib/creates/create_asset_request');
+const CreateAssetPurchaseRequest = require('./lib/creates/create_asset_purchase_request');
+const CreateAssetChangeRequest = require('./lib/creates/create_asset_change_request');
+const CreateAssetCancelRequest = require('./lib/creates/create_asset_cancel_request');
 const CreateAssetRequestsFromOrder = require('./lib/creates/requests_from_order');
 const ApproveRequest = require('./lib/creates/approve_request');
 const InquireRequestLIS = require('./lib/creates/inquire_request_lis');
@@ -72,7 +74,9 @@ const App = {
   },
   creates: {
     [CreateAssetRequestsFromOrder.key]: CreateAssetRequestsFromOrder,
-    [CreateAssetRequest.key]: CreateAssetRequest,
+    [CreateAssetPurchaseRequest.key]: CreateAssetPurchaseRequest,
+    [CreateAssetChangeRequest.key]: CreateAssetChangeRequest,
+    [CreateAssetCancelRequest.key]: CreateAssetCancelRequest,
     [ApproveRequest.key]: ApproveRequest,
     [InquireRequest.key]: InquireRequest,
     [InquireRequestLIS.key]: InquireRequestLIS,

@@ -74,7 +74,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
       .returns('CT-0000-0000-0000');
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
-    appTester(App.creates.create_asset_request.operation.perform, bundle)
+    appTester(App.creates.create_asset_purchase_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         done();
@@ -106,7 +106,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
-    appTester(App.creates.create_asset_request.operation.perform, bundle)
+    appTester(App.creates.create_asset_change_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         done();
@@ -132,7 +132,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
-    appTester(App.creates.create_asset_request.operation.perform, bundle)
+    appTester(App.creates.create_asset_change_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         done();
@@ -154,7 +154,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
-    appTester(App.creates.create_asset_request.operation.perform, bundle)
+    appTester(App.creates.create_asset_cancel_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         done();
@@ -182,7 +182,7 @@ describe('Connect Fulfillment Zapier App - Create Asset Request (purchase)', () 
     // Mock the sdk function to return this response 
     sandbox.stub(Fulfillment.prototype, 'createRequest').returns(responses.creates.create_request);
     // Call to zapier function to test
-    appTester(App.creates.create_asset_request.operation.perform, bundle)
+    appTester(App.creates.create_asset_cancel_request.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Object();
         done();
