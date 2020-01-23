@@ -78,7 +78,7 @@ const App = {
     [CreateAssetRequestsFromOrder.key]: CreateAssetRequestsFromOrder,
     [CreateAssetPurchaseRequest.key]: CreateAssetPurchaseRequest,
     [CreateAssetChangeRequest.key]: CreateAssetChangeRequest,
-    [CreateAssetSuspendRequest.key]: CreateAssetChangeRequest,
+    [CreateAssetSuspendRequest.key]: CreateAssetSuspendRequest,
     [CreateAssetResumeRequest.key]: CreateAssetResumeRequest,
     [CreateAssetCancelRequest.key]: CreateAssetCancelRequest,
     [ApproveRequest.key]: ApproveRequest,
