@@ -152,7 +152,6 @@ describe('Connect Fulfillment Zapier App - Create Asset Requests from Order', ()
     // Call to zapier function to test
     appTester(App.creates.create_asset_requests_from_order.operation.perform, bundle)
       .then(results => {
-        console.log(JSON.stringify(results, null, 2));
         results.should.be.an.Object();
         done();
       })
@@ -213,7 +212,6 @@ describe('Connect Fulfillment Zapier App - Create Asset Requests from Order', ()
     // Call to zapier function to test
     appTester(App.creates.create_asset_requests_from_order.operation.perform, bundle)
       .then(results => {
-        console.log(JSON.stringify(results, null, 2));
         results.should.be.an.Object();
         done();
       })
