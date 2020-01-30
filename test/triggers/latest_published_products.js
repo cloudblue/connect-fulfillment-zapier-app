@@ -21,10 +21,70 @@ describe('Connect Fulfillment Zapier App - Products', () => {
         endpoint: process.env.CONNECT_ENDPOINT
       }
     };
-    sandbox.stub(ProductResource.prototype, 'search').returns(responses.triggers.latest_published_products);
+    sandbox.stub(ProductResource.prototype, 'search').returns([
+      {
+        id: 'PRD-000-000-000',
+        stats: {
+          contracts: {
+              distribution: 1,
+              sourcing: 0
+          },
+          listings: 1,
+          agreements: {
+              distribution: 1,
+              sourcing: 0
+          }
+        },
+      },
+      {
+        id: 'PRD-000-000-001',
+        stats: {
+          contracts: {
+              distribution: 1,
+              sourcing: 0
+          },
+          listings: 1,
+          agreements: {
+              distribution: 2,
+              sourcing: 0
+          }
+        },
+      },
+      {
+        id: 'PRD-000-000-002',
+        stats: {
+          contracts: {
+              distribution: 1,
+              sourcing: 0
+          },
+          listings: 1,
+          agreements: {
+              distribution: 0,
+              sourcing: 0
+          }
+        },
+      },
+      {
+        id: 'PRD-000-000-003',
+        visibility: {
+          syndication: true,
+          owner: false,
+          listing: true
+        }
+      },
+      {
+        id: 'PRD-000-000-004',
+        visibility: {
+          syndication: false,
+          owner: false,
+          listing: false
+        }
+      }
+    ]);
     appTester(App.triggers.latest_published_products.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
+        results.should.have.length(3);
         done();
       })
       .catch(done);
