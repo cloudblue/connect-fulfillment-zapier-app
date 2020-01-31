@@ -27,18 +27,17 @@ describe('Connect Fulfillment Zapier App - Fill Fulfillment Parameters', () => {
       },
       inputData: {
         request_id: 'PR-0000-0000-0000-000',
-        params: [
-          {
-            id: 'param_a',
-            value: 'parameter content'
-          }
-        ],
+        params: {
+          param_a: 'value_a'
+        },
         note: 'note'
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(Fulfillment.prototype, 'updateRequestParameters').returns(responses.creates.fill_fulfillment_params);
+    sandbox.stub(Fulfillment.prototype, 'updateRequestParameters')
+      .withArgs(bundle.inputData.request_id, [{id: 'param_a', value: 'value_a'}], bundle.inputData.note)
+      .returns(responses.creates.fill_fulfillment_params);
     // Call to zapier function to test
     appTester(App.creates.fill_fulfillment_params.operation.perform, bundle)
       .then(results => {

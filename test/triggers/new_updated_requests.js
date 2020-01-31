@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - New and Updated Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchRequests').returns(responses.triggers.new_requests);
     appTester(App.triggers.new_updated_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

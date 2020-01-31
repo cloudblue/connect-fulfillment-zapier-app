@@ -32,7 +32,7 @@ describe('Connect Fulfillment Zapier App - New Requests', () => {
         status: ['pending', 'inquiring']
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchRequests').returns(responses.triggers.new_requests);
     appTester(App.triggers.new_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();
@@ -51,7 +51,7 @@ describe('Connect Fulfillment Zapier App - New Requests', () => {
         process_in_batch: true,
       }
     };
-    sandbox.stub(Fulfillment.prototype, 'listRequests').returns(responses.triggers.new_requests);
+    sandbox.stub(Fulfillment.prototype, 'searchRequests').returns(responses.triggers.new_requests);
     appTester(App.triggers.new_requests.operation.perform, bundle)
       .then(results => {
         results.should.be.an.Array();

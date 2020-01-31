@@ -19,22 +19,50 @@ describe('Connect Fulfillment Zapier App - Inquire Request', () => {
   let sandbox;
   before(() => { sandbox = sinon.createSandbox(); });
   afterEach(done => { sandbox.restore(); done(); });
-  it('should return a payload of the rejected request', done => {
+  it('should change status to "inquire" and return the modified request', done => {
     const bundle = {
       authData: {
         api_key: process.env.CONNECT_API_KEY,
         endpoint: process.env.CONNECT_ENDPOINT
       },
       inputData: {
-        id: 'PR-5426-PR-5426-9883-2189-001',
-        reason: 'Not available',
+        request_id: 'PR-5426-PR-5426-9883-2189-001',
+        note: 'Not available',
         template_id: 'TL-827-840-476',
-        params: {'param_a': 'Not valid'}
+        params: {'param_a': 'error_a'}
       }
     };
 
     // Mock the sdk function to return this response 
-    sandbox.stub(Fulfillment.prototype, 'inquireRequestWithTemplate').returns(responses.creates.inquire_request);
+    sandbox.stub(Fulfillment.prototype, 'inquireRequestWithTemplate')
+      .withArgs(bundle.inputData.request_id, bundle.inputData.template_id, [{id: 'param_a', value_error: 'error_a'}], bundle.inputData.note)
+      .returns(responses.creates.inquire_request);
+    // Call to zapier function to test
+    appTester(App.creates.inquire_request.operation.perform, bundle)
+      .then(results => {
+        results.should.be.an.Object();
+        results.status.should.be.eql('inquiring');
+        done();
+      })
+      .catch(done);
+  });
+  it('should change status to "inquire" and return the modified request (without template)', done => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT
+      },
+      inputData: {
+        request_id: 'PR-5426-PR-5426-9883-2189-001',
+        note: 'Not available',
+        params: {'param_a': 'error_a'}
+      }
+    };
+
+    // Mock the sdk function to return this response 
+    sandbox.stub(Fulfillment.prototype, 'inquireRequest')
+      .withArgs(bundle.inputData.request_id, {}, [{id: 'param_a', value_error: 'error_a'}], bundle.inputData.note)
+      .returns(responses.creates.inquire_request);
     // Call to zapier function to test
     appTester(App.creates.inquire_request.operation.perform, bundle)
       .then(results => {
