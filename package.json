@@ -14,8 +14,9 @@
   "homepage": "https://github.com/cloudblue/connect-fulfillment-zapier-app#readme",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --timeout 10000",
-    "cover": "nyc --reporter=html mocha --recursive"
+    "test": "jest --no-cache",
+    "test:dev": "jest --no-cache --watch",
+    "lint": "eslint lib/**"
   },
   "engines": {
     "node": ">=8.10.0",
@@ -26,7 +27,6 @@
     "google-libphonenumber": "^3.2.6",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
-    "rql": "^0.3.3",
     "uuid": "^3.3.3",
     "zapier-platform-core": "9.0.0"
   },
@@ -34,12 +34,8 @@
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "mocha": "^5.2.0",
-    "nock": "^11.7.0",
-    "nyc": "^14.1.1",
-    "prettier": "^1.19.1",
-    "should": "^13.2.0",
-    "sinon": "^7.5.0"
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1"
   },
   "private": true
 }
