@@ -8,7 +8,6 @@ const zapier = require('zapier-platform-core');
 
 jest.mock('../../lib/connect/api/assetRequests/actions', () => {
   return {
-    listRequests: jest.fn(),
     approveRequest: jest.fn(),
     updateRequestParameters: jest.fn(),
     inquireRequest: jest.fn(),
@@ -17,7 +16,6 @@ jest.mock('../../lib/connect/api/assetRequests/actions', () => {
 });
 
 const {
-  listRequests,
   approveRequest,
   updateRequestParameters,
   inquireRequest,
@@ -48,7 +46,7 @@ const {
 const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 
-describe('creates', () => {
+describe('assetRequests.creates', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -69,7 +67,7 @@ describe('creates', () => {
     ['create_asset_requests_from_order', createAssetRequestFromOrder],
   ])('%s', async (testcase, fn) => {
 
-    bundle = {
+    const bundle = {
       authData: {
         api_key: process.env.CONNECT_API_KEY,
         endpoint: process.env.CONNECT_ENDPOINT
