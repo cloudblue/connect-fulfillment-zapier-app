@@ -4,7 +4,6 @@
  * @copyright (c) 2019. Ingram Micro. All Rights Reserved.
  */
 
-const { inspect } = require('util');
 
 const {
   buildPurchaseRequest,
@@ -63,7 +62,7 @@ describe('helpers.builder', () => {
     t1_first_name: 'T1 First Name',
     t1_last_name: 'T1 Last Name',
     t1_email: 't1@example.com',
-    t1_phone: '+390817434329',    
+    t1_phone: '+390817434329',
   };
 
   const t1Out = {
@@ -107,7 +106,7 @@ describe('helpers.builder', () => {
     t2_first_name: 'T2 First Name',
     t2_last_name: 'T2 Last Name',
     t2_email: 't2@example.com',
-    t2_phone: '+390817434329',    
+    t2_phone: '+390817434329',
   };
 
   const t2Out = {
@@ -284,5 +283,105 @@ describe('helpers.builder', () => {
     ['without items', withoutItems, withoutItemsExpected],
   ])('buildPurchaseRequest %s', (testcase, data, expected) => {
     expect(buildPurchaseRequest(data)).toEqual(expected);
+  });
+
+  const changeReqWithExtAttr = {
+    asset_id: 'AS-000-000',
+    items: [
+      {
+        item_id: 'PRD-000-0001',
+        quantity: 10
+      }
+    ],
+    external_attributes: [
+      {
+        param_id: 'param_a',
+        value: 'value'
+      }
+    ]
+  };
+  const changeReqWithExtAttrExpected = {
+    type: 'change',
+    asset: {
+      id: 'AS-000-000',
+      items: [
+        {
+          id: 'PRD-000-0001',
+          quantity: 10
+        }
+      ],
+      external_attributes: [
+        {
+          id: 'param_a',
+          value: 'value'
+        }
+      ]
+    }
+  };
+
+  const changeReqWithoutExtAttr = {
+    asset_id: 'AS-000-000',
+    items: [
+      {
+        item_id: 'PRD-000-0001',
+        quantity: 10
+      }
+    ]
+  };
+  const changeReqWithoutExtAttrExpected = {
+    type: 'change',
+    asset: {
+      id: 'AS-000-000',
+      items: [
+        {
+          id: 'PRD-000-0001',
+          quantity: 10
+        }
+      ]
+    }
+  };
+
+  it.each([
+    ['with external attributes', changeReqWithExtAttr, changeReqWithExtAttrExpected],
+    ['without external attributes', changeReqWithoutExtAttr, changeReqWithoutExtAttrExpected],
+  ])('buildChangeRequest %s', (testcase, data, expected) => {
+    expect(buildChangeRequest(data)).toEqual(expected);
+  });
+
+  const suspendWithExtAttr = {
+    asset_id: 'AS-000-000',
+    external_attributes: [
+      {
+        param_id: 'param_a',
+        value: 'value'
+      }
+    ]
+  };
+  const suspendWithExtAttrExpected = {
+    type: 'suspend',
+    asset: {
+      id: 'AS-000-000',
+      external_attributes: [
+        {
+          id: 'param_a',
+          value: 'value'
+        }
+      ]
+    }
+  };
+  const suspendWithoutExtAttr = {
+    asset_id: 'AS-000-000'
+  };
+  const suspendWithoutExtAttrExpected = {
+    type: 'suspend',
+    asset: {
+      id: 'AS-000-000'
+    }
+  };
+  it.each([
+    ['with external attributes', suspendWithExtAttr, suspendWithExtAttrExpected],
+    ['without external attributes', suspendWithoutExtAttr, suspendWithoutExtAttrExpected],
+  ])('buildSuspendResumeCancelRequest returns a suspend request', (testcase, data, expected) => {
+    expect(buildSuspendResumeCancelRequest(data, 'suspend')).toEqual(expected);
   });
 });
