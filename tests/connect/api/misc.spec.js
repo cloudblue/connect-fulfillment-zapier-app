@@ -23,6 +23,7 @@ const {
   listVisibleProducts,
   getMessagesByObjectId,
   searchAssets,
+  searchTierConfigs,
 } = require('../../../lib/connect/api/misc');
 
 describe('misc', () => {
@@ -33,6 +34,24 @@ describe('misc', () => {
   });
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+  it('searchTierConfigs', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Directory.prototype = {
+      searchTierConfigurations: mockedFn
+    }
+    const data = {
+      id: 'TC-000',
+      product_id: 'PRD-000'
+    };
+    await searchTierConfigs(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      id: 'TC-000',
+      'product.id': 'PRD-000',
+      limit: 100,
+      offset: 0,
+    });
   });
   it('searchAssets', async () => {
     const mockedFn = jest.fn();
