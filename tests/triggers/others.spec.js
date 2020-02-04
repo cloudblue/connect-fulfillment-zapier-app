@@ -165,4 +165,55 @@ describe('triggers.others', () => {
     await appTester(App.triggers.new_product_event.operation.performUnsubscribe, bundle);
     expect(deleteWebhook).toHaveBeenCalledWith(expect.anything(), {id: 'WH-000'});    
   });
+  it('new_product_event perform', async () => {
+    const data = {
+      webhook_id: 'WH-000-000-000',
+      webhook_name: 'test webhook',
+      object_class: 'fulfillment_requests',
+      account_id: 'VA-000-000',
+      product_id: 'PRD-000-000-000',
+      api_url: 'https://api.connect.cloudblue.com/public/v1',
+      triggered_at: '2020-01-14T10:04:56+00:00',
+      last_success_at: '2020-01-14T10:03:29+00:00',
+      last_failure_at: null,
+      processing_timeout: 600,
+      data: {},
+    }
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      cleanedRequest: data,
+    };
+    const response = await appTester(App.triggers.new_product_event.operation.perform, bundle);
+    expect(response).toBeInstanceOf(Array);
+    expect(response).toHaveLength(1);
+    expect(response[0]).toEqual(data);
+  });
+  it('new_product_event performList', async () => {
+    const data = {
+      webhook_id: 'WH-000-000-000',
+      webhook_name: 'test webhook',
+      object_class: 'fulfillment_requests',
+      account_id: 'VA-000-000',
+      product_id: 'PRD-000-000-000',
+      api_url: 'https://api.connect.cloudblue.com/public/v1',
+      triggered_at: '2020-01-14T10:04:56+00:00',
+      last_success_at: '2020-01-14T10:03:29+00:00',
+      last_failure_at: null,
+      processing_timeout: 600,
+      data: {},
+    }
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+    };
+    const response = await appTester(App.triggers.new_product_event.operation.performList, bundle);
+    expect(response).toBeInstanceOf(Array);
+    expect(response).toHaveLength(1);
+    expect(response[0]).toEqual(data);
+  });
 });

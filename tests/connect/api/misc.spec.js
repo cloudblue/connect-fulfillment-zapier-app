@@ -64,6 +64,34 @@ describe('misc', () => {
     expect(mockedFn2).toHaveBeenCalledWith('CO-000', 'hello world');
   });
 
+  it('listUsers (second page)', async () => {
+    const mockedFn = client.accounts.users('VA-000').search = jest.fn();
+    mockedFn.mockReturnValue([]);
+    const data = {
+      account_id: 'VA-000',
+      page: 1,
+    };
+    const users = await listUsers(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      limit: 30,
+      offset: 30,
+    });
+    expect(users).toBeInstanceOf(Array);
+  });
+  it('createMessage', async () => {
+    const mockedFn1 = client.conversations.getConversationsByObjectId = jest.fn();
+    mockedFn1.mockReturnValue([{id: 'CO-000'}]);
+    const mockedFn2 = client.conversations.createMessage = jest.fn();
+    mockedFn2.mockReturnValue({});  
+    const data = {
+      id: 'PR-000',
+      text: 'hello world',
+    };
+    await createMessage(client, data);
+    expect(mockedFn1).toHaveBeenCalledWith('PR-000');
+    expect(mockedFn2).toHaveBeenCalledWith('CO-000', 'hello world');
+  });
+
   it('getMessagesByObjectId', async () => {
     const mockedFn1 = client.conversations.getConversationsByObjectId = jest.fn();
     mockedFn1.mockReturnValue([{id: 'CO-000'}]);

@@ -42,6 +42,31 @@ describe('webhooks', () => {
       },
     });
   });
+  it('createWebhook (blank description)', async () => {
+    const mockedFn = client.webhooks.create = jest.fn();
+    mockedFn.mockReturnValue([]);
+    const data = {
+      product_id: 'PRD-000',
+      zap_id: 111111,
+      label: 'label',
+      description: ' ',
+      target_url: 'https://example.com'
+    };
+    await createWebhook(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      label: '[Zap-111111] label',
+      product_id: 'PRD-000',
+      external_url: 'https://example.com',
+      jwt_secret: expect.anything(),
+      active: true,
+      description: '[Zap-111111] label',
+      http_method: 'POST',
+      data: {},
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
   it('deleteWebhook', async () => {
     const mockedFn = client.webhooks.delete = jest.fn();
     mockedFn.mockReturnValue({});

@@ -32,7 +32,7 @@ describe('tierConfigRequests.actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('listRequests', async () => {
+  it('listRequests in batch', async () => {
     const mockedFn = jest.fn();
     mockedFn.mockReturnValue([]);
     Fulfillment.prototype = {
@@ -48,6 +48,45 @@ describe('tierConfigRequests.actions', () => {
     expect(mockedFn).toHaveBeenCalledWith({
       status: 'pending',
       'configuration__account__id': 'VA-000',
+      limit: 100,
+      offset: 0,
+      order_by: '-created'
+    });
+  });
+  it('listRequests all', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Fulfillment.prototype = {
+      searchTierConfigRequests: mockedFn
+    };
+    const data = {
+      process_in_batch: false,
+      status: 'pending',
+      configuration_account_id: 'VA-000'
+    };
+    await listRequests(client, data, '-created');
+    expect(mockedFn).toHaveBeenCalledWith({
+      status: 'pending',
+      'configuration__account__id': 'VA-000',
+      limit: 100,
+      offset: 0,
+      order_by: '-created'
+    });
+  });
+  it('listRequests (unassigned)', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Fulfillment.prototype = {
+      searchTierConfigRequests: mockedFn
+    };
+    const data = {
+      process_in_batch: true,
+      records_per_page: 100,
+      assignee_id: 'UNASSIGNED'
+    };
+    await listRequests(client, data, '-created');
+    expect(mockedFn).toHaveBeenCalledWith({
+      unassigned: true,
       limit: 100,
       offset: 0,
       order_by: '-created'
@@ -99,6 +138,19 @@ describe('tierConfigRequests.actions', () => {
     const data = {
       request_id: 'TCR-000',
       params: {param_a: 'value_error_a'},
+      notes: 'note'
+    };
+    await inquireRequest(client, data);
+    expect(mockedFn).toHaveBeenCalledWith('TCR-000', [{id: 'param_a', value_error: 'value_error_a'}], 'note');
+  });
+  it('inquireRequest with param array', async () => {
+    const mockedFn = jest.fn();
+    Fulfillment.prototype = {
+      inquireTierConfigRequest: mockedFn
+    };
+    const data = {
+      request_id: 'TCR-000',
+      params: [{id: 'param_a', value_error: 'value_error_a'}],
       notes: 'note'
     };
     await inquireRequest(client, data);

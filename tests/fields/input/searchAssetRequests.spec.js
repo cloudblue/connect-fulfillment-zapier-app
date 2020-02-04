@@ -17,7 +17,8 @@ describe('search asset requests', () => {
       inputData: {
         filters: [
           'hub_name',
-          'provider_id'
+          'provider_id',
+          'filter_that_does_not_exists',
         ]
       }
     };

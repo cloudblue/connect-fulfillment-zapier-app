@@ -364,4 +364,40 @@ describe('assetRequests.create', () => {
     });
     expect(mockedFn.mock.calls[2][0]).toEqual({ type: 'cancel', asset: { id: 'AS-1111-2222-3333' } });
   });
+
+
+  it('createAssetRequestFromOrder (skip)', async () => {
+    const data = {
+      asset_external_id: 'WL6IKB3OZ7',
+      hub_id: 'HB-0000-0000',
+      items: [
+        {
+          item_id: 'PRD-407-420-078-0001',
+          quantity: 3
+        },
+      ],
+      ...t1In,
+      ...custIn,
+    };
+    const mockedFn = jest.fn();
+    Fulfillment.prototype = {
+      getConnectionIdByProductAndHub: jest.fn().mockReturnValue(null),
+      createRequest: mockedFn
+    };
+    Directory.prototype = {
+      getAssetsByProductIdExternalId: jest.fn().mockReturnValue([]),
+    }
+    const results = await createAssetRequestFromOrder(client, data);
+    expect(results).toBeInstanceOf(Object);
+    expect(results).toHaveProperty('skipped');
+    expect(results.skipped).toBeInstanceOf(Array);
+    expect(results.skipped[0]).toEqual({
+      item_id: 'PRD-407-420-078-0001',
+      quantity: 3,
+      product_id: 'PRD-407-420-078',
+      asset_external_id: 'WL6IKB3OZ7',
+      request_type: 'purchase',
+      reason: expect.anything(),      
+    });
+  });
 });

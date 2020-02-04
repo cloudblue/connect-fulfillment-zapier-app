@@ -17,7 +17,8 @@ describe('search tier config requests', () => {
       inputData: {
         filters: [
           'configuration_account_id',
-          'assignee_id'
+          'assignee_id',
+          'filter_that_does_not_exists',
         ]
       }
     };

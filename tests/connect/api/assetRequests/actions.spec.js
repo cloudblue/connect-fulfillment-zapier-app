@@ -32,7 +32,7 @@ describe('assetRequests.actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('listRequests', async () => {
+  it('listRequests in batch', async () => {
     const mockedFn = jest.fn();
     mockedFn.mockReturnValue([]);
     Fulfillment.prototype = {
@@ -41,6 +41,26 @@ describe('assetRequests.actions', () => {
     const data = {
       process_in_batch: true,
       records_per_page: 100,
+      type: ['purchase', 'change'],
+      product_id: 'PRD-000'
+    };
+    await listRequests(client, data, '-created');
+    expect(mockedFn).toHaveBeenCalledWith({
+      type: ['purchase', 'change'],
+      'asset.product.id': 'PRD-000',
+      limit: 100,
+      offset: 0,
+      order_by: '-created'
+    });
+  });
+  it('listRequests all', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Fulfillment.prototype = {
+      searchRequests: mockedFn
+    };
+    const data = {
+      process_in_batch: false,
       type: ['purchase', 'change'],
       product_id: 'PRD-000'
     };
