@@ -7,10 +7,11 @@
 jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   return {
     Inventory: jest.fn(),
+    Directory: jest.fn(),
   }
 });
 
-const { Inventory } = require('@cloudblueconnect/connect-javascript-sdk');
+const { Inventory, Directory } = require('@cloudblueconnect/connect-javascript-sdk');
 const { ConnectClient } = jest.requireActual('@cloudblueconnect/connect-javascript-sdk');
 
 const {
@@ -21,6 +22,7 @@ const {
   listHubs,
   listVisibleProducts,
   getMessagesByObjectId,
+  searchAssets,
 } = require('../../../lib/connect/api/misc');
 
 describe('misc', () => {
@@ -31,6 +33,50 @@ describe('misc', () => {
   });
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+  it('searchAssets', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Directory.prototype = {
+      searchAssets: mockedFn
+    }
+    const data = {
+      contract_id: ['CRD-000', 'CRD-111'],
+      created_before: '2019-12-05T09:11:22+00:00',
+      created_after: '2019-12-01T09:11:22+00:00',
+      updated_before: '2020-03-01T09:11:22+00:00',
+      updated_after: '2020-01-01T09:11:22+00:00'
+    };
+    await searchAssets(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      'contract.id': ['CRD-000', 'CRD-111'],
+      created: {
+        $ge: '2019-12-01T09:11:22+00:00',
+        $le: '2019-12-05T09:11:22+00:00'
+      },
+      updated: {
+        $ge: '2020-01-01T09:11:22+00:00',
+        $le: '2020-03-01T09:11:22+00:00'
+      },
+      limit: 100,
+      offset: 0,
+    });
+  });
+  it('searchAssets without dates', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Directory.prototype = {
+      searchAssets: mockedFn
+    }
+    const data = {
+      contract_id: ['CRD-000', 'CRD-111'],
+    };
+    await searchAssets(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      'contract.id': ['CRD-000', 'CRD-111'],
+      limit: 100,
+      offset: 0,
+    });
   });
   it('listUsers', async () => {
     const mockedFn = client.accounts.users('VA-000').search = jest.fn();
