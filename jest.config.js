@@ -5,9 +5,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['lib/**/*.js'],
   coverageDirectory: 'coverage',
-  // setupFiles: [
-  //   './tests/helpers/setup.js',
-  // ],
   testEnvironment: 'node',
   verbose: true,
   testTimeout: 10000,

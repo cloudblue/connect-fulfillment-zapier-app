@@ -1,9 +1,0 @@
-{
-    "id": "PR-0000-0000-0000-000",
-    "type": "purchase",
-    "status": "pending",
-    "asset": {
-        "id": "AS-0000-0000-0000",
-        "external_uid": "ccec4301-a8fc-4c6c-8bdf-aefd2ff147f5"
-    }
-}
