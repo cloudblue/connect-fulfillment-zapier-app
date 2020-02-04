@@ -23,7 +23,6 @@ describe('search tier config requests', () => {
     };
     const fn = _.filter(inputFields, (item) => typeof item === 'function')[0];
     const fields = await fn(null, bundle);
-    console.log(fields);
     expect(fields).toEqual([
       { 
         key: 'configuration_account_id',

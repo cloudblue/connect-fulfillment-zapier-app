@@ -27,7 +27,7 @@ describe('new asset requests from order', () => {
         reseller_tiers: 'xxx'
       }
     };
-    const fn = _.filter(PURCHASE_FIELDS, (item) => typeof item === 'function')[0];
+    const fn = _.filter(inputFields, (item) => typeof item === 'function')[0];
     const fields = await fn(null, bundle);
     expect(fields).toEqual([]);
   });
