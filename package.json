@@ -27,6 +27,7 @@
     "google-libphonenumber": "^3.2.6",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "uuid": "^3.3.3",
     "zapier-platform-core": "9.0.0"
   },

@@ -159,10 +159,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cloudblueconnect/connect-javascript-sdk@^19.2.0":
-  version "19.2.0"
-  resolved "https://registry.yarnpkg.com/@cloudblueconnect/connect-javascript-sdk/-/connect-javascript-sdk-19.2.0.tgz#148a2cddc6375eab7a5969eb764069773b7211bf"
-  integrity sha512-89GC4Zhn5X+UNFc4XaDSTM7v2xcsrOUvblJWUzA5GNJgyDUMGV8cfaSJ0o2nOcF9GgK6YIZzEFxin3/PalVrzQ==
+"@cloudblueconnect/connect-javascript-sdk@^19.2.1":
+  version "19.2.1"
+  resolved "https://registry.yarnpkg.com/@cloudblueconnect/connect-javascript-sdk/-/connect-javascript-sdk-19.2.1.tgz#1661e43a26359879e96dd2c01caa19a8f2706fc5"
+  integrity sha512-Aki2S2dtYDTeKRn1DW6iYgt2ru5h9dkeRew9yJ/i0FKkHgYWm3lWhTAkYw8gKx6vmmWzVA8K1YO2qgpe2co5ig==
   dependencies:
     node-fetch "^2.6.0"
     ramda "^0.26.1"
@@ -2812,6 +2812,11 @@ mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 ms@2.0.0:
   version "2.0.0"
