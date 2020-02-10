@@ -17,7 +17,7 @@ describe('search tier configurations', () => {
       inputData: {
         filters: [
           'account_id',
-          'environment',
+          'connection_type',
           'filter_that_does_not_exists',
         ]
       }
@@ -29,18 +29,17 @@ describe('search tier configurations', () => {
         key: 'account_id',
         required: false,
         label: 'Account ID',
-        list: true
+        list: false,
       },
       { 
-        key: 'environment',
-        required: false,
-        label: 'Environment',
+        key: 'connection_type',
+        label: 'Connection Type',
         choices: {
           production: 'Production',
           test: 'Test',
           preview: 'Preview',
         },
-        list: true 
+        list: false,
       } 
     ]);
   });

@@ -43,6 +43,36 @@ describe('misc', () => {
     }
     const data = {
       id: 'TC-000',
+      product_id: 'PRD-000',
+      created_before: '2019-12-05T09:11:22+00:00',
+      created_after: '2019-12-01T09:11:22+00:00',
+      updated_before: '2020-03-01T09:11:22+00:00',
+      updated_after: '2020-01-01T09:11:22+00:00'
+    };
+    await searchTierConfigs(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      id: 'TC-000',
+      'product.id': 'PRD-000',
+      created: {
+        $ge: '2019-12-01T09:11:22.000Z',
+        $le: '2019-12-05T09:11:22.000Z'
+      },
+      updated: {
+        $ge: '2020-01-01T09:11:22.000Z',
+        $le: '2020-03-01T09:11:22.000Z'
+      },
+      limit: 100,
+      offset: 0,
+    });
+  });
+  it('searchTierConfigs (without dates)', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Directory.prototype = {
+      searchTierConfigurations: mockedFn
+    }
+    const data = {
+      id: 'TC-000',
       product_id: 'PRD-000'
     };
     await searchTierConfigs(client, data);
@@ -70,12 +100,12 @@ describe('misc', () => {
     expect(mockedFn).toHaveBeenCalledWith({
       'contract.id': ['CRD-000', 'CRD-111'],
       created: {
-        $ge: '2019-12-01T09:11:22+00:00',
-        $le: '2019-12-05T09:11:22+00:00'
+        $gt: '2019-12-01T09:11:22.000Z',
+        $lt: '2019-12-05T09:11:22.000Z'
       },
       updated: {
-        $ge: '2020-01-01T09:11:22+00:00',
-        $le: '2020-03-01T09:11:22+00:00'
+        $gt: '2020-01-01T09:11:22.000Z',
+        $lt: '2020-03-01T09:11:22.000Z'
       },
       limit: 100,
       offset: 0,

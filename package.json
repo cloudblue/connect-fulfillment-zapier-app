@@ -1,6 +1,6 @@
 {
   "name": "connect-fulfillment-zapier-app",
-  "version": "19.1.6",
+  "version": "19.2.0",
   "description": "A Zapier App to automate Cloud Blue Connect Fulfillment workflows.",
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
   "dependencies": {
     "@cloudblueconnect/connect-javascript-sdk": "^19.2.1",
     "google-libphonenumber": "^3.2.6",
-    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "uuid": "^3.3.3",
@@ -36,6 +35,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.1",
     "prettier": "^1.19.1"
   },
   "private": true

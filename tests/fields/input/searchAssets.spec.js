@@ -29,13 +29,13 @@ describe('search assets', () => {
         key: 'contract_id',
         required: false,
         label: 'Contract ID',
-        list: true
+        list: false
       },
       { 
         key: 'provider_id',
         required: false,
         label: 'Provider ID',
-        list: true 
+        list: false 
       } 
     ]);
   });
