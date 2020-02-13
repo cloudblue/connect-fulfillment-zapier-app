@@ -1,20 +1,16 @@
 language: node_js
 node_js:
-- 10.13.0
-before_script: npm install -g zapier-platform-cli
+  - lts/* 
 script: 
   - npm test
-cache:
-  yarn: true
-  directories:
-    - 'node_modules'
+after_success:
+  - npm install -g zapier-platform-cli
 notifications:
   email: false
 env:
   global:
   - secure: fsmO89zDOa/FbfDh7RYcKcVj7ujfQOTs9yO/dg3KHLTTg0CR8+c9xgHfvMyjPMXi5GF+Tn/B1tib2MmcRbdsa2eVMSsC6c7UsA4/p3xclARFNbCAqDw/FZ/immPlV1tTAExC7krYNK3NZ5bRbDHN5AI7WxOp0FCi9xe7SbteL1401dF3Ro4nIrXh3FSisKgbu7+nC4EHPERwja0OkmI6rp8+lcwqtfW96hO4sdrewdXyH1b///Gj+CFcZRSCTzrwrwKLXtTR/4GCBXCMi+WfFxyhl7HpBM+2oDofvBifZKDTn0Zvu02LU15sQRCER+kFmeEJ01lEYjqQZbKSkHVH5PXT5mlgBd9Lvmq+TzxFl12ZXZzXOsgZrlmqSEK9MIiqNMxLOqYFDI+TiI2OWmfDO1rUIsXuk2FzKr9kP8EyTGKBVYSUxpR8J44Cc4+TEKVi/EHwOy64ven+qa0APNuF9auXG+0C5BZEbgT0nwE+VmpsRcJ/Wrv4y16Lch6QaJBr+8ZVMSxa/4WEYDRXCEToxrdTGXlVMDGpQebwGFTDyPdO5Yyh6K6V1eTszmydF4YCrfRhkyObhCFb/DoDM9FM1Z6ccUW4CXDNblLuFEo5piWTKwC+AWVzXHo7bVFUhXlbpdmqn65sieVoiaKsMhnOraylrQSEpJ5HuF8H9T/P+hM=
   - secure: xYSAk5Wv/sXAczADQdQiJy+jU8dE9hc3areqYHIQf52X7aYlOGh4930+FAEr53uSydHbG7BhxUurUE2kpc1MRIueBElkUNp3mXtwpPflDlFuzRVnR3hqPhgNd3am/7qfJ8IzcFEZhoMbGOXGlQZMipl3SfGuBLVp8El6YJvisT2nW2B8KaYhozW4EMxXxcEJQ7pPL5iIQ89v1c1Qny1v3b2WQumS8MjLIWmR7pUvGPo5hSzSzIwlB3W2k1drF9X84n6I6a3WcYskLD9X2lT0NKVhApdredjWXS/Iu8SgazJ0LF2Yz52E0g2nQmd5TgHATJlZTYJvpsR/hGeEbm1zhgFzVn48bgnnIYId0EJO7ffpUi70f5PQB4IoY1dmA0WED4lca6G8PijsnIqRQseUgy9SolBhXD17O80Y56aAaMl4OXQpK0UgPrjZqGMbIpSofnFEVH0Qf6G5jp0sD7JouuVlNh3hCmPndX2folLVMeXrvRW7uPWAmqc4CZB4Rg0pteVRwSK9NTBCW8Vxa+7n21KRQ8yX1bbnRB+slxcmhoB0aFdsvo/Y3wAvn7V20TzW3ciVD0Z2o8rapOLPvnRqc/fZqIbo2XFF28dOzap6wXEjTYpKrPWJdEYi8DVQDTgNtLntheRlSRpbJYzgQpAM7kdMZ06P2VjBhfhNwoKWdDo=
-
 deploy:
   provider: script
   script: deploy.sh
