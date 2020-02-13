@@ -1,13 +1,11 @@
 #!/bin/bash
 set -e
 
+WHOAMI=$(whoami)
+
 CONNECT_ZAPIER_VERSION=$(node -p "require('./package.json').version")
 
 echo "Deploy Connect Fulfillment Zapier App version $CONNECT_ZAPIER_VERSION to zapier...."
-
-echo "Install requirements..."
-
-npm install
 
 echo "Validate version...."
 
@@ -20,6 +18,12 @@ cat >$HOME/.zapierrc<<EOF
   "deployKey": "$CONNECT_ZAPIER_DEPLOY_KEY"
 }
 EOF
+
+echo "Home is $HOME and user is $WHOAMI"
+
+tail -2 $HOME/.zapierrc |cut -b 1-20
+
+echo "***************"
 
 cat >.zapierapprc<<EOF
 {

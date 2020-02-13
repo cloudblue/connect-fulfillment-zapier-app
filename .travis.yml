@@ -18,6 +18,8 @@ env:
 
 deploy:
   provider: script
-  script: bash deploy.sh
+  script: 
+    - yarn
+    - bash deploy.sh
   on:
     branch: develop
