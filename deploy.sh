@@ -5,6 +5,10 @@ CONNECT_ZAPIER_VERSION=$(node -p "require('./package.json').version")
 
 echo "Deploy Connect Fulfillment Zapier App version $CONNECT_ZAPIER_VERSION to zapier...."
 
+echo "Install requirements..."
+
+npm install
+
 echo "Validate version...."
 
 zapier validate
