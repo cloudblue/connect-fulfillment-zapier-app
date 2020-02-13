@@ -16,8 +16,8 @@ EOF
 
 cat >.zapierapprc<<EOF
 {
-  "id": 78494,
-  "key": "App78494"
+  "id": $CONNECT_ZAPIER_APP_ID,
+  "key": "App$CONNECT_ZAPIER_APP_ID"
 }
 EOF
 
