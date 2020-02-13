@@ -11,5 +11,4 @@ module.exports = {
   setupFiles: [
     './tests/setup.js',
   ],
-  runInBand: true,
 };

@@ -2,7 +2,8 @@ language: node_js
 node_js:
 - 10.13.0
 before_script: npm install -g zapier-platform-cli
-script: yarn run test
+script: 
+  - npm test
 notifications:
   email: false
 env:
