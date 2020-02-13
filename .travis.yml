@@ -4,7 +4,7 @@ node_js:
 script:
   - npm test
 after_success:
-  - npm install -g zapier-platform-cli zapier-
+  - npm install -g zapier-platform-cli
 notifications:
   email: false
 deploy:
