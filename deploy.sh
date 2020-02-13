@@ -27,6 +27,6 @@ zapier push
 
 echo "set partner token..."
 
-zapier env:set CONNECT_PARTNER_TOKEN=$CONNECT_PARTNER_TOKEN
+zapier env:set $CONNECT_ZAPIER_VERSION CONNECT_PARTNER_TOKEN=$CONNECT_PARTNER_TOKEN > /dev/null 2>&1
 
 echo "Done!"
