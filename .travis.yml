@@ -4,6 +4,10 @@ node_js:
 before_script: npm install -g zapier-platform-cli
 script: 
   - npm test
+cache:
+  yarn: true
+  directories:
+    - 'node_modules'
 notifications:
   email: false
 env:
