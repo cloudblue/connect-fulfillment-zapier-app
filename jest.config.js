@@ -9,6 +9,6 @@ module.exports = {
   verbose: true,
   testTimeout: 10000,
   setupFilesAfterEnv: [
-    './tests/setup.js',
+    './tests/helpers/setup.js',
   ],
 };
