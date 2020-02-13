@@ -9,7 +9,7 @@ echo "Deploy Connect Fulfillment Zapier App version $CONNECT_ZAPIER_VERSION to z
 
 echo "Validate version...."
 
-zapier validate
+# zapier validate
 
 echo "Generate rc files..."
 
