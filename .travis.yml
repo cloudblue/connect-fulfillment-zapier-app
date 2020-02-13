@@ -4,13 +4,13 @@ node_js:
 script:
   - npm test
 after_success:
-  - npm install -g zapier-platform-cli
+  - npm install -g zapier-platform-cli zapier-
 notifications:
   email: false
 deploy:
+  skip_cleanup: true
   provider: script
   script:
-    - yarn install --silent
     - bash deploy.sh
   on:
     branch: develop
