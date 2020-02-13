@@ -1,8 +1,13 @@
 #!/bin/bash
+set -e
 
 CONNECT_ZAPIER_VERSION=$(node -p "require('./package.json').version")
 
 echo "Deploy Connect Fulfillment Zapier App version $CONNECT_ZAPIER_VERSION to zapier...."
+
+echo "Validate version...."
+
+zapier validate
 
 echo "Generate rc files..."
 
