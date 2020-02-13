@@ -10,6 +10,7 @@ notifications:
 deploy:
   provider: script
   script:
+    - yarn install --silent
     - bash deploy.sh
   on:
     branch: develop
