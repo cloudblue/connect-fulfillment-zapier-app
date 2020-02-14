@@ -17,7 +17,7 @@ EOF
 cat >.zapierapprc<<EOF
 {
   "id": $CONNECT_ZAPIER_APP_ID,
-  "key": "App$CONNECT_ZAPIER_APP_ID"
+  "key": "CloudBlueConnect"
 }
 EOF
 
