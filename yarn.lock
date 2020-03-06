@@ -159,10 +159,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cloudblueconnect/connect-javascript-sdk@^19.2.1":
-  version "19.2.1"
-  resolved "https://registry.yarnpkg.com/@cloudblueconnect/connect-javascript-sdk/-/connect-javascript-sdk-19.2.1.tgz#1661e43a26359879e96dd2c01caa19a8f2706fc5"
-  integrity sha512-Aki2S2dtYDTeKRn1DW6iYgt2ru5h9dkeRew9yJ/i0FKkHgYWm3lWhTAkYw8gKx6vmmWzVA8K1YO2qgpe2co5ig==
+"@cloudblueconnect/connect-javascript-sdk@^19.2.4":
+  version "19.2.4"
+  resolved "https://registry.yarnpkg.com/@cloudblueconnect/connect-javascript-sdk/-/connect-javascript-sdk-19.2.4.tgz#88356be9753f8253d9552c44c43211a57243e201"
+  integrity sha512-GIJ5FUc6cXeoUVR82V574WemJeqBFtoS99PnH3d6kVx86IJMNqF0weAnYdh3UEbQnKdv6euMuStUHHtOrpIIdg==
   dependencies:
     node-fetch "^2.6.0"
     ramda "^0.26.1"
