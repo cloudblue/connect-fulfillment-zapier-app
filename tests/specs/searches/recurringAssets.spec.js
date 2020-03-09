@@ -6,15 +6,15 @@
 
 const zapier = require('zapier-platform-core');
 
-jest.mock('../../../lib/connect/api/billingRequests/actions', () => {
+jest.mock('../../../lib/connect/api/recurringAssets', () => {
   return {
-    listRequests: jest.fn(),
+    listRecurringAssets: jest.fn(),
   }
 });
 
 const {
-  listRequests,
-} = require('../../../lib/connect/api/billingRequests/actions');
+  listRecurringAssets,
+} = require('../../../lib/connect/api/recurringAssets');
 
 
 const App = require('../../../index');
@@ -26,7 +26,7 @@ describe('searches', () => {
   });
 
 
-  it('asset requests', async () => {
+  it('recurring assets', async () => {
     const bundle = {
       authData: {
         api_key: process.env.CONNECT_API_KEY,
@@ -36,8 +36,8 @@ describe('searches', () => {
         test: 'test'
       }
     };
-    listRequests.mockReturnValue([]);
-    await appTester(App.searches.search_billing_requests.operation.perform, bundle);
-    expect(listRequests).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-events.created.at');    
+    listRecurringAssets.mockReturnValue([]);
+    await appTester(App.searches.search_recurring_assets.operation.perform, bundle);
+    expect(listRecurringAssets).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-events.created.at');    
   });
 });
