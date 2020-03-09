@@ -1,6 +1,6 @@
 {
   "name": "connect-fulfillment-zapier-app",
-  "version": "19.2.1",
+  "version": "19.2.2",
   "description": "A Zapier App to automate Cloud Blue Connect Fulfillment workflows.",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
-    "@cloudblueconnect/connect-javascript-sdk": "^19.2.1",
+    "@cloudblueconnect/connect-javascript-sdk": "^19.2.4",
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
