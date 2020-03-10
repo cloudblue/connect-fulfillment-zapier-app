@@ -33,7 +33,7 @@ describe('tierAccountRequests.actions', () => {
     const mockedFn = jest.fn();
     mockedFn.mockReturnValue([]);
     Directory.prototype = {
-      searchTierAccountRequest: mockedFn
+      searchTierAccountRequests: mockedFn
     };
     const data = {
       process_in_batch: true,
@@ -54,7 +54,7 @@ describe('tierAccountRequests.actions', () => {
     const mockedFn = jest.fn();
     mockedFn.mockReturnValue([]);
     Directory.prototype = {
-      searchTierAccountRequest: mockedFn
+      searchTierAccountRequests: mockedFn
     };
     const data = {
       account_id: 'TA-0000',
