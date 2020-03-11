@@ -4,7 +4,7 @@ node_js:
 script:
 - npm test
 after_success:
-- "./push_tag.sh"
+- test $TRAVIS_BRANCH == "master" && "./push_tag.sh"
 - npm install -g zapier-platform-cli
 notifications:
   email: false

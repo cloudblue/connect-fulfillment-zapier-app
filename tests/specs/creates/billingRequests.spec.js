@@ -26,22 +26,37 @@ describe('billingRequests', () => {
   });
 
 
-  it('create a billing request', async () => {
 
+  const ASSET_ID_IN = {
+    asset_lookup_field: 'asset_id',
+    asset_lookup_value: 'AS-000',
+    period_from: '2020-01-01T00:00:00+00:00',
+    period_to: '2021-01-01T00:00:00+00:00',
+    period_delta: 1.0,
+    period_uom: 'monthly',
+  };
+
+  it.each([
+    ['provider', 'asset_id', 'AS-0000'],
+    ['vendor', 'asset_id', 'AS-0000'],
+    ['provider', 'asset_external_uid', 'external_uid'],
+    ['vendor', 'asset_external_uid', 'external_uid'],    
+  ])('create for %s (%s)', async (account, lookupField, lookupValue) => {
     const bundle = {
       authData: {
-        api_key: process.env.CONNECT_API_KEY,
-        endpoint: process.env.CONNECT_ENDPOINT,
-        account_type: 'provider',
+        account_type: account,
       },
       inputData: {
-        asset: {
-          external_uid: '00000000',
-        },
-      }
+        asset_lookup_field: lookupField,
+        asset_lookup_value: lookupValue,
+        period_from: '2020-01-01T00:00:00+00:00',
+        period_to: '2021-01-01T00:00:00+00:00',
+        period_delta: 1.0,
+        period_uom: 'monthly',        
+      },
     };
     createBillingRequest.mockReturnValue({});
     await appTester(App.creates.create_billing_request.operation.perform, bundle);
-    expect(createBillingRequest).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
+    expect(createBillingRequest).toHaveBeenCalledWith(expect.anything(), account, bundle.inputData); 
   });
 });
