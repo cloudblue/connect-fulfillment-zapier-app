@@ -26,16 +26,6 @@ describe('billingRequests', () => {
   });
 
 
-
-  const ASSET_ID_IN = {
-    asset_lookup_field: 'asset_id',
-    asset_lookup_value: 'AS-000',
-    period_from: '2020-01-01T00:00:00+00:00',
-    period_to: '2021-01-01T00:00:00+00:00',
-    period_delta: 1.0,
-    period_uom: 'monthly',
-  };
-
   it.each([
     ['provider', 'asset_id', 'AS-0000'],
     ['vendor', 'asset_id', 'AS-0000'],
@@ -52,11 +42,29 @@ describe('billingRequests', () => {
         period_from: '2020-01-01T00:00:00+00:00',
         period_to: '2021-01-01T00:00:00+00:00',
         period_delta: 1.0,
-        period_uom: 'monthly',        
+        period_uom: 'monthly',
       },
     };
     createBillingRequest.mockReturnValue({});
     await appTester(App.creates.create_billing_request.operation.perform, bundle);
     expect(createBillingRequest).toHaveBeenCalledWith(expect.anything(), account, bundle.inputData); 
+  });
+  it('with line items support', async () => {
+    const bundle = {
+      authData: {
+        account_type: 'provider',
+      },
+      inputData: {
+        asset_lookup_field: 'asset_id',
+        asset_lookup_value: 'AS-0000',
+        period_from: '2020-01-01T00:00:00+00:00',
+        period_to: '2021-01-01T00:00:00+00:00',
+        period_delta: 1.0,
+        period_uom: 'monthly',
+      },
+    };
+    createBillingRequest.mockReturnValue({});
+    await appTester(App.creates.create_billing_request_lis.operation.perform, bundle);
+    expect(createBillingRequest).toHaveBeenCalledWith(expect.anything(), 'provider', bundle.inputData); 
   });
 });

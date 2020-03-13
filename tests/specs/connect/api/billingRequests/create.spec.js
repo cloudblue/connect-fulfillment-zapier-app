@@ -37,7 +37,7 @@ describe('billingRequests.create', () => {
     ['vendor', 'id', 'asset_id', 'AS-0000'],
     ['provider', 'external_uid', 'asset_external_uid', 'external_uid'],
     ['vendor', 'external_uid', 'asset_external_uid', 'external_uid'],
-  ])('create for %s (%s)', async (account, fieldName, lookupField, lookupValue) => {
+  ])('create for %s (%s) (line items support)', async (account, fieldName, lookupField, lookupValue) => {
 
     const data = {
       asset_lookup_field: lookupField,
@@ -72,6 +72,44 @@ describe('billingRequests.create', () => {
     expected.asset[fieldName] = lookupValue;
     expected.attributes[account] = { a: 'b', c: true };
     await createBillingRequest(client, account, data);
+    expect(mockedFn).toHaveBeenCalledWith(expected);
+  });
+  it('without line items support', async () => {
+
+    const data = {
+      asset_lookup_field: 'asset_id',
+      asset_lookup_value: 'AS-0000',
+      attributes: { a: 'b', c: true },
+      period_from: '2020-01-01T00:00:00+00:00',
+      period_to: '2021-01-01T00:00:00+00:00',
+      period_delta: 1.0,
+      period_uom: 'monthly',
+      items: [
+        'MY_SKU',
+      ],
+    };
+    const mockedFn = jest.fn();
+    Subscriptions.prototype = {
+      createBillingRequest: mockedFn,
+    };
+    const expected = {
+      asset: {
+        id: 'AS-0000',
+      },
+      attributes: {},
+      type: 'vendor',
+      items: [
+        { id: 'MY_SKU' },
+      ],
+      period: {
+        from: '2020-01-01T00:00:00.000Z',
+        to: '2021-01-01T00:00:00.000Z',
+        delta: 1.0,
+        uom: 'monthly',
+      },
+    };
+    expected.attributes['vendor'] = { a: 'b', c: true };
+    await createBillingRequest(client, 'vendor', data);
     expect(mockedFn).toHaveBeenCalledWith(expected);
   });
 });
