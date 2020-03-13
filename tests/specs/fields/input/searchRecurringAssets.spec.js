@@ -40,12 +40,14 @@ describe('search recurring assets', () => {
         type: 'datetime',
         required: false,
         label: 'Asset Billing Next Date before',
+        helpText: 'As an ISO 8601 timestamp (Ex. 2020-01-01T14:00:00+01:00).',
       },
       {
         key: 'billing_next_date_after',
         type: 'datetime',
         required: false,
         label: 'Asset Billing Next Date after',
+        helpText: 'As an ISO 8601 timestamp (Ex. 2020-01-01T14:00:00+01:00).',
       },
     ]);
   });

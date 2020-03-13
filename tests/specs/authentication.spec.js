@@ -55,22 +55,7 @@ describe('authentication', () => {
       expect(response).toHaveProperty('account_info');
       expect(response.account_info).toEqual('Vendor (VA-000)');
   });
-  it('passes authentication  with ApiKey (prod) and returns account info', async () => {
-    mockedSearchAccount.mockReturnValue([{
-      id: 'VA-000',
-      name: 'Vendor',
-      type: 'vendor'
-    }]);
-    const bundle = {
-      authData: {
-        auth_token: 'ApiKey PTN:ZAPIERe23322c5fc5bca5f4af38d7c7ddb355128ad0ba8865Z'
-      }
-    };
-    const response = await appTester(App.authentication.test, bundle);
-      expect(response).toBeInstanceOf(Object);
-      expect(response).toHaveProperty('account_info');
-      expect(response.account_info).toEqual('Vendor (VA-000)');
-  });
+
   it('passes authentication with handle (!=prod) and returns account info', async () => {
     mockedSearchAccount.mockReturnValue([{
       id: 'VA-000',
@@ -104,18 +89,6 @@ describe('authentication', () => {
     expect(response).toBeInstanceOf(Object);
     expect(response).toHaveProperty('account_info');
     expect(response.account_info).toEqual('Vendor (VA-000) [https://api.cnct.tech/public/v1]');
-  });
-
-  it('fails on bad ApiKey', async () => {
-    mockedSearchAccount.mockRejectedValue(new HttpError(401, 'Unauthorized'));
-    const bundle = {
-      authData: {
-        auth_token: 'ApiKey fake',
-        endpoint: process.env.CONNECT_ENDPOINT
-      }
-    };
-    
-    await expect(appTester(App.authentication.test, bundle)).rejects.toThrow(Error);
   });
 
   it('fails on bad handle', async () => {

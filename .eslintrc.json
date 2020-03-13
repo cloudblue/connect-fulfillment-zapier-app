@@ -18,5 +18,10 @@
     "rules": {
         "no-underscore-dangle": "off"
     },
-    "ignorePatterns": ["tests/", "node_modules/", "lib/samples/"]
+    "ignorePatterns": [
+        "tests/",
+        "node_modules/",
+        "lib/samples/",
+        "describe.js"
+    ]
 }
