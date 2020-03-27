@@ -98,7 +98,7 @@ describe('misc', () => {
     };
     await searchAssets(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
-      'contract.id': ['CRD-000', 'CRD-111'],
+      'contract.id': { $in: ['CRD-000', 'CRD-111'] },
       created: {
         $gt: '2019-12-01T09:11:22.000Z',
         $lt: '2019-12-05T09:11:22.000Z'
@@ -122,7 +122,7 @@ describe('misc', () => {
     };
     await searchAssets(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
-      'contract.id': ['CRD-000', 'CRD-111'],
+      'contract.id': { $in: ['CRD-000', 'CRD-111'] },
       limit: 100,
       offset: 0,
     });
