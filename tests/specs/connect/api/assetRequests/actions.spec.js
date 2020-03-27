@@ -42,11 +42,13 @@ describe('assetRequests.actions', () => {
       process_in_batch: true,
       records_per_page: 100,
       type: ['purchase', 'change'],
+      status: ['pending', 'approved'],
       product_id: 'PRD-000'
     };
     await listRequests(client, data, '-created');
     expect(mockedFn).toHaveBeenCalledWith({
-      type: ['purchase', 'change'],
+      type: { $in: ['purchase', 'change'] },
+      status: { $in: ['pending', 'approved'] },
       'asset.product.id': 'PRD-000',
       limit: 100,
       offset: 0,
@@ -66,7 +68,7 @@ describe('assetRequests.actions', () => {
     };
     await listRequests(client, data, '-created');
     expect(mockedFn).toHaveBeenCalledWith({
-      type: ['purchase', 'change'],
+      type: {$in: ['purchase', 'change'] },
       'asset.product.id': 'PRD-000',
       limit: 100,
       offset: 0,
