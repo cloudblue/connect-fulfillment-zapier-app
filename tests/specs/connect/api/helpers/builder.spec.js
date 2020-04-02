@@ -154,6 +154,25 @@ describe('helpers.builder', () => {
       }
     ]
   };
+
+  const withT1OnlyNoLineItems = {
+    reseller_tiers: 't1',
+    asset_external_id: 'asset_ext_id',
+    connection_id: 'CT-0000-0000',
+    ...t1In,
+    ...custIn,
+    items: {
+      'PRD-000-000-000-0001': 30,
+      'PRD-000-000-000-0002': 10,
+    },
+    params: [
+      {
+        param_id: 'param_a',
+        value: 'param_a_value'
+      }
+    ]
+  };
+
   const withT1OnlyExpected = {
     type: 'purchase',
     asset:
@@ -278,6 +297,7 @@ describe('helpers.builder', () => {
 
   it.each([
     ['with tier1 only', withT1Only, withT1OnlyExpected],
+    ['with tier1 only (no line items)', withT1OnlyNoLineItems, withT1OnlyExpected],
     ['with tier2 + tier1', withT2T1, withT2T1Expected],
     ['without params', withoutParams, withoutParamsExpected],
     ['without items', withoutItems, withoutItemsExpected],
@@ -299,6 +319,15 @@ describe('helpers.builder', () => {
         value: 'value'
       }
     ]
+  };
+  const changeReqWithExtAttrNoLineItems = {
+    asset_id: 'AS-000-000',
+    items: {
+      'PRD-000-0001': 10
+    },
+    external_attributes: {
+      'param_a': 'value',
+    }
   };
   const changeReqWithExtAttrExpected = {
     type: 'change',
@@ -343,6 +372,7 @@ describe('helpers.builder', () => {
 
   it.each([
     ['with external attributes', changeReqWithExtAttr, changeReqWithExtAttrExpected],
+    ['with external attributes (no line items)', changeReqWithExtAttrNoLineItems, changeReqWithExtAttrExpected],
     ['without external attributes', changeReqWithoutExtAttr, changeReqWithoutExtAttrExpected],
   ])('buildChangeRequest %s', (testcase, data, expected) => {
     expect(buildChangeRequest(data)).toEqual(expected);
