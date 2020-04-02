@@ -57,6 +57,8 @@ describe('assetRequests.creates', () => {
     ['create_asset_cancel_request', createAssetCancelRequest],
     ['create_asset_change_request', createAssetChangeRequest],
     ['create_asset_purchase_request', createAssetPurchaseRequest],
+    ['create_asset_change_request_lis', createAssetChangeRequest],
+    ['create_asset_purchase_request_lis', createAssetPurchaseRequest],
     ['create_asset_resume_request', createAssetResumeRequest],
     ['create_asset_suspend_request', createAssetSuspendRequest],
     ['fill_fulfillment_params', updateRequestParameters],
