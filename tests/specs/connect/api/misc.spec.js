@@ -23,6 +23,7 @@ const {
   listVisibleProducts,
   getMessagesByObjectId,
   searchAssets,
+  searchConversations,
   searchTierConfigs,
 } = require('../../../../lib/connect/api/misc');
 
@@ -123,6 +124,40 @@ describe('misc', () => {
     await searchAssets(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       'contract.id': { $in: ['CRD-000', 'CRD-111'] },
+      limit: 100,
+      offset: 0,
+    });
+  });
+  it('searchConversations', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    client.conversations.search = mockedFn;
+    const data = {
+      instance_id: ['PR-4766-8557-9657-001', 'PR-4766-8557-0000-001'],
+      created_before: '2019-12-05T09:11:22+00:00',
+      created_after: '2019-12-01T09:11:22+00:00',
+    };
+    await searchConversations(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      instance_id: { $in: ['PR-4766-8557-9657-001', 'PR-4766-8557-0000-001'] },
+      created: {
+        $ge: '2019-12-01T09:11:22.000Z',
+        $le: '2019-12-05T09:11:22.000Z'
+      },
+      limit: 100,
+      offset: 0,
+    });
+  });
+  it('searchConversations without dates', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    client.conversations.search = mockedFn;
+    const data = {
+      instance_id: ['PR-4766-8557-9657-001', 'PR-4766-8557-0000-001'],
+    };
+    await searchConversations(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      'instance_id': { $in: ['PR-4766-8557-9657-001', 'PR-4766-8557-0000-001'] },
       limit: 100,
       offset: 0,
     });
