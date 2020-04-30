@@ -1,6 +1,6 @@
 {
   "name": "connect-fulfillment-zapier-app",
-  "version": "19.3.5",
+  "version": "19.3.6",
   "description": "A Zapier App to automate Cloud Blue Connect Fulfillment workflows.",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "scripts": {
     "test": "jest --no-cache --runInBand",
     "test:dev": "jest --no-cache --watch",
-    "lint": "eslint lib/**"
+    "lint": "eslint \"lib/**\""
   },
   "engines": {
     "node": ">=8.10.0",

@@ -14,6 +14,8 @@ jest.mock('../../../lib/connect/api/misc', () => {
     listHubs: jest.fn(),
     listVisibleProducts: jest.fn(),
     getMessagesByObjectId: jest.fn(),
+    searchConversations: jest.fn(),
+
   }
 });
 
@@ -24,6 +26,7 @@ const {
   listHubs,
   listVisibleProducts,
   getMessagesByObjectId,
+  searchConversations,
 } = require('../../../lib/connect/api/misc');
 
 
@@ -123,6 +126,23 @@ describe('triggers.others', () => {
     await appTester(App.triggers.get_messages.operation.perform, bundle);
     expect(getMessagesByObjectId).toHaveBeenCalledWith(expect.anything(), {id: 'PR-000'});    
   });
+
+  it('searchConversations', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        id: 'CO-000'
+      }
+    };
+    searchConversations.mockReturnValue([]);
+    await appTester(App.triggers.new_conversations.operation.perform, bundle);
+    expect(searchConversations).toHaveBeenCalledWith(expect.anything(), {id: 'CO-000'}, '-created');    
+  });
+
+
   it('new_product_event subscribe', async () => {
     const bundle = {
       authData: {

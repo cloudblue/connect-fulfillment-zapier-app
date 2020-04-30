@@ -61,7 +61,7 @@ describe('recurringAssets', () => {
       },
       limit: 100,
       offset: 0,
-      order_by: '-events.created.at'
+      $ordering: '-events.created.at'
     });
   });
   it('listRecurringAssets all', async () => {
@@ -78,7 +78,7 @@ describe('recurringAssets', () => {
       'product.id': 'PRD-000',
       limit: 100,
       offset: 0,
-      order_by: '-events.created.at'
+      $ordering: '-events.created.at'
     });
   });
 });

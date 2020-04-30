@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - lts/*
 script:
-- npm test
+- npm test && npx codecov
 after_success:
 - test $TRAVIS_BRANCH == "master" && "./push_tag.sh"
 - npm install -g zapier-platform-cli
