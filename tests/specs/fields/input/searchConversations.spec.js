@@ -30,14 +30,14 @@ describe('search conversations', () => {
         label: 'Conversation ID',
         helpText: 'The unique conversation identifier.',
         placeholder: 'CO-000-000-000',
-        list: false
+        list: true
       },
       { 
         key: 'instance_id',
         label: 'Instance ID',
-        helpText: 'This ide can see the identifier of Asset, PR, Tier configuration.',
-        placeholder: 'PR-4786-4908-0381-001',
-        list: false 
+        helpText: 'This is the identifier of the object to which the conversation refers (Asset Request, Listing, ' +
+                  'Listing Request, etc)',
+        list: true 
       } 
     ]);
   });

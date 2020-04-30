@@ -38,6 +38,6 @@ describe('searches', () => {
     };
     searchConversations.mockReturnValue([]);
     await appTester(App.searches.search_conversations.operation.perform, bundle);
-    expect(searchConversations).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
+    expect(searchConversations).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-created');    
   });
 });

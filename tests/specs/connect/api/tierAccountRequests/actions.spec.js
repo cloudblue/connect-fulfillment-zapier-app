@@ -47,7 +47,7 @@ describe('tierAccountRequests.actions', () => {
       'product.id': 'PRD-000',
       limit: 100,
       offset: 0,
-      order_by: '-events.created.at'
+      $ordering: '-events.created.at'
     });
   });
   it('listRequests all', async () => {
@@ -66,7 +66,7 @@ describe('tierAccountRequests.actions', () => {
       'product.id': 'PRD-000',
       limit: 100,
       offset: 0,
-      order_by: '-events.created.at'
+      $ordering: '-events.created.at'
     });
   });
   it('acceptRequest', async () => {

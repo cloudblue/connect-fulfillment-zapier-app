@@ -50,7 +50,7 @@ describe('tierConfigRequests.actions', () => {
       'configuration__account__id': 'VA-000',
       limit: 100,
       offset: 0,
-      order_by: '-created'
+      $ordering: '-created'
     });
   });
   it('listRequests all', async () => {
@@ -70,7 +70,7 @@ describe('tierConfigRequests.actions', () => {
       'configuration__account__id': 'VA-000',
       limit: 100,
       offset: 0,
-      order_by: '-created'
+      $ordering: '-created'
     });
   });
   it('listRequests (unassigned)', async () => {
@@ -89,7 +89,7 @@ describe('tierConfigRequests.actions', () => {
       unassigned: true,
       limit: 100,
       offset: 0,
-      order_by: '-created'
+      $ordering: '-created'
     });
   });
   it('approveRequest', async () => {

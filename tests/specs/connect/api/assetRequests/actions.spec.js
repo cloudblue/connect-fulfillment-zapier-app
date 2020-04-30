@@ -52,7 +52,7 @@ describe('assetRequests.actions', () => {
       'asset.product.id': 'PRD-000',
       limit: 100,
       offset: 0,
-      order_by: '-created'
+      $ordering: '-created'
     });
   });
   it('listRequests all', async () => {
@@ -72,7 +72,7 @@ describe('assetRequests.actions', () => {
       'asset.product.id': 'PRD-000',
       limit: 100,
       offset: 0,
-      order_by: '-created'
+      $ordering: '-created'
     });
   });
   it('approveRequest', async () => {
