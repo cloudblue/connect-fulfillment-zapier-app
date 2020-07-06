@@ -152,7 +152,8 @@ describe('triggers.others', () => {
       inputData: {
         label: 'label',
         description: 'description',
-        product_id: 'PRD-000'
+        product_id: 'PRD-000',
+        object_class: 'listing_request',
       },
       meta: {
         zap: {
@@ -168,6 +169,7 @@ describe('triggers.others', () => {
       label: 'label',
       description: 'description',
       product_id: 'PRD-000',
+      object_class: 'listing_request',
       target_url: 'http://example.com'
     });    
   });
@@ -189,7 +191,7 @@ describe('triggers.others', () => {
     const data = {
       webhook_id: 'WH-000-000-000',
       webhook_name: 'test webhook',
-      object_class: 'fulfillment_requests',
+      object_class: 'fulfillment_request',
       account_id: 'VA-000-000',
       product_id: 'PRD-000-000-000',
       api_url: 'https://api.connect.cloudblue.com/public/v1',
@@ -215,7 +217,7 @@ describe('triggers.others', () => {
     const data = {
       webhook_id: 'WH-000-000-000',
       webhook_name: 'test webhook',
-      object_class: 'fulfillment_requests',
+      object_class: 'fulfillment_request',
       account_id: 'VA-000-000',
       product_id: 'PRD-000-000-000',
       api_url: 'https://api.connect.cloudblue.com/public/v1',

@@ -24,6 +24,7 @@ describe('webhooks', () => {
       product_id: 'PRD-000',
       zap_id: 111111,
       label: 'label',
+      object_class: 'tier_config_request',
       description: 'description',
       target_url: 'https://example.com'
     };
@@ -33,6 +34,7 @@ describe('webhooks', () => {
       product_id: 'PRD-000',
       external_url: 'https://example.com',
       jwt_secret: expect.anything(),
+      object_class: 'tier_config_request',
       active: true,
       description: 'description',
       http_method: 'POST',
@@ -50,6 +52,7 @@ describe('webhooks', () => {
       zap_id: 111111,
       label: 'label',
       description: ' ',
+      object_class: 'tier_config_request',
       target_url: 'https://example.com'
     };
     await createWebhook(client, data);
@@ -58,6 +61,7 @@ describe('webhooks', () => {
       product_id: 'PRD-000',
       external_url: 'https://example.com',
       jwt_secret: expect.anything(),
+      object_class: 'tier_config_request',
       active: true,
       description: '[Zap-111111] label',
       http_method: 'POST',
