@@ -26,9 +26,11 @@
     "@cloudblueconnect/connect-javascript-sdk": "^20.0.1",
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
+    "logform": "^2.2.0",
     "moment": "^2.24.0",
     "uuid": "^3.3.3",
-    "zapier-platform-core": "9.0.0"
+    "winston": "^3.3.3",
+    "zapier-platform-core": "10.0.0"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
