@@ -23,7 +23,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
-    "@cloudblueconnect/connect-javascript-sdk": "^20.0.0",
+    "@cloudblueconnect/connect-javascript-sdk": "^20.0.1",
     "google-libphonenumber": "^3.2.6",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
