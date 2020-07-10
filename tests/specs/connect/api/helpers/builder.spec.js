@@ -147,12 +147,10 @@ describe('helpers.builder', () => {
       { item_id: 'PRD-000-000-000-0001', quantity: 30 },
       { item_id: 'PRD-000-000-000-0002', quantity: 10 },
     ],
-    params: [
-      {
-        param_id: 'param_a',
-        value: 'param_a_value'
-      }
-    ]
+    params: {
+      param_a: 'param_a_value',
+      param_b: '{"a": "hello", "b": "world"}'
+    },
   };
 
   const withT1OnlyNoLineItems = {
@@ -165,12 +163,10 @@ describe('helpers.builder', () => {
       'PRD-000-000-000-0001': 30,
       'PRD-000-000-000-0002': 10,
     },
-    params: [
-      {
-        param_id: 'param_a',
-        value: 'param_a_value'
-      }
-    ]
+    params: {
+      param_a: 'param_a_value',
+      param_b: '{"a": "hello", "b": "world"}',
+    },
   };
 
   const withT1OnlyExpected = {
@@ -183,11 +179,19 @@ describe('helpers.builder', () => {
       items:
         [{ id: 'PRD-000-000-000-0001', quantity: 30 },
         { id: 'PRD-000-000-000-0002', quantity: 10 }],
-      params:
-        [{
-          id: 0,
-          value: { param_id: 'param_a', value: 'param_a_value' }
-        }],
+      params: [
+        { 
+          id: 'param_a', 
+          value: 'param_a_value',
+        },
+        {
+          id: 'param_b',
+          structured_value: {
+            a: 'hello',
+            b: 'world',
+          },
+        },
+      ],
       tiers:
       {
         tier1: t1Out,
