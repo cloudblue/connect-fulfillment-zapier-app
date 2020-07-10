@@ -13,6 +13,7 @@ const {
   paramErrorDictToArray,
   filtersToQuery,
   processStructuredParams,
+  getProductIdFromItems,
 } = require('../../../../../lib/connect/api/helpers/data');
 
 describe('helpers.data', () => {
@@ -88,6 +89,17 @@ describe('helpers.data', () => {
     ['with null values', filtersNull, filtersNullExpected],
   ])('filtersToQuery map filter names to fields %s', (testcase, data, expected) => {
     expect(filtersToQuery(data, map)).toEqual(expected);
+  });
+  it.each([
+    ['empty array', [], null],
+    ['empty dict', {}, null],
+    ['array ok item_id', [{item_id: 'PRD-000-000-000-0001'}], 'PRD-000-000-000'],
+    ['array ok id', [{id: 'PRD-000-000-000-0001'}], 'PRD-000-000-000'],
+    ['array invalid item', [{item_id: 'PRD-000-0001'}], null],
+    ['dict ok item_id', {'PRD-000-000-000-0001': 33}, 'PRD-000-000-000'],
+    ['dict invalid item', {'invalid': 33}, null],
+  ])('getProductIdFromItems (%s) extract the product id or null', (testcase, data, expected) => {
+    expect(getProductIdFromItems(data)).toEqual(expected);
   });
   it('processStructuredParams convert JSON value to structured_value', () => {
     const params = [
