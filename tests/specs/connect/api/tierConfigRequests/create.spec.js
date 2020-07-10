@@ -38,10 +38,14 @@ describe('tierConfigRequests.create', () => {
     await createUpdateTierConfigRequest(client, {
       config_id: 'TC-000',
       params: {
-        param_a: 'value_a'
+        param_a: 'value_a',
+        param_b: '{"a": "value"}',
       }
     });
-    expect(mockedFn).toHaveBeenCalledWith('TC-000', [{ id: 'param_a', value: 'value_a' }]);
+    expect(mockedFn).toHaveBeenCalledWith('TC-000', [
+      { id: 'param_a', value: 'value_a' },
+      { id: 'param_b', structured_value: {a: 'value'} },
+    ]);
   });
   it('createUpdateTierConfigRequest with params array', async () => {
     const mockedFn = jest.fn();
@@ -50,11 +54,20 @@ describe('tierConfigRequests.create', () => {
     };
     await createUpdateTierConfigRequest(client, {
       config_id: 'TC-000',
-      params: [{
-        id: 'param_a',
-        value: 'value_a'
-      }]
+      params: [
+        {
+          id: 'param_a',
+          value: 'value_a',
+        },
+        {
+          id: 'param_b',
+          value: '{"a": "value"}',
+        },
+      ]
     });
-    expect(mockedFn).toHaveBeenCalledWith('TC-000', [{ id: 'param_a', value: 'value_a' }]);
+    expect(mockedFn).toHaveBeenCalledWith('TC-000', [
+      { id: 'param_a', value: 'value_a' },
+      { id: 'param_b', structured_value: {a: 'value'} },
+    ]);
   });
 });

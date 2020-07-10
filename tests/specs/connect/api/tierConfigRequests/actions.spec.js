@@ -111,11 +111,14 @@ describe('tierConfigRequests.actions', () => {
     };
     const data = {
       request_id: 'TCR-000',
-      params: {param_a: 'value_a'},
+      params: {param_a: 'value_a', param_b: '{"a": "value"}'},
       notes: 'notes'
     };
     await updateRequestParameters(client, data);
-    expect(mockedFn).toHaveBeenCalledWith('TCR-000', [{id: 'param_a', value: 'value_a'}], 'notes');
+    expect(mockedFn).toHaveBeenCalledWith('TCR-000', [
+      {id: 'param_a', value: 'value_a'},
+      {id: 'param_b', structured_value: {a: 'value'}},
+    ], 'notes');
   });
   it('updateRequestParameters with param array', async () => {
     const mockedFn = jest.fn();
@@ -124,11 +127,17 @@ describe('tierConfigRequests.actions', () => {
     };
     const data = {
       request_id: 'TCR-000',
-      params: [{id: 'param_a', value: 'value_a'}],
+      params: [
+        {id: 'param_a', value: 'value_a'},
+        {id: 'param_b', value: '{"a": "value"}'},
+      ],
       notes: 'notes'
     };
     await updateRequestParameters(client, data);
-    expect(mockedFn).toHaveBeenCalledWith('TCR-000', [{id: 'param_a', value: 'value_a'}], 'notes');
+    expect(mockedFn).toHaveBeenCalledWith('TCR-000', [
+      {id: 'param_a', value: 'value_a'},
+      {id: 'param_b', structured_value: {a: 'value'}},
+    ], 'notes');
   });
   it('inquireRequest with param dict', async () => {
     const mockedFn = jest.fn();

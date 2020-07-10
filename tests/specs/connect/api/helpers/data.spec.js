@@ -12,6 +12,7 @@ const {
   paramDictToArray,
   paramErrorDictToArray,
   filtersToQuery,
+  processStructuredParams,
 } = require('../../../../../lib/connect/api/helpers/data');
 
 describe('helpers.data', () => {
@@ -87,5 +88,40 @@ describe('helpers.data', () => {
     ['with null values', filtersNull, filtersNullExpected],
   ])('filtersToQuery map filter names to fields %s', (testcase, data, expected) => {
     expect(filtersToQuery(data, map)).toEqual(expected);
+  });
+  it('processStructuredParams convert JSON value to structured_value', () => {
+    const params = [
+      {
+        id: 'p1',
+        value: 'string',
+      },
+      {
+        id: 'p2',
+        value: 33,
+      },
+      {
+        id: 'p3',
+        value: '{"a": "hello", "b": 10, "c": true}',
+      },   
+    ];
+    const expected = [
+      {
+        id: 'p1',
+        value: 'string',
+      },
+      {
+        id: 'p2',
+        value: 33,
+      },
+      {
+        id: 'p3',
+        structured_value: {
+          a: "hello",
+          b: 10,
+          c: true
+        },
+      },    
+    ];
+    expect(processStructuredParams(params)).toEqual(expected);
   });
 });
