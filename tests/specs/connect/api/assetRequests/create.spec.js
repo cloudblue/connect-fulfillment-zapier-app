@@ -13,6 +13,60 @@ jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   }
 });
 
+jest.mock('../../../../../lib//connect/api/helpers/lookups', () => {
+  return {
+    ...jest.requireActual('../../../../../lib//connect/api/helpers/lookups'),
+    getProductParameters: jest.fn().mockResolvedValue([
+      {
+        id: 'PRM-000',
+        type: 'address',
+        name: 'my_address',
+        title: 'Address',
+      },
+      {
+        id: 'PRM-001',
+        type: 'subdomain',
+        name: 'my_subdomain',
+        title: 'Subdomain',
+      },
+      {
+        id: 'PRM-002',
+        type: 'phone',
+        name: 'my_phone',
+        title: 'Phone',
+        default: {
+          country: 'IT',
+        },
+      },
+      {
+        id: 'PRM-004',
+        type: 'text',
+        name: 'my_text',
+        title: 'Text',
+      },
+      {
+        id: 'PRM-003',
+        type: 'checkbox',
+        name: 'my_checkbox',
+        title: 'Checkbox',
+        constraints: {
+          choices: [
+            {
+              label: 'First',
+              value: 'first',
+            },
+            {
+              label: 'Second',
+              value: 'second',
+            }
+          ]
+        },
+      },
+    ]),
+  }
+});
+
+
 const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/connect-javascript-sdk');
 
 const {
@@ -126,12 +180,9 @@ describe('assetRequests.create', () => {
       { item_id: 'PRD-000-000-000-0001', quantity: 30 },
       { item_id: 'PRD-000-000-000-0002', quantity: 10 },
     ],
-    params: [
-      {
-        param_id: 'param_a',
-        value: 'param_a_value'
-      }
-    ]
+    params: {
+      'param_a': 'param_a_value',
+    },
   };
   const withT1OnlyExpected = {
     type: 'purchase',
@@ -145,9 +196,88 @@ describe('assetRequests.create', () => {
         { id: 'PRD-000-000-000-0002', quantity: 10 }],
       params:
         [{
-          id: 0,
-          value: { param_id: 'param_a', value: 'param_a_value' }
+          id: 'param_a',
+          value: 'param_a_value',
         }],
+      tiers:
+      {
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };
+  const withParams = {
+    reseller_tiers: 't1',
+    asset_external_id: 'asset_ext_id',
+    hub_id: 'HB-000',
+    connection_id: 'CT-0000-0000',
+    params_input_mode: 'form',
+    ...t1In,
+    ...custIn,
+    items: [
+      { item_id: 'PRD-000-000-000-0001', quantity: 30 },
+      { item_id: 'PRD-000-000-000-0002', quantity: 10 },
+    ],
+    my_address_address_line1: 'line1',
+    my_address_address_line2: 'line2',
+    my_address_postal_code: '00000',
+    my_address_state: 'state',
+    my_address_city: 'city',
+    my_address_country: 'country',
+    my_subdomain_subdomain: 'test',
+    my_subdomain_domain: 'example.com',
+    my_phone_country_code: '+39',
+    my_phone_phone_number: '0817434329',
+    my_checkbox: ['first', 'second'],
+    my_text: 'hello world',
+  };
+  const withParamsExpected = {
+    type: 'purchase',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items:
+        [{ id: 'PRD-000-000-000-0001', quantity: 30 },
+        { id: 'PRD-000-000-000-0002', quantity: 10 }],
+      params:[
+        {
+          id: 'my_address',
+          structured_value: {
+            address_line1: 'line1',
+            address_line2: 'line2',
+            postal_code: '00000',
+            state: 'state',
+            city: 'city',
+            country: 'country',
+          },
+        },
+        {
+          id: 'my_subdomain',
+          value: 'test.example.com',
+        },
+        {
+          id: 'my_phone',
+          structured_value: {
+            country_code: '+39',
+            area_code: '081',
+            phone_number: '7434329',
+            extension: '',
+          },
+        },
+        {
+          id: 'my_text',
+          value: 'hello world',
+        },
+        {
+          id: 'my_checkbox',
+          structured_value: {
+            first: true,
+            second: true,
+          },
+        },
+      ],
       tiers:
       {
         tier1: t1Out,
@@ -164,13 +294,15 @@ describe('assetRequests.create', () => {
     await createAssetPurchaseRequest(client, withT1Only);
     expect(mockedFn).toHaveBeenCalledWith(withT1OnlyExpected);
   });
-  it('createAssetPurchaseRequest connection not found', async () => {
+
+  it('createAssetPurchaseRequest with form mode parameters', async () => {
     const mockedFn = jest.fn();
     Fulfillment.prototype = {
-      getConnectionIdByProductAndHub: jest.fn(() => undefined),
+      getConnectionIdByProductAndHub: jest.fn(() => 'CT-0000-0000'),
       createRequest: mockedFn
     };
-    await expect(createAssetPurchaseRequest(client, withT1Only)).rejects.toThrow();
+    await createAssetPurchaseRequest(client, withParams);
+    expect(mockedFn).toHaveBeenCalledWith(withParamsExpected);
   });
 
   const changeReqWithoutExtAttr = {

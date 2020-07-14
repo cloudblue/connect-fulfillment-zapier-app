@@ -36,7 +36,7 @@
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "jest": "^25.1.0",
+    "jest": "^26.0.0",
     "jest-fetch-mock": "^3.0.1",
     "prettier": "^1.19.1"
   },

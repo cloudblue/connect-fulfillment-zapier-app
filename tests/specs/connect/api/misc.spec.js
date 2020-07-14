@@ -25,6 +25,8 @@ const {
   searchAssets,
   searchConversations,
   searchTierConfigs,
+  getOrderingParameters,
+  getProductParameters,
 } = require('../../../../lib/connect/api/misc');
 
 describe('misc', () => {
@@ -264,6 +266,40 @@ describe('misc', () => {
     mockedFn.mockReturnValue([]);
     const results = await listVisibleProducts(client);
     expect(mockedFn).toHaveBeenCalled();
+  });
+  it('getOrderingParameters', async () => {
+    const expectedQuery = {
+      scope: 'asset',
+      phase: 'ordering',
+      $or: [
+        {
+          'constraints.required': true,
+        },
+        {
+          'constraints.required': false,
+          'constraints.hidden': false,
+        },
+      ],
+    };
+    const mockedFn = jest.fn();
+    Inventory.prototype = {
+      searchProductParameters: mockedFn,
+    };
+    mockedFn.mockReturnValue([]);
+    await getOrderingParameters(client, 'PRD-000');
+    expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
+  });
+  it('getProductParameters', async () => {
+    const expectedQuery = {
+      id: {$in: ['PRM-000', 'PRM-001']},
+    };
+    const mockedFn = jest.fn();
+    Inventory.prototype = {
+      searchProductParameters: mockedFn,
+    };
+    mockedFn.mockReturnValue([]);
+    await getProductParameters(client, 'PRD-000', ['PRM-000', 'PRM-001']);
+    expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
   });
 });
 

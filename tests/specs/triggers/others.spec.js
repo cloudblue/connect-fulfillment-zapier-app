@@ -15,6 +15,7 @@ jest.mock('../../../lib/connect/api/misc', () => {
     listVisibleProducts: jest.fn(),
     getMessagesByObjectId: jest.fn(),
     searchConversations: jest.fn(),
+    getOrderingParameters: jest.fn(),
 
   }
 });
@@ -27,6 +28,7 @@ const {
   listVisibleProducts,
   getMessagesByObjectId,
   searchConversations,
+  getOrderingParameters,
 } = require('../../../lib/connect/api/misc');
 
 
@@ -100,6 +102,37 @@ describe('triggers.others', () => {
     listHubs.mockReturnValue([]);
     await appTester(App.triggers.hubs.operation.perform, bundle);
     expect(listHubs).toHaveBeenCalled();    
+  });
+  it('orderingParameters (item ok)', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        items: {
+          'PRD-000-000-000-0001': 200,
+        }
+      },
+    };
+    getOrderingParameters.mockReturnValue([]);
+    await appTester(App.triggers.ordering_parameters.operation.perform, bundle);
+    expect(getOrderingParameters).toHaveBeenCalledWith(expect.anything(), 'PRD-000-000-000');    
+  });
+  it('orderingParameters (invalid item)', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        items: {
+          'PRD-000': 200,
+        }
+      },
+    };
+    await appTester(App.triggers.ordering_parameters.operation.perform, bundle);
+    expect(getOrderingParameters).not.toHaveBeenCalled();    
   });
   it('listVisibleProducts', async () => {
     const bundle = {

@@ -4,13 +4,30 @@
  * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
  */
 
+
+const mockedSearchParams = jest.fn();
+
 jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
+  const mockedFn = jest.fn();
+
+  mockedFn.mockImplementation((endpoint, key, adapter) => {
+    return {
+      products: {
+        parameters: (productId) => {
+          return {search: mockedSearchParams}
+        },
+      },
+      addBeforeRequestHook: jest.fn(),
+    }
+  });
   return {
-    ConnectClient: jest.fn(),
+    ConnectClient: mockedFn,
+    AbstractHttpAdapter: jest.fn(),
     Directory: jest.fn(),
     Fulfillment: jest.fn(),
   }
 });
+
 
 const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/connect-javascript-sdk');
 
@@ -18,6 +35,7 @@ const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/con
 const {
   lookupAssetByProductIdExternalId,
   lookupConnectionByProductHub,
+  getProductParameters,
 } = require('../../../../../lib/connect/api/helpers/lookups');
 
 describe('helpers.lookups', () => {
@@ -37,6 +55,12 @@ describe('helpers.lookups', () => {
     };
     await lookupConnectionByProductHub(client, 'PRD-000', 'HB-000');
     expect(mockedFn).toHaveBeenCalledWith('PRD-000', 'HB-000');
+  });
+  it('getProductParameters invoke search product parameters on ConnectClient', async () => {
+    await getProductParameters(client, 'PRD-000', ['PRM-000', 'PRM-001']);
+    expect(mockedSearchParams).toHaveBeenCalledWith({
+      id: { $in: ['PRM-000', 'PRM-001'] },
+    });
   });
   it('lookupAssetByProductIdExternalId returns the asset', async () => {
     const mockedFn = jest.fn();

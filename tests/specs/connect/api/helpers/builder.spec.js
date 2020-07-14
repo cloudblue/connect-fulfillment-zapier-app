@@ -169,7 +169,7 @@ describe('helpers.builder', () => {
     },
   };
 
-  const withT1OnlyExpected = {
+  const  withT1OnlyExpected = {
     type: 'purchase',
     asset:
     {
