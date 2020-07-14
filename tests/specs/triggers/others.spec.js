@@ -16,6 +16,7 @@ jest.mock('../../../lib/connect/api/misc', () => {
     getMessagesByObjectId: jest.fn(),
     searchConversations: jest.fn(),
     getOrderingParameters: jest.fn(),
+    getOrderingAndFulfillmentParameters: jest.fn(),
 
   }
 });
@@ -29,6 +30,7 @@ const {
   getMessagesByObjectId,
   searchConversations,
   getOrderingParameters,
+  getOrderingAndFulfillmentParameters,
 } = require('../../../lib/connect/api/misc');
 
 
@@ -134,6 +136,22 @@ describe('triggers.others', () => {
     await appTester(App.triggers.ordering_parameters.operation.perform, bundle);
     expect(getOrderingParameters).not.toHaveBeenCalled();    
   });
+
+  it('orderingFulfillemntParameters (item ok)', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        request_id: 'PR-000',
+      },
+    };
+    getOrderingAndFulfillmentParameters.mockReturnValue([]);
+    await appTester(App.triggers.ordering_fulfillment_parameters.operation.perform, bundle);
+    expect(getOrderingAndFulfillmentParameters).toHaveBeenCalledWith(expect.anything(), 'PR-000');    
+  });
+
   it('listVisibleProducts', async () => {
     const bundle = {
       authData: {
