@@ -8,10 +8,11 @@ jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   return {
     Inventory: jest.fn(),
     Directory: jest.fn(),
+    Fulfillment: jest.fn(),
   }
 });
 
-const { Inventory, Directory } = require('@cloudblueconnect/connect-javascript-sdk');
+const { Inventory, Directory, Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 const { ConnectClient } = jest.requireActual('@cloudblueconnect/connect-javascript-sdk');
 
 const {
@@ -26,7 +27,10 @@ const {
   searchConversations,
   searchTierConfigs,
   getOrderingParameters,
+  getOrderingAndFulfillmentParameters,
   getProductParameters,
+  getTCRParametersByConfigId,
+  getTCRParametersByTCRId
 } = require('../../../../lib/connect/api/misc');
 
 describe('misc', () => {
@@ -289,6 +293,31 @@ describe('misc', () => {
     await getOrderingParameters(client, 'PRD-000');
     expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
   });
+  it('getOrderingAndFulfillmentParameters', async () => {
+    const expectedQuery = {
+      scope: 'asset',
+      phase: {$in: ['ordering', 'fulfillment']},
+      $or: [
+        {
+          'constraints.required': true,
+        },
+        {
+          'constraints.required': false,
+          'constraints.hidden': false,
+        },
+      ],
+    };
+    const mockedFn = jest.fn();
+    Inventory.prototype = {
+      searchProductParameters: mockedFn,
+    };
+    Fulfillment.prototype = {
+      getRequest: jest.fn().mockReturnValue({asset: {product: {id: 'PRD-000'}}}),
+    }
+    mockedFn.mockReturnValue([]);
+    await getOrderingAndFulfillmentParameters(client, 'PR-000');
+    expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
+  });
   it('getProductParameters', async () => {
     const expectedQuery = {
       id: {$in: ['PRM-000', 'PRM-001']},
@@ -299,6 +328,54 @@ describe('misc', () => {
     };
     mockedFn.mockReturnValue([]);
     await getProductParameters(client, 'PRD-000', ['PRM-000', 'PRM-001']);
+    expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
+  });
+  it('getTCRParametersByConfigId', async () => {
+    client.tierConfigs.get = jest.fn().mockReturnValue({product: {id: 'PRD-000'}});
+    const mockedFn = jest.fn();
+    Inventory.prototype = {
+      searchProductParameters: mockedFn,
+    };
+    mockedFn.mockReturnValue([]);
+    const expectedQuery = {
+      scope: {$in: ['tier1', 'tier2']},
+      phase: {$in: ['ordering', 'fulfillment']},
+      $or: [
+        {
+          'constraints.required': true,
+        },
+        {
+          'constraints.required': false,
+          'constraints.hidden': false,
+        },
+      ],
+    };
+    await getTCRParametersByConfigId(client, 'TC-000');
+    expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
+  });
+  it('getTCRParametersByTCRId', async () => {
+    const mockedFn = jest.fn();
+    Inventory.prototype = {
+      searchProductParameters: mockedFn,
+    };
+    Fulfillment.prototype = {
+      getTierConfigRequest: jest.fn().mockReturnValue({configuration: {product: {id: 'PRD-000'}}}),
+    }
+    mockedFn.mockReturnValue([]);
+    const expectedQuery = {
+      scope: {$in: ['tier1', 'tier2']},
+      phase: {$in: ['ordering', 'fulfillment']},
+      $or: [
+        {
+          'constraints.required': true,
+        },
+        {
+          'constraints.required': false,
+          'constraints.hidden': false,
+        },
+      ],
+    };
+    await getTCRParametersByTCRId(client, 'TC-000');
     expect(mockedFn).toHaveBeenCalledWith('PRD-000', expectedQuery);
   });
 });

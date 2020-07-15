@@ -4,83 +4,138 @@
  * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
  */
 
+jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
+  const mockedFn = jest.fn();
+
+  mockedFn.mockImplementation((endpoint, key, adapter) => {
+    return {
+      products: {
+        parameters: (productId) => {
+          return {search: mockedSearchParams}
+        },
+      },
+      tierConfigs: {
+        get: jest.fn().mockReturnValue({product: {id: 'PRD-000'}}),
+      },
+      addBeforeRequestHook: jest.fn(),
+    }
+  });
+  return {
+    ConnectClient: mockedFn,
+    AbstractHttpAdapter: jest.fn(),
+    Fulfillment: jest.fn(),
+    Inventory: jest.fn(),
+  }
+});
+
 const _ = require('lodash');
+
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 
 const mockedGetProductParameters = jest.fn();
 
 jest.mock('../../../../lib/connect/api/misc', () => {
   return {
+    ...jest.requireActual('../../../../lib/connect/api/misc'),
     getProductParameters: mockedGetProductParameters,
   }
 });
 
 const {
-  getAssetPurchaseRequestFields,
-  getAssetPurchaseRequestFieldsLIS,
-} = require('../../../../lib/fields/input/new_asset_request');
+  getTCRParametersFields,
+} = require('../../../../lib/fields/input/new_tier_config_request');
 
-const { FIELDS_TIER_2 } = require('../../../../lib/fields/input/tiers');
 
-describe('new asset requests', () => {
+describe('create tier config request', () => {
+  beforeAll(() => {
+    // const mockedFn = jest.fn();
+    // Fulfillment.prototype = {
+    //   getRequest: mockedFn,
+    // };
+    // mockedFn.mockReturnValue({asset: {product: {id: 'PRD-000'}}});
+  });
   beforeEach(() => {
     jest.clearAllMocks();
     fetch.resetMocks();
   });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS],
-  ])('%s return tier2 fields if reseller_tiers === t2t1', async (label, fn) => {
-    const bundle = {
-      inputData: {
-        reseller_tiers: 't2t1',
-      }
-    }
-    const fields = await fn(null, bundle);
-    expect(fields).toEqual(expect.arrayContaining(FIELDS_TIER_2));
-  });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields, {'PRD-000-000-000-0001': 100},],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS, [{item_id: 'PRD-000-000-000-0001', quantity: 100}],],
-  ])('%s call the getProductParameters in form input mode', async (label, fn, items) => {
+  it('returns config_id and params fields in raw input mode', async () => {
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-000-000-000',
+        params_input_mode: 'raw',
+      }
+    }
+    const fields = await getTCRParametersFields({request: ''}, bundle);
+    expect(fields).toEqual(expect.arrayContaining([
+      {
+        key: 'config_id',
+        label: 'Tier Configuration ID',
+        required: true,
+      },
+      {
+        key: 'params_input_mode',
+        label: 'Parameters Input Mode',
+        choices: {
+          form: 'Form Mode',
+          raw: 'Raw Mode',
+        },
+        required: true,
+        helpText: 'Choose the input mode for parameters.',
+        altersDynamicFields: true,
+        default: 'raw',
+      },
+      {
+        key: 'params',
+        dict: true,
+        required: true,
+        label: 'Parameters',
+        helpText: 'Enter a list of Parameter ID, Value',
+      },
+    ]));
+  });
+
+
+  it('call the getProductParameters in form input mode', async () => {
+    const bundle = {
+      authData: {
+        api_key: 'key',
+        endpoint: 'http://example.com',
+      },
+      inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
           'PRM-001',
         ],
-        items,
       }
     }
-    await fn({request: ''}, bundle);
+    await getTCRParametersFields({request: ''}, bundle);
     expect(mockedGetProductParameters).toHaveBeenCalledWith(
       expect.anything(),
-      'PRD-000-000-000',
+      'PRD-000',
       [
         'PRM-000',
         'PRM-001',
       ],
     );
   });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields, {'PRD-000-000-000-0001': 100},],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS, [{item_id: 'PRD-000-000-000-0001', quantity: 100}],],
-  ])('%s renders form fields for parameter of type address in form input mode', async (label, fn, items) => {
+  it('renders form fields for parameter of type address in form input mode', async () => {
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
         ],
-        items,
       }
     }
     mockedGetProductParameters.mockResolvedValue([
@@ -92,7 +147,7 @@ describe('new asset requests', () => {
         default: {country: 'IT'},
       }
     ]);
-    const fields = await fn({request: ''}, bundle);
+    const fields = await getTCRParametersFields({request: ''}, bundle);
     expect(fields).toEqual(expect.arrayContaining([
       {
         key: 'my_address_address_line1',
@@ -128,21 +183,18 @@ describe('new asset requests', () => {
       },
     ]));
   });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields, {'PRD-000-000-000-0001': 100},],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS, [{item_id: 'PRD-000-000-000-0001', quantity: 100}],],
-  ])('%s renders form fields for parameter of type address in form input mode', async (label, fn, items) => {
+  it('renders form fields for parameter of type address in form input mode', async () => {
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
         ],
-        items,
       }
     }
     mockedGetProductParameters.mockResolvedValue([
@@ -154,7 +206,7 @@ describe('new asset requests', () => {
         default: {country: 'IT'},
       }
     ]);
-    const fields = await fn({request: ''}, bundle);
+    const fields = await getTCRParametersFields({request: ''}, bundle);
     expect(fields).toEqual(expect.arrayContaining([
       {
         key: 'my_phone_country_code',
@@ -169,21 +221,18 @@ describe('new asset requests', () => {
       },
     ]));
   });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields, {'PRD-000-000-000-0001': 100},],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS, [{item_id: 'PRD-000-000-000-0001', quantity: 100}],],
-  ])('%s renders form fields for parameter of type subdomain in form input mode', async (label, fn, items) => {
+  it('enders form fields for parameter of type subdomain in form input mode', async () => {
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
         ],
-        items,
       }
     }
     mockedGetProductParameters.mockResolvedValue([
@@ -208,7 +257,7 @@ describe('new asset requests', () => {
       },
     ]);
 
-    const fields = await fn({request: ''}, bundle);
+    const fields = await getTCRParametersFields({request: ''}, bundle);
     expect(fields).toEqual(expect.arrayContaining([
       {
         key: 'my_subdomain_subdomain',
@@ -227,21 +276,18 @@ describe('new asset requests', () => {
       },
     ]));
   });
-  it.each([
-    ['getAssetPurchaseRequestFields', getAssetPurchaseRequestFields, {'PRD-000-000-000-0001': 100},],
-    ['getAssetPurchaseRequestFieldsLIS', getAssetPurchaseRequestFieldsLIS, [{item_id: 'PRD-000-000-000-0001', quantity: 100}],],
-  ])('%s renders form fields for unstructured parameter (type "others") in form input mode', async (label, fn, items) => {  
+  it('renders form fields for unstructured parameter (type "others") in form input mode', async () => {  
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
         ],
-        items,
       }
     }
     mockedGetProductParameters.mockResolvedValue([
@@ -253,7 +299,7 @@ describe('new asset requests', () => {
       },
     ]);
 
-    const fields = await fn({request: ''}, bundle);
+    const fields = await getTCRParametersFields({request: ''}, bundle);
     const field = _.filter(fields, (f) => f.key === 'my_field');
     expect(field).toEqual([
       {
@@ -267,18 +313,18 @@ describe('new asset requests', () => {
     ['checkbox', true],
     ['choice', false],
     ['dropdown', false],
-  ])('getAssetPurchaseRequestFields renders form fields for parameter of type %s in form input mode', async (type, list) => {
+  ])('renders form fields for parameter of type %s in form input mode', async (type, list) => {
     const bundle = {
       authData: {
         api_key: 'key',
         endpoint: 'http://example.com',
       },
       inputData: {
+        config_id: 'TC-0000',
         params_input_mode: 'form',
         parameter_ids: [
           'PRM-000',
         ],
-        items: {'PRD-000-000-000-0001': 100},
       }
     }
     mockedGetProductParameters.mockResolvedValue([
@@ -313,61 +359,7 @@ describe('new asset requests', () => {
       default: 'first',
       list,
     }];
-    const fields = await getAssetPurchaseRequestFields({request: ''}, bundle);
-    const checkboxField = _.filter(fields, (f) => f.key === 'my_field');
-    expect(checkboxField).toEqual(expected);
-  });
-  it.each([
-    ['checkbox', true],
-    ['choice', false],
-    ['dropdown', false],
-  ])('getAssetPurchaseRequestFieldsLIS renders form fields for parameter of type %s in form input mode', async (type, list) => {
-    const bundle = {
-      authData: {
-        api_key: 'key',
-        endpoint: 'http://example.com',
-      },
-      inputData: {
-        params_input_mode: 'form',
-        parameter_ids: [
-          'PRM-000',
-        ],
-        items: [{item_id: 'PRD-000-000-000-0001', quantity: 100}],
-      }
-    }
-    mockedGetProductParameters.mockResolvedValue([
-      {
-        id: 'PRM-000',
-        type: type,
-        name: 'my_field',
-        title: 'Field',
-        constraints: {
-          choices: [
-            {
-              label: 'First',
-              value: 'first',
-              default: true,
-            },
-            {
-              label: 'Second',
-              value: 'second',
-            },
-          ],
-        },
-      },
-    ]);
-    
-    const expected = [{
-      key: 'my_field',
-      label: 'Field',
-      choices: {
-        first: 'First',
-        second: 'Second',
-      },
-      default: 'first',
-      list,
-    }];
-    const fields = await getAssetPurchaseRequestFieldsLIS({request: ''}, bundle);
+    const fields = await getTCRParametersFields({request: ''}, bundle);
     const checkboxField = _.filter(fields, (f) => f.key === 'my_field');
     expect(checkboxField).toEqual(expected);
   });

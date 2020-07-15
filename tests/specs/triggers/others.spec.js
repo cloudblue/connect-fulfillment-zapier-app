@@ -17,7 +17,8 @@ jest.mock('../../../lib/connect/api/misc', () => {
     searchConversations: jest.fn(),
     getOrderingParameters: jest.fn(),
     getOrderingAndFulfillmentParameters: jest.fn(),
-
+    getTCRParametersByConfigId: jest.fn(),
+    getTCRParametersByTCRId: jest.fn(),
   }
 });
 
@@ -31,6 +32,8 @@ const {
   searchConversations,
   getOrderingParameters,
   getOrderingAndFulfillmentParameters,
+  getTCRParametersByConfigId,
+  getTCRParametersByTCRId,
 } = require('../../../lib/connect/api/misc');
 
 
@@ -150,6 +153,36 @@ describe('triggers.others', () => {
     getOrderingAndFulfillmentParameters.mockReturnValue([]);
     await appTester(App.triggers.ordering_fulfillment_parameters.operation.perform, bundle);
     expect(getOrderingAndFulfillmentParameters).toHaveBeenCalledWith(expect.anything(), 'PR-000');    
+  });
+
+  it('tcrParameters', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        config_id: 'TC-000',
+      },
+    };
+    getTCRParametersByConfigId.mockReturnValue([]);
+    await appTester(App.triggers.tcr_parameters.operation.perform, bundle);
+    expect(getTCRParametersByConfigId).toHaveBeenCalledWith(expect.anything(), 'TC-000');    
+  });
+
+  it('fillTCRParameters', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.CONNECT_API_KEY,
+        endpoint: process.env.CONNECT_ENDPOINT,
+      },
+      inputData: {
+        request_id: 'TCR-000',
+      },
+    };
+    getTCRParametersByTCRId.mockReturnValue([]);
+    await appTester(App.triggers.fill_tcr_parameters.operation.perform, bundle);
+    expect(getTCRParametersByTCRId).toHaveBeenCalledWith(expect.anything(), 'TCR-000');    
   });
 
   it('listVisibleProducts', async () => {

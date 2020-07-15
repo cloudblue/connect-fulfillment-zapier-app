@@ -16,7 +16,9 @@
         "ecmaVersion": 2018
     },
     "rules": {
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-multiple-empty-lines": "off",
+        "eol-last": "warn"
     },
     "ignorePatterns": [
         "tests/",
