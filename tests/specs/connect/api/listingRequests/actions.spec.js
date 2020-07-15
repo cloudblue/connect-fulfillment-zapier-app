@@ -98,4 +98,3 @@ describe('listingsRequests.actions', () => {
     await expect(changeListingRequestStatus(client, data)).rejects.toThrow();
   });
 });
-
