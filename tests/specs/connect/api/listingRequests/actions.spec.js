@@ -37,14 +37,38 @@ describe('listingsRequests.actions', () => {
     };
     const data = {
       records_per_page: 100,
-      type: 'new',
-      state: 'deploying',
+      type: ['new'],
+      status: ['deploying'],
       product_id: 'PRD-140-766-671'
     };
-    await searchListingRequests (client, data);
+    await searchListingRequests(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       'type': 'new',
-      'product.id': 'PRD-140-766-671',
+      'state': 'deploying',
+      'product__id': 'PRD-140-766-671',
+      'limit': 100,
+      'offset': 0
+    });
+  });
+
+
+  it('search Listing Requests (with in)', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    Listings.prototype = {
+      searchListingRequests: mockedFn
+    };
+    const data = {
+      records_per_page: 100,
+      type: ['new', 'update'],
+      status: ['deploying', 'reviewing'],
+      product_id: 'PRD-140-766-671'
+    };
+    await searchListingRequests(client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      'type__in': 'new,update',
+      'state__in': 'deploying,reviewing',
+      'product__id': 'PRD-140-766-671',
       'limit': 100,
       'offset': 0
     });
