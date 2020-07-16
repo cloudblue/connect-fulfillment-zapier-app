@@ -94,11 +94,14 @@ describe('assetRequests.actions', () => {
     };
     const data = {
       request_id: 'PR-000',
-      params: {param_a: 'value_a'},
+      params: {param_a: 'value_a', param_b: '{"a": "value"}'},
       note: 'note'
     };
     await updateRequestParameters(client, data);
-    expect(mockedFn).toHaveBeenCalledWith('PR-000', [{id: 'param_a', value: 'value_a'}], 'note');
+    expect(mockedFn).toHaveBeenCalledWith('PR-000', [
+      {id: 'param_a', value: 'value_a'},
+      {id: 'param_b', structured_value: {a: 'value'}},
+    ], 'note');
   });
   it('updateRequestParameters with param array', async () => {
     const mockedFn = jest.fn();
@@ -107,11 +110,17 @@ describe('assetRequests.actions', () => {
     };
     const data = {
       request_id: 'PR-000',
-      params: [{id: 'param_a', value: 'value_a'}],
+      params: [
+        {id: 'param_a', value: 'value_a'},
+        {id: 'param_b', value: '{"a": "value"}'},
+      ],
       note: 'note'
     };
     await updateRequestParameters(client, data);
-    expect(mockedFn).toHaveBeenCalledWith('PR-000', [{id: 'param_a', value: 'value_a'}], 'note');
+    expect(mockedFn).toHaveBeenCalledWith('PR-000', [
+      {id: 'param_a', value: 'value_a'},
+      {id: 'param_b', structured_value: {a: 'value'}},
+    ], 'note');
   });
   it('inquireRequest with param dict', async () => {
     const mockedFn = jest.fn();
