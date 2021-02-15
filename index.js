@@ -9,11 +9,9 @@ const zapier = require('zapier-platform-core');
 const authentication = require('./lib/authentication');
 const middleware = require('./lib/middleware');
 
-
 const creates = require('./lib/creates');
 const triggers = require('./lib/triggers');
 const searches = require('./lib/searches');
-
 
 const platformVersion = zapier.version;
 const { version } = require('./package.json');
