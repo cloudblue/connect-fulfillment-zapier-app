@@ -85,9 +85,8 @@ describe('caseRequests.actions', () => {
   });
 
   it.each([
-    ['inquireCaseRequest', { case_id: 'CA-000-000' }, 'inquire', inquireCaseRequest],
+    ['inquireCaseRequest', { case_id: 'CA-000-000', message: 'test' }, 'inquire', inquireCaseRequest],
     ['resolveCaseRequest', { case_id: 'CA-000-000' }, 'resolve', resolveCaseRequest],
-    ['closeCaseRequest', { case_id: 'CA-000-000' }, 'close', closeCaseRequest],
     ['pendCaseRequest', { case_id: 'CA-000-000' }, 'pend', pendCaseRequest],
   ])('%s', async (testcase, data, type, fn) => {
     const mockedFn = jest.fn();
@@ -97,5 +96,13 @@ describe('caseRequests.actions', () => {
     expect(mockedFn).toHaveBeenCalledWith('CA-000-000');  
   });
 
+  it('closeCase', async () => {
+    const data = {case_id: 'CA-000', rating: 3, feedback: 'Cool'};
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue(data);
+    client.cases.close = mockedFn;
+    await closeCaseRequest(client, data);
+    expect(mockedFn).toHaveBeenCalledWith('CA-000', 3, 'Cool');  
+  });
 });
 
