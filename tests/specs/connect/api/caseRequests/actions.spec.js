@@ -36,7 +36,7 @@ describe('caseRequests.actions', () => {
       created_before: '2019-12-05T09:11:22+00:00',
       created_after: '2019-12-01T09:11:22+00:00'
     };
-    await searchCases(client, data, '-created');
+    await searchCases(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       created: {
         $ge: '2019-12-01T09:11:22.000Z',
@@ -44,7 +44,6 @@ describe('caseRequests.actions', () => {
       },
       offset: 0,
       limit: 100,
-      $ordering: '-created'
     });
   });
 
@@ -55,11 +54,10 @@ describe('caseRequests.actions', () => {
     const data = {
       case_id: 'CA-000-000-000',
     };
-    await searchCases(client, data, '-created');
+    await searchCases(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       offset: 0,
       limit: 100,
-      $ordering: '-created'    
     });
   });  
 
@@ -72,15 +70,14 @@ describe('caseRequests.actions', () => {
       created_before: '2019-12-05T09:11:22+00:00',
       created_after: '2019-12-01T09:11:22+00:00'
     };
-    await searchCaseComments (client, data, '-created');
+    await searchCaseComments (client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       created: {
         $ge: '2019-12-01T09:11:22.000Z',
         $le: '2019-12-05T09:11:22.000Z'
       },
       limit: 100,
-      offset: 0,
-      $ordering: '-created'       
+      offset: 0  
     });
   });
 
