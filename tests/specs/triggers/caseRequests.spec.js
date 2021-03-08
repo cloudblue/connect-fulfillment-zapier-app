@@ -40,7 +40,7 @@ describe('triggers', () => {
     };
     searchCases.mockReturnValue([]);
     await appTester(App.triggers.new_case.operation.perform, bundle);
-    expect(searchCases).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-created');    
+    expect(searchCases).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
   });
   it('new case comment', async () => {
     const bundle = {
@@ -54,6 +54,6 @@ describe('triggers', () => {
     };
     searchCaseComments.mockReturnValue([]);
     await appTester(App.triggers.new_case_comment.operation.perform, bundle);
-    expect(searchCaseComments).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-created');    
+    expect(searchCaseComments).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
   });
 });

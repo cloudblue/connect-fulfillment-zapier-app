@@ -39,7 +39,7 @@ describe('searches', () => {
     };
     searchCases.mockReturnValue([]);
     await appTester(App.searches.search_cases.operation.perform, bundle);
-    expect(searchCases).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-created');    
+    expect(searchCases).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
   });
   it('cases_comments', async () => {
     const bundle = {
@@ -53,6 +53,6 @@ describe('searches', () => {
     };
     searchCaseComments.mockReturnValue([]);
     await appTester(App.searches.search_comments.operation.perform, bundle);
-    expect(searchCaseComments).toHaveBeenCalledWith(expect.anything(), bundle.inputData, '-created');    
+    expect(searchCaseComments).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
   });
 });
