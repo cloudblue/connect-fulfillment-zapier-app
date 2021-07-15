@@ -61,7 +61,7 @@ describe('caseRequests.actions', () => {
     });
   });  
 
-  it('searchCaseComments all', async () => {
+  it('searchCaseComments Dates', async () => {
     const mockedFn = jest.fn();
     mockedFn.mockReturnValue([]);
     client.conversations.messages('CA-000-000-000').search = mockedFn;
@@ -80,6 +80,69 @@ describe('caseRequests.actions', () => {
       offset: 0  
     });
   });
+
+
+  it('searchCaseComments No Dates', async () => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue([]);
+    client.conversations.messages('CA-000-000-000').search = mockedFn;
+    const data = {
+      case_id: 'CA-000-000-000'
+    };
+    await searchCaseComments (client, data);
+    expect(mockedFn).toHaveBeenCalledWith({
+      limit: 100,
+      offset: 0  
+    });
+  });
+
+  it('searchCaseComments no case id', async () => {
+    const mockedSearchCasesFn = jest.fn();
+    mockedSearchCasesFn.mockReturnValue([
+        { id: 'CA-000' }
+    ]);
+    client.cases.search = mockedSearchCasesFn;
+    const mockedMessagesFn = jest.fn();
+    const mockedSearchMessagesFn = jest.fn();
+    mockedMessagesFn.mockReturnValue({ search: mockedSearchMessagesFn});
+    mockedSearchMessagesFn.mockReturnValue([{ id: 'ME-001' },{ id: 'ME-002' }])
+
+    client.conversations.messages = mockedMessagesFn; 
+    const data = {
+      case_status: 'inquiring',
+      limit: 100,
+      offset: 0
+    };
+    const result = await searchCaseComments(client, data);
+    const messages = await result; 
+    expect(mockedMessagesFn).toHaveBeenCalledWith('CA-000');
+    expect(messages).toStrictEqual([
+        { id: 'ME-001', case: 'CA-000' },
+        { id: 'ME-002', case: 'CA-000' }
+    ]);
+  });
+
+  it('searchCaseComments case id', async () => {
+    const mockedMessagesFn = jest.fn();
+    const mockedSearchMessagesFn = jest.fn();
+    mockedMessagesFn.mockReturnValue({ search: mockedSearchMessagesFn});
+    mockedSearchMessagesFn.mockReturnValue([{ id: 'ME-001' },{ id: 'ME-002' }])
+
+    client.conversations.messages = mockedMessagesFn; 
+    const data = {
+      case_id: 'CA-000',
+      limit: 100,
+      offset: 0
+    };
+    const result = await searchCaseComments(client, data);
+    const messages = await result; 
+    expect(mockedMessagesFn).toHaveBeenCalledWith('CA-000');
+    expect(messages).toStrictEqual([
+        { id: 'ME-001', case: 'CA-000' },
+        { id: 'ME-002', case: 'CA-000' }
+    ]);
+  });
+
 
   it.each([
     ['inquireCaseRequest', { case_id: 'CA-000-000', message: 'test' }, 'inquire', inquireCaseRequest],

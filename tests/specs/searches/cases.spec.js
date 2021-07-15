@@ -41,6 +41,7 @@ describe('searches', () => {
     await appTester(App.searches.search_cases.operation.perform, bundle);
     expect(searchCases).toHaveBeenCalledWith(expect.anything(), bundle.inputData);    
   });
+ 
   it('cases_comments', async () => {
     const bundle = {
       authData: {
