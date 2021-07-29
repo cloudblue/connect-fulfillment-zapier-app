@@ -4,6 +4,7 @@
  * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
  */
 
+const _ = require("lodash");
 
 jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   return {
@@ -13,6 +14,15 @@ jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   }
 });
 
+jest.mock('../../../../../lib/connect/api/helpers/lookups', () => {
+    return {
+        lookupTierByExternalId: jest.fn(),
+        lookupAssetByProductIdExternalId: jest.requireActual('../../../../../lib/connect/api/helpers/lookups').lookupAssetByProductIdExternalId,
+        lookupConnectionByProductHub: jest.requireActual('../../../../../lib/connect/api/helpers/lookups').lookupConnectionByProductHub,
+    }
+  });
+
+const { lookupTierByExternalId } = require('../../../../../lib/connect/api/helpers/lookups');   
 const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/connect-javascript-sdk');
 
 const {
@@ -37,6 +47,8 @@ describe('assetRequests.create', () => {
 
   const custIn = {
     customer_company_name: 'Cust Company',
+    customer_external_id: '2',
+    customer_external_uid: '2',    
     customer_address1: 'Cust Address 1',
     customer_address2: 'Cust Address 2',
     customer_postal_code: '08010',
@@ -51,8 +63,8 @@ describe('assetRequests.create', () => {
 
   const custOut = {
     name: 'Cust Company',
-    external_id: undefined,
-    external_uid: expect.anything(),
+    external_id: '2',
+    external_uid: '2',
     contact_info:
     {
       address_line1: 'Cust Address 1',
@@ -74,6 +86,7 @@ describe('assetRequests.create', () => {
   const t1In = {
     t1_company_name: 'T1 Company',
     t1_external_id: '2',
+    t1_external_uid: '2',
     t1_address1: 'T1 Address 1',
     t1_address2: 'T1 Address 2',
     t1_postal_code: '08010',
@@ -85,6 +98,31 @@ describe('assetRequests.create', () => {
     t1_email: 't1@example.com',
     t1_phone: '+390817434329',
   };
+
+  const t2In = {
+    t2_company_name: 'T2 Company',
+    t2_external_id: '2',
+    t2_external_uid: '2',
+    t2_address1: 'T2 Address 1',
+    t2_address2: 'T2 Address 2',
+    t2_postal_code: '08010',
+    t2_city: 'Barcelona',
+    t2_state: 'Barcelona',
+    t2_country: 'ES',
+    t2_first_name: 'T2 First Name',
+    t2_last_name: 'T2 Last Name',
+    t2_email: 't2@example.com',
+    t2_phone: '+390817434329',
+  };  
+
+  var t1InNoUid = _.clone(t1In, true);
+  t1InNoUid.t1_external_uid = null;
+
+  var t2InNoUid = _.clone(t2In, true);
+  t2InNoUid.t2_external_uid = null;
+
+  var custInNoUid = _.clone(custIn, true);
+  custInNoUid.customer_external_uid = null;
 
   const t1Out = {
     name: 'T1 Company',
@@ -219,10 +257,18 @@ describe('assetRequests.create', () => {
       }
     });  
   });
-  it('createAssetRequestFromOrder', async () => {
+
+  it.each([
+    ['createAssetRequestFromOrder', t1In, t2In, custIn ],  
+    ['createAssetRequestFromOrder', t1InNoUid, t2In, custIn ],
+    ['createAssetRequestFromOrder', t1In, t2InNoUid, custIn ],
+    ['createAssetRequestFromOrder', t1In, t2In, custInNoUid ], 
+    ['createAssetRequestFromOrder', t1InNoUid, t2InNoUid, custInNoUid ],
+  ])('%s', async (testcase, t1data, t2data, custIn) => {
     const data = {
       asset_external_id: 'WL6IKB3OZ7',
       hub_id: 'HB-0000-0000',
+      reseller_tiers: 't2t1',
       items: [
         {
           item_id: 'PRD-407-420-078-0001',
@@ -245,9 +291,11 @@ describe('assetRequests.create', () => {
           quantity: 0
         },
       ],
-      ...t1In,
+      ...t1data,
+      ...t2data,
       ...custIn,
     };
+    lookupTierByExternalId.mockReturnValue('2');
     const mockedFn = jest.fn();
     Fulfillment.prototype = {
       getConnectionIdByProductAndHub: jest.fn().mockReturnValue('CT-0000-0000'),
@@ -319,7 +367,7 @@ describe('assetRequests.create', () => {
           tier1: {
             name: 'T1 Company',
             external_id: '2',
-            external_uid: expect.anything(),
+            external_uid: '2',
             contact_info: {
               address_line1: 'T1 Address 1',
               address_line2: 'T1 Address 2',
@@ -340,10 +388,34 @@ describe('assetRequests.create', () => {
               }
             }
           },
+          tier2: {
+            name: 'T2 Company',
+            external_id: '2',
+            external_uid: '2',
+            contact_info: {
+              address_line1: 'T2 Address 1',
+              address_line2: 'T2 Address 2',
+              postal_code: '08010',
+              city: 'Barcelona',
+              state: 'Barcelona',
+              country: 'ES',
+              contact: {
+                phone_number: {
+                  country_code: '+39',
+                  area_code: '081',
+                  phone_number: '7434329',
+                  extension: ''
+                },
+                first_name: 'T2 First Name',
+                last_name: 'T2 Last Name',
+                email: 't2@example.com'
+              }
+            }
+          },
           customer: {
             name: 'Cust Company',
-            external_id: undefined,
-            external_uid: expect.anything(),
+            external_id: '2',
+            external_uid: '2',
             contact_info: {
               address_line1: 'Cust Address 1',
               address_line2: 'Cust Address 2',
@@ -364,7 +436,6 @@ describe('assetRequests.create', () => {
     });
     expect(mockedFn.mock.calls[2][0]).toEqual({ type: 'cancel', asset: { id: 'AS-1111-2222-3333' } });
   });
-
 
   it('createAssetRequestFromOrder (skip)', async () => {
     const data = {
