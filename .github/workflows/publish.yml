@@ -1,0 +1,35 @@
+name: Test and publish Connect Zapier Extension
+
+on:
+  push:
+    tags:
+        - '*'
+
+jobs:
+  test:
+    name: Test and publish Connect Zapier Extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      - run: npm install
+      - run: npm test
+      - run: npx codecov
+      - name: fix code coverage paths
+        working-directory: ./coverage
+        run: |
+          sed -i 's/\/home\/runner\/work\/connect-fulfillment-zapier-app\/connect-fulfillment-zapier-app\//\/github\/workspace\//g' /home/runner/work/connect-fulfillment-zapier-app/connect-fulfillment-zapier-app/coverage/lcov.info
+          sed -i 's/\/home\/runner\/work\/connect-fulfillment-zapier-app\/connect-fulfillment-zapier-app\//\/github\/workspace\//g' /home/runner/work/connect-fulfillment-zapier-app/connect-fulfillment-zapier-app/coverage/clover.xml
+      - name: SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - run: npm install -g zapier-platform-cli
+      - run: bash deploy.sh
+        env:
+          CONNECT_ZAPIER_DEPLOY_KEY: {{ secrets.CONNECT_ZAPIER_DEPLOY_KEY }}
+          CONNECT_ZAPIER_APP_ID: {{ secrets.CONNECT_ZAPIER_APP_ID }}
+          CONNECT_PARTNER_TOKEN: {{ secrets.CONNECT_PARTNER_TOKEN }}

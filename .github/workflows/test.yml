@@ -1,0 +1,27 @@
+name: Build and Test Connect Zapier Extension
+
+on:
+  [push, pull_request]
+
+jobs:
+  test:
+    name: Build and Test Connect Zapier Extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      - run: npm install
+      - run: npm test
+      - run: npx codecov
+      - name: fix code coverage paths
+        working-directory: ./coverage
+        run: |
+          sed -i 's/\/home\/runner\/work\/connect-fulfillment-zapier-app\/connect-fulfillment-zapier-app\//\/github\/workspace\//g' /home/runner/work/connect-fulfillment-zapier-app/connect-fulfillment-zapier-app/coverage/lcov.info
+          sed -i 's/\/home\/runner\/work\/connect-fulfillment-zapier-app\/connect-fulfillment-zapier-app\//\/github\/workspace\//g' /home/runner/work/connect-fulfillment-zapier-app/connect-fulfillment-zapier-app/coverage/clover.xml
+      - name: SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
