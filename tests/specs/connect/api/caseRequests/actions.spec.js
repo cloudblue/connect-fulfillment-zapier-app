@@ -87,7 +87,7 @@ describe('caseRequests.actions', () => {
     ['pendCaseRequest', { case_id: 'CA-000-000' }, 'pend', pendCaseRequest],
   ])('%s', async (testcase, data, type, fn) => {
     const mockedFn = jest.fn();
-    mockedFn.mockReturnValue({id: 'CA-000'});
+    client.conversations.createMessage = jest.fn();
     client.cases[type] = mockedFn;
     await fn(client, data);
     expect(mockedFn).toHaveBeenCalledWith('CA-000-000');  
