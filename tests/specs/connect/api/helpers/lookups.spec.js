@@ -18,6 +18,7 @@ const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/con
 const {
   lookupAssetByProductIdExternalId,
   lookupConnectionByProductHub,
+  lookupTierByExternalId,
 } = require('../../../../../lib/connect/api/helpers/lookups');
 
 describe('helpers.lookups', () => {
@@ -47,4 +48,24 @@ describe('helpers.lookups', () => {
     await lookupAssetByProductIdExternalId(client, 'PRD-000', 'external_id');
     expect(mockedFn).toHaveBeenCalledWith('PRD-000', 'external_id');
   });
+  
+  it.each([
+    ['return null', null, null],
+    ['return empty array', [], null],
+    ['return one value', [{external_uid: '12345'}], '12345'],
+    ['return values', [{external_uid: '12345'}, {external_uid: '123457'}], null],
+  ])('lookupTierByExternalId %s', async (label, returnedData, expectedValue) => {
+    const mockedFn = jest.fn();
+    mockedFn.mockReturnValue(returnedData);
+    Directory.prototype = {
+        searchTierAccounts: mockedFn
+    };
+    const result = await lookupTierByExternalId (client, '12345678','HB-000');
+    expect(mockedFn).toHaveBeenCalledWith({
+        'hub.id': 'HB-000',
+        "external_id": "12345678",
+    });
+    expect(result).toEqual(expectedValue);
+  });
 });
+
