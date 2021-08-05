@@ -30,6 +30,6 @@ jobs:
       - run: npm install -g zapier-platform-cli
       - run: bash deploy.sh
         env:
-          CONNECT_ZAPIER_DEPLOY_KEY: {{ secrets.CONNECT_ZAPIER_DEPLOY_KEY }}
-          CONNECT_ZAPIER_APP_ID: {{ secrets.CONNECT_ZAPIER_APP_ID }}
-          CONNECT_PARTNER_TOKEN: {{ secrets.CONNECT_PARTNER_TOKEN }}
+          CONNECT_ZAPIER_DEPLOY_KEY: ${{ secrets.CONNECT_ZAPIER_DEPLOY_KEY }}
+          CONNECT_ZAPIER_APP_ID: ${{ secrets.CONNECT_ZAPIER_APP_ID }}
+          CONNECT_PARTNER_TOKEN: ${{ secrets.CONNECT_PARTNER_TOKEN }}
