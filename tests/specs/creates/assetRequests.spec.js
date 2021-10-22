@@ -1,7 +1,7 @@
 /**
  * This file is part of the Ingram Micro Cloud Blue Connect Zapier Extension.
  *
- * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
+ * @copyright (c) 2020 - 2021 Ingram Micro, Inc. All Rights Reserved.
  */
 
 const zapier = require('zapier-platform-core');
@@ -12,6 +12,9 @@ jest.mock('../../../lib/connect/api/assetRequests/actions', () => {
     updateRequestParameters: jest.fn(),
     inquireRequest: jest.fn(),
     rejectRequest: jest.fn(),
+    scheduleRequest: jest.fn(),
+    revokeRequest: jest.fn(),
+    confirmRequest: jest.fn(),
   }
 });
 
@@ -20,11 +23,15 @@ const {
   updateRequestParameters,
   inquireRequest,
   rejectRequest,
+  scheduleRequest,
+  revokeRequest,
+  confirmRequest,
 } = require('../../../lib/connect/api/assetRequests/actions');
 
 jest.mock('../../../lib/connect/api/assetRequests/create', () => {
   return {
     createAssetPurchaseRequest: jest.fn(),
+    createAssetAdjustmentRequest: jest.fn(),
     createAssetChangeRequest: jest.fn(),
     createAssetSuspendRequest: jest.fn(),
     createAssetResumeRequest: jest.fn(),
@@ -35,6 +42,7 @@ jest.mock('../../../lib/connect/api/assetRequests/create', () => {
 
 const {
   createAssetPurchaseRequest,
+  createAssetAdjustmentRequest,
   createAssetChangeRequest,
   createAssetSuspendRequest,
   createAssetResumeRequest,
@@ -67,7 +75,11 @@ describe('assetRequests.creates', () => {
     ['inquire_request_lis', inquireRequest],
     ['reject_request', rejectRequest],
     ['create_asset_requests_from_order', createAssetRequestFromOrder],
-  ])('%s', async (testcase, fn) => {
+    ['schedule_request', scheduleRequest],    
+    ['revoke_request', revokeRequest],    
+    ['confirm_request', confirmRequest],    
+    ['create_asset_adjustment_request', createAssetAdjustmentRequest],    
+])('%s', async (testcase, fn) => {
 
     const bundle = {
       authData: {

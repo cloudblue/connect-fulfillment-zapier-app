@@ -1,7 +1,7 @@
 /**
  * This file is part of the Ingram Micro Cloud Blue Connect Zapier Extension.
  *
- * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
+ * @copyright (c) 2020 - 2021 Ingram Micro, Inc. All Rights Reserved.
  */
 
 const _ = require("lodash");
@@ -27,6 +27,7 @@ const { ConnectClient, Fulfillment, Directory } = require('@cloudblueconnect/con
 
 const {
   createAssetPurchaseRequest,
+  createAssetAdjustmentRequest,
   createAssetChangeRequest,
   createAssetSuspendRequest,
   createAssetResumeRequest,
@@ -193,6 +194,30 @@ describe('assetRequests.create', () => {
       }
     }
   };
+
+  const withT1OnlyExpectedAdj = {
+    type: 'adjustment',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items:
+        [{ id: 'PRD-000-000-000-0001', quantity: 30 },
+        { id: 'PRD-000-000-000-0002', quantity: 10 }],
+      params:
+        [{
+          id: 0,
+          value: { param_id: 'param_a', value: 'param_a_value' }
+        }],
+      tiers:
+      {
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };
+
   it('createAssetPurchaseRequest connection found', async () => {
     const mockedFn = jest.fn();
     Fulfillment.prototype = {
@@ -436,7 +461,133 @@ describe('assetRequests.create', () => {
     });
     expect(mockedFn.mock.calls[2][0]).toEqual({ type: 'cancel', asset: { id: 'AS-1111-2222-3333' } });
   });
-
+it.each([
+    ['createAssetAdjustmentRequest', t1In, t2In, custIn ],  
+  ])('%s', async (testcase, t1data, t2data, custIn) => {
+    const data = {
+      asset_external_id: 'WL6IKB3OZ7',
+      hub_id: 'HB-0000-0000',
+      reseller_tiers: 't2t1',
+      items: [
+        {
+          item_id: 'PRD-263-744-774-0001',
+          quantity: 5
+        },
+      ],
+      ...t1data,
+      ...t2data,
+      ...custIn,
+    };
+    lookupTierByExternalId.mockReturnValue('2');
+    const mockedFn = jest.fn();
+    Fulfillment.prototype = {
+      getConnectionIdByProductAndHub: jest.fn().mockReturnValue('CT-0000-0000'),
+      createRequest: mockedFn
+    };
+    Directory.prototype = {
+      getAssetsByProductIdExternalId: jest.fn((prodId, extId) => {
+        if (prodId === 'PRD-263-744-774' && extId === 'WL6IKB3OZ7') {
+            return [{
+                id: 'AS-1111-2222-3333',
+                items: [
+                  {
+                    id: 'PRD-263-744-774-0001',
+                    quantity: 6
+                  }
+                ]
+            }];
+        }
+      })
+    }
+    await createAssetAdjustmentRequest(client, data);
+    expect(mockedFn.mock.calls[0][0]).toEqual({
+      type: 'adjustment',
+      asset: {
+        external_id: 'WL6IKB3OZ7',
+        external_uid: expect.anything(),
+        connection: { id: 'CT-0000-0000' },
+        items: [{ id: 'PRD-263-744-774-0001', quantity: 5 }],
+        params: [],
+        tiers: {
+          tier1: {
+            name: 'T1 Company',
+            external_id: '2',
+            external_uid: '2',
+            contact_info: {
+              address_line1: 'T1 Address 1',
+              address_line2: 'T1 Address 2',
+              postal_code: '08010',
+              city: 'Barcelona',
+              state: 'Barcelona',
+              country: 'ES',
+              contact: {
+                phone_number: {
+                  country_code: '+39',
+                  area_code: '081',
+                  phone_number: '7434329',
+                  extension: ''
+                },
+                first_name: 'T1 First Name',
+                last_name: 'T1 Last Name',
+                email: 't1@example.com'
+              }
+            }
+          },
+          tier2: {
+            name: 'T2 Company',
+            external_id: '2',
+            external_uid: '2',
+            contact_info: {
+              address_line1: 'T2 Address 1',
+              address_line2: 'T2 Address 2',
+              postal_code: '08010',
+              city: 'Barcelona',
+              state: 'Barcelona',
+              country: 'ES',
+              contact: {
+                phone_number: {
+                  country_code: '+39',
+                  area_code: '081',
+                  phone_number: '7434329',
+                  extension: ''
+                },
+                first_name: 'T2 First Name',
+                last_name: 'T2 Last Name',
+                email: 't2@example.com'
+              }
+            }
+          },
+          customer: {
+            name: 'Cust Company',
+            external_id: '2',
+            external_uid: '2',
+            contact_info: {
+              address_line1: 'Cust Address 1',
+              address_line2: 'Cust Address 2',
+              postal_code: '08010',
+              city: 'Barcelona',
+              state: 'Barcelona',
+              country: 'ES',
+              contact: {
+                phone_number: {},
+                first_name: 'Cust First Name',
+                last_name: 'Cust Last Name',
+                email: 't1@example.com'
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+  it('createAssetAdjustmentRequest connection not found', async () => {
+    const mockedFn = jest.fn();
+    Fulfillment.prototype = {
+      getConnectionIdByProductAndHub: jest.fn(() => undefined),
+      createRequest: mockedFn
+    };
+    await expect(createAssetAdjustmentRequest(client, withT1Only)).rejects.toThrow();
+  });
   it('createAssetRequestFromOrder (skip)', async () => {
     const data = {
       asset_external_id: 'WL6IKB3OZ7',
@@ -471,4 +622,7 @@ describe('assetRequests.create', () => {
       reason: expect.anything(),      
     });
   });
+
+
+
 });

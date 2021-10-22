@@ -1,18 +1,18 @@
 /**
  * This file is part of the Ingram Micro Cloud Blue Connect Zapier Extension.
  *
- * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
+ * @copyright (c) 2020 -2021 Ingram Micro, Inc. All Rights Reserved.
  */
 
 jest.mock('@cloudblueconnect/connect-javascript-sdk', () => {
   return {
-    ConnectClient: jest.fn(),
     Directory: jest.fn(),
     Fulfillment: jest.fn(),
   }
 });
 
-const { ConnectClient, Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
+const { ConnectClient }  = jest.requireActual('@cloudblueconnect/connect-javascript-sdk');  
+const { Fulfillment } = require('@cloudblueconnect/connect-javascript-sdk');
 
 
 const {
@@ -21,6 +21,9 @@ const {
   updateRequestParameters,
   inquireRequest,
   rejectRequest,
+  scheduleRequest,
+  revokeRequest,
+  confirmRequest,
 } = require('../../../../../lib/connect/api/assetRequests/actions');
 
 describe('assetRequests.actions', () => {
@@ -160,6 +163,35 @@ describe('assetRequests.actions', () => {
     };
     await rejectRequest(client, data);
     expect(mockedFn).toHaveBeenCalledWith('PR-000', 'reason');
+  });
+  it('scheduleRequest', async () => {
+    const mockedFn = jest.fn();
+    client.requests.schedule = mockedFn;
+    const data = {
+      request_id: 'PR-000',
+      planned_date: '2021-08-04T20:10:59+00:00'
+    };
+    await scheduleRequest(client, data);
+    expect(mockedFn).toHaveBeenCalledWith('PR-000', '2021-08-04T20:10:59.000Z');
+  });
+  it('revokeRequest', async () => {
+    const mockedFn = jest.fn();
+    client.requests.revoke = mockedFn;
+    const data = {
+      request_id: 'PR-000',
+      reason: 'reason'
+    };
+    await revokeRequest(client, data);
+    expect(mockedFn).toHaveBeenCalledWith('PR-000', 'reason');
+  });
+  it('confirmRequest', async () => {
+    const mockedFn = jest.fn();
+    client.requests.confirm = mockedFn;
+    const data = {
+      request_id: 'PR-000'
+    };
+    await confirmRequest(client, data);
+    expect(mockedFn).toHaveBeenCalledWith('PR-000');
   });
 });
 

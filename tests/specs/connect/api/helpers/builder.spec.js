@@ -1,12 +1,13 @@
 /**
  * This file is part of the Ingram Micro Cloud Blue Connect Zapier Extension.
  *
- * @copyright (c) 2020 Ingram Micro, Inc. All Rights Reserved.
+ * @copyright (c) 2020 - 2021 Ingram Micro, Inc. All Rights Reserved.
  */
 
 
 const {
   buildPurchaseRequest,
+  buildAdjustmentRequest,
   buildChangeRequest,
   buildSuspendResumeCancelRequest,
 } = require('../../../../../lib/connect/api/helpers/builder');
@@ -200,6 +201,38 @@ describe('helpers.builder', () => {
     }
   };
 
+  const withT1OnlyExpectedAdj = {
+    type: 'adjustment',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items:
+        [{ id: 'PRD-000-000-000-0001', quantity: 30 },
+        { id: 'PRD-000-000-000-0002', quantity: 10 }],
+      params: [
+        { 
+          id: 'param_a', 
+          value: 'param_a_value',
+        },
+        {
+          id: 'param_b',
+          structured_value: {
+            a: 'hello',
+            b: 'world',
+          },
+        },
+      ],
+      tiers:
+      {
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };
+
+
   const withT2T1 = {
     reseller_tiers: 't2t1',
     asset_external_id: 'asset_ext_id',
@@ -242,6 +275,31 @@ describe('helpers.builder', () => {
     }
   };
 
+  const withT2T1ExpectedAdj = {
+    type: 'adjustment',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items:
+        [{ id: 'PRD-000-000-000-0001', quantity: 30 },
+        { id: 'PRD-000-000-000-0002', quantity: 10 }],
+      params:
+        [{
+          id: 0,
+          value: { param_id: 'param_a', value: 'param_a_value' }
+        }],
+      tiers:
+      {
+        tier2: t2Out,
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };
+
+
   const withoutParams = {
     reseller_tiers: 't1',
     asset_external_id: 'asset_ext_id',
@@ -273,6 +331,24 @@ describe('helpers.builder', () => {
     }
   };
 
+  const withoutParamsExpectedAdj = {
+    type: 'adjustment',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items:
+        [{ id: 'PRD-000-000-000-0001', quantity: 30 },
+        { id: 'PRD-000-000-000-0002', quantity: 10 }],
+      params: [],
+      tiers:
+      {
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };  
   const withoutItems = {
     reseller_tiers: 't1',
     asset_external_id: 'asset_ext_id',
@@ -298,6 +374,22 @@ describe('helpers.builder', () => {
       }
     }
   };
+  const withoutItemsExpectedAdj = {
+    type: 'adjustment',
+    asset:
+    {
+      external_id: 'asset_ext_id',
+      external_uid: expect.anything(),
+      connection: { id: 'CT-0000-0000' },
+      items: [],
+      params: [],
+      tiers:
+      {
+        tier1: t1Out,
+        customer: custOut,
+      }
+    }
+  };
 
   it.each([
     ['with tier1 only', withT1Only, withT1OnlyExpected],
@@ -307,6 +399,16 @@ describe('helpers.builder', () => {
     ['without items', withoutItems, withoutItemsExpected],
   ])('buildPurchaseRequest %s', (testcase, data, expected) => {
     expect(buildPurchaseRequest(data)).toEqual(expected);
+  });
+
+  it.each([
+    ['with tier1 only', withT1Only, withT1OnlyExpectedAdj],
+    ['with tier1 only (no line items)', withT1OnlyNoLineItems, withT1OnlyExpectedAdj],
+    ['with tier2 + tier1', withT2T1, withT2T1ExpectedAdj],
+    ['without params', withoutParams, withoutParamsExpectedAdj],
+    ['without items', withoutItems, withoutItemsExpectedAdj],
+  ])('buildAdjustmentRequest %s', (testcase, data, expected) => {
+    expect(buildAdjustmentRequest(data)).toEqual(expected);
   });
 
   const changeReqWithExtAttr = {
