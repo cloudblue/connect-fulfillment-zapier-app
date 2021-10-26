@@ -12,8 +12,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 'lts/*'
-      - run: npm install
-      - run: npm test
+      - run: yarn install
+      - run: yarn test
       - run: npx codecov
       - name: fix code coverage paths
         working-directory: ./coverage
