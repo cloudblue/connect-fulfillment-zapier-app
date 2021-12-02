@@ -25,3 +25,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GTHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Wait sonar to process report
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '60s'
+      - name: SonarQube Quality Gate check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
