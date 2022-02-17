@@ -1,6 +1,6 @@
 {
   "name": "connect-fulfillment-zapier-app",
-  "version": "24.0.0",
+  "version": "24.0.1",
   "description": "A Zapier App to automate Cloud Blue Connect Fulfillment workflows.",
   "repository": {
     "type": "git",

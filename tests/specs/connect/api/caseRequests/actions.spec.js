@@ -43,7 +43,7 @@ describe('caseRequests.actions', () => {
         $le: '2019-12-05T09:11:22.000Z'
       },
       offset: 0,
-      limit: 100,
+      limit: 10,
     });
   });
 
@@ -57,7 +57,7 @@ describe('caseRequests.actions', () => {
     await searchCases(client, data);
     expect(mockedFn).toHaveBeenCalledWith({
       offset: 0,
-      limit: 100,
+      limit: 10,
     });
   });  
 
