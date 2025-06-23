@@ -1,7 +1,7 @@
 /**
- * This file is part of the Ingram Micro Cloud Blue Connect Zapier Extension.
+ * This file is part of the CloudBlue Connect Zapier Extension.
  *
- * @copyright (c) 2020 - 2021 Ingram Micro, Inc. All Rights Reserved.
+ * @copyright (c) 2025 CloudBlue, Inc. All Rights Reserved.
  */
 
 const ZapierHttpAdapter = require('../../../../lib/connect/http/adapter');
